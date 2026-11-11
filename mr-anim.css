@@ -75,3 +75,15 @@
 .menu > .tile b{font-family:var(--display);font-size:.85rem;line-height:1.15;overflow-wrap:anywhere}
 .menu > .tile small{font-size:.7rem;line-height:1.2;color:var(--soft);font-weight:700}
 .menu > .tile .st{font-size:.7rem;font-weight:800;color:var(--ok);min-height:1em}
+
+/* Jeux */
+.mr-flip{animation:mr-flip .35s ease-out!important}@keyframes mr-flip{0%{transform:perspective(400px) rotateY(90deg)}100%{transform:perspective(400px) rotateY(0)}}
+.mr-pair{animation:mr-pair .6s ease-out!important}@keyframes mr-pair{30%{transform:scale(1.2);box-shadow:0 0 0 6px color-mix(in srgb,var(--sun) 55%,transparent)}100%{transform:scale(1)}}
+.mr-found{animation:mr-found .5s ease-out!important}@keyframes mr-found{0%{transform:scale(1)}40%{transform:scale(1.35);background:var(--sun)}100%{transform:scale(1)}}
+.mr-word{animation:mr-word .7s ease-out!important}@keyframes mr-word{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-10px) scale(1.25)}100%{transform:none}}
+.mr-stamp{animation:mr-stamp .45s cubic-bezier(.3,1.6,.5,1)!important}@keyframes mr-stamp{0%{transform:scale(1.8) rotate(-15deg);opacity:.2}100%{transform:none;opacity:1}}
+.sky .bal.pop{animation:mr-popb .45s ease-out forwards!important}@keyframes mr-popb{0%{transform:scale(1)}50%{transform:scale(1.6)}100%{transform:scale(1.9);opacity:0}}
+.mr-cd{position:fixed;inset:0;z-index:9998;display:grid;place-items:center;background:rgba(15,21,48,.45)}
+.mr-cd b{font:800 5rem/1 var(--display);color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.25);animation:mr-cd .6s ease-out}
+@keyframes mr-cd{0%{transform:scale(2.2);opacity:0}40%{transform:scale(1);opacity:1}100%{transform:scale(.9);opacity:.9}}
+.mr-win{display:flex;align-items:flex-end;gap:10px;justify-content:center;margin-bottom:10px;animation:mr-kidin .45s cubic-bezier(.3,1.6,.5,1)}
