@@ -106,7 +106,7 @@
     confetti(x,y,100);};
 
   /* ---------- Mauvaise réponse : bulle d'un enfant ---------- */
-  var onBad=function(node){if(node.classList.contains('mr-kid'))return;try{var sx=M[cur.m].steps[cur.i];if(sx&&sx.acc&&window.mrAccErr)mrAccErr(sx.acc)}catch(e){}avatarRule();
+  var onBad=function(node){if(node.classList.contains('mr-kid'))return;try{var sx=M[cur.m].steps[cur.i];if(sx&&sx.acc&&window.mrAccErr)mrAccErr(sx.acc);if(sx&&sx.nt){window.mrBil=window.mrBil||{};mrBil[sx.nt]=(mrBil[sx.nt]||0)+1}}catch(e){}avatarRule();
     var av=document.createElement('span');av.className='mr-av';var bb=document.createElement('span');bb.className='mr-bb';
     while(node.firstChild)bb.appendChild(node.firstChild);node.classList.add('mr-kid');node.appendChild(av);node.appendChild(bb);};
 
