@@ -66,3 +66,12 @@
 @keyframes mr-pulseL{0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.25),0 0 0 0 rgba(255,224,90,0)}50%{box-shadow:0 4px 10px rgba(0,0,0,.25),0 0 0 9px rgba(255,224,90,.6),0 0 26px 8px rgba(255,214,60,.65)}}
 
 .mr-ver{margin:10px 0 0;text-align:center;font-size:.75rem;font-weight:700;color:var(--soft);opacity:.7}
+
+/* Listes de missions en cases (3 par ligne), comme le menu des matières */
+.menu:has(> .tile){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.menu > .tile{flex-direction:column;justify-content:flex-start;gap:5px;padding:12px 6px;min-height:0;text-align:center;border-radius:16px}
+.menu > .tile .badge{width:46px;height:46px;border-radius:14px;font-size:1.15rem}
+.menu > .tile > span:nth-child(2){display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.menu > .tile b{font-family:var(--display);font-size:.85rem;line-height:1.15;overflow-wrap:anywhere}
+.menu > .tile small{font-size:.7rem;line-height:1.2;color:var(--soft);font-weight:700}
+.menu > .tile .st{font-size:.7rem;font-weight:800;color:var(--ok);min-height:1em}
