@@ -3904,10 +3904,11 @@ const maths=()=>{
    mon:[['🪙 Pièces et billets',['mo-pb','mo-vir','mo-cpt']],['➕ Additionner des prix',['mo-add']],['↩️ Rendre la monnaie',['mo-rend']],['🧾 Les problèmes',['mo-pr1','mo-pr2']]],
    fra:[['🍕 Comprendre les fractions',['fh-sert','fh-eg','fh-lire','fh-nd']],['🎨 Colorier et écrire',['fh-col','fh-cpt']]],
    heu:[['🕐 Lire l\'horloge',['fh-h0','fh-h1']],['🕧 Pile, demie et quart',['fh-h2','fh-h3']],['🍕 Fractions et heure',['fh-h4','fh-h5']]],
+   mes:[['📏 Les mesures',['me-1','me-2','me-3','me-4','me-bil']]],
    geo:[['📐 La géométrie',['g-fig','g-cot','g-sol','g-sym','g-qua']],['✏️ Je trace, je vérifie, je reproduis',['ge-1','ge-2','ge-3','ge-fin']],['🔍 Je mesure, je repère, je me déplace',["g-seg", "g-reg", "g-cpt", "g-per", "g-air", "g-spt", "g-fsa", "g-dep", "g-ang", "g-dev"]]]};
   { const cv=GR.nb.find(g=>g[0].startsWith('⏱️')); GR.nb=GR.nb.filter(g=>g!==cv); GR.calc=[cv,...GR.calc]; }
   const cnt=k=>{const L=GR[k].flatMap(g=>g[1]);return L.filter(id=>save[id]).length+'/'+L.length;};
-  const TB=mmode==='f'?[['calc','🧮 Calcul'],['ent','⏱️ Entraînement']]:[['nb','🧊 Les nombres'],['sg','📊 Problèmes'],['geo','📐 Géométrie'],['fra','🍕 Fractions'],['heu','🕒 L\'heure'],['mon',`<img src="${ICO.cmon}" alt="" style="height:30px;vertical-align:-9px"> Monnaie`]];
+  const TB=mmode==='f'?[['calc','🧮 Calcul'],['ent','⏱️ Entraînement']]:[['nb','🧊 Les nombres'],['sg','📊 Problèmes'],['geo','📐 Géométrie'],['mes','📏 Mesures'],['fra','🍕 Fractions'],['heu','🕒 L\'heure'],['mon',`<img src="${ICO.cmon}" alt="" style="height:30px;vertical-align:-9px"> Monnaie`]];
   const sec=([h,ids])=>`<p class="lead" style="margin-top:20px">${h}</p><div class="menu" style="margin-top:10px">${ids.map(id=>M.find(m=>m.id===id)).filter(Boolean).map(m=>tileH(m,M.indexOf(m))).join('')}</div>`;
   const ent=`<div class="card" style="margin-top:20px">
     <p class="lead">L'astuce : dizaines</p>
