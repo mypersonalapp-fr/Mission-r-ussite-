@@ -3927,7 +3927,7 @@ const maths=()=>{
   <p class="lead" style="margin-top:20px">Autres calculs</p>
   <div class="menu" style="margin-top:10px">${[1,2,3].map(l=>`<button class="tile" data-mr="${l}"><span class="badge b-det">${l}★</span><span><b>Nouvelle série ${STAR(l)}</b><small>10 calculs différents à chaque fois</small></span></button>`).join('')}
   <button class="tile" id="mchr"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>60 secondes : le plus de bonnes réponses</small></span></button></div>`;
-  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1>${mmode==='m'?'<button class="go" id="msui" style="margin-top:10px">📊 Mon suivi</button>':''}
+  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1><button class="go" id="msui" style="margin-top:10px">📊 Mon suivi</button>
   <div class="tabs" style="margin-top:14px;flex-wrap:wrap">${TB.map(([k,l])=>`<button class="tab ${mtab===k?'on':''}" data-mt="${k}" style="flex:1 1 45%;padding-inline:4px">${l}${GR[k]?` <small>${cnt(k)}</small>`:''}</button>`).join('')}</div>
   ${mtab==='ent'?ent:cgView('m'+mtab,GR[mtab].map(([h,ids])=>{const L=ids.map(id=>M.find(m=>m.id===id)).filter(Boolean);return [h,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length];}))}`;
   app.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>{mtab=b.dataset.mt;maths();});
