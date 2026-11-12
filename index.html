@@ -3564,13 +3564,16 @@ M.push(...[{"id": "f-debut", "name": "Une phrase commence bien", "sub": "Majuscu
 const conjug=()=>{
   stopCr(); cur=null;
   const list=M.filter(m=>m.cj), done=list.filter(m=>save[m.id]).length;
+  const gp=(h,ids)=>{const L=ids.map(id=>M.find(m=>m.id===id)).filter(Boolean);return [h,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length];};
+  const old=list.filter(m=>!m.cjp), G=[gp('🔤 Le verbe change',['cj-1']),gp('🎵 Le présent',['cj-2','cj-3','cj-4']),gp('⏪ L\'imparfait',['cj-5','cj-6']),gp('⏩ Le futur',['cj-7','cj-8']),gp('✌️ Le passé composé',['cj-9','cj-10']),gp('🧭 Traversée et défi',['cj-11','cj-bil']),['📚 Les tableaux de conjugaison',old.map(m=>tileH(m,M.indexOf(m))).join(''),old.filter(m=>save[m.id]).length+'/'+old.length]];
+  let v=cgView('cj',G);if(CG.cj==null)v=v.replace(/<\/div>$/,cgCase('id="chrc"','⏱️','Défi chrono','Contre la montre')+'</div>');
   app.innerHTML=tabs('c')+`<h1>Conjugaison</h1>
   <p style="margin-top:8px;color:var(--soft);font-weight:700">Le verbe change avec celui qui agit et avec le temps.</p>
-  ${cgWrap(list.map(m=>cgCase(`data-m="${M.indexOf(m)}"`,m.badge,m.name,save[m.id]?'★ Réussi':'')).join('')+cgCase('id="chrc"','⏱️','Défi chrono','Contre la montre'))}
-  <div hidden><button class="tile" id="chrcx"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>Conjugaison ou mélange, contre la montre</small></span></button></div>
-  <p style="margin-top:18px;font-weight:800;color:var(--soft)">${done} thème${done>1?'s':''} sur ${list.length} réussi${done>1?'s':''}</p>`;
+  ${v}
+  <div hidden><button class="tile" id="chrcx"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>Conjugaison ou mélange, contre la montre</small></span></button></div>`;
+  cgBind('cj',conjug);
   app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(+b.dataset.m));
-  document.getElementById('chrc').onclick=()=>chronoMenu();
+  const ch=document.getElementById('chrc');if(ch)ch.onclick=()=>chronoMenu();
   bindTabs();
 };
 
