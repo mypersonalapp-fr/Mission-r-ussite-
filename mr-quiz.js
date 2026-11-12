@@ -907,6 +907,27 @@ window.MRREM={"mods": [{"id": "fra", "name": "Fractions", "icon": "🍕", "comps
   box.innerHTML='<p class="big">'+(ko.length?'Bien travaillé !':'Bravo, tous réussis !')+'</p>'+(ok.length?'<p><b>Réussis :</b></p><div class="dic-list">'+ok.map(function(n){return '<span style="background:var(--pro-bg)">✓ '+esc(n)+'</span>'}).join('')+'</div>':'')+(ko.length?'<p><b>À revoir encore :</b></p><div class="dic-list">'+ko.map(function(n){return '<span style="background:color-mix(in srgb,var(--ko) 18%,var(--card))">'+esc(n)+'</span>'}).join('')+'</div>':'')};
 })();
 
+/* Orthographe : mes homophones */
+
+(function(){var HB={"Confusion a / à": {"expl": "« a » est le verbe avoir : on peut le remplacer par « avait ». « à » indique souvent un lieu ou un destinataire.", "demo": "<p style='text-align:center;font-weight:800;font-size:1.15rem'>Lina <b>a</b> un ballon → Lina <i>avait</i> un ballon ✓<br>Lina va <b>à</b> l'école → Lina avait l'école ✗</p>", "hint": "Teste avec « avait » : si ça marche, c'est « a ».", "items": [["Marie ___ un chapeau.", "a", "à"], ["Nous allons ___ la plage.", "à", "a"], ["Le chat ___ faim.", "a", "à"], ["Il parle ___ son ami.", "à", "a"], ["Papa ___ une voiture bleue.", "a", "à"], ["Je donne la clé ___ Emma.", "à", "a"], ["Tom joue ___ la balle.", "à", "a"], ["Le bébé ___ dormi.", "a", "à"], ["Ils vont ___ l'école.", "à", "a"]]}, "Confusion et / est": {"expl": "« et » ajoute : on peut dire « et puis ». « est » est le verbe être : on peut dire « était ».", "demo": "<p style='text-align:center;font-weight:800;font-size:1.15rem'>Le sac <b>est</b> lourd → Le sac <i>était</i> lourd ✓<br>Du pain <b>et</b> du beurre → du pain <i>et puis</i> du beurre ✓</p>", "hint": "Teste avec « était » : si ça marche, c'est « est ». Sinon essaie « et puis ».", "items": [["Le ciel ___ gris.", "est", "et"], ["Du pain ___ du beurre.", "et", "est"], ["Mon frère ___ grand.", "est", "et"], ["Rico ___ Léa jouent.", "et", "est"], ["La soupe ___ chaude.", "est", "et"], ["Je mange une pomme ___ une poire.", "et", "est"], ["Il ___ tard.", "est", "et"], ["Tom ___ Sami sont amis.", "et", "est"]]}, "Confusion on / ont": {"expl": "« on » peut se remplacer par « il » ou « elle ». « ont » est le verbe avoir : on peut dire « avaient ».", "demo": "<p style='text-align:center;font-weight:800;font-size:1.15rem'><b>On</b> joue → <i>Il</i> joue ✓<br>Les enfants <b>ont</b> chaud → Les enfants <i>avaient</i> chaud ✓</p>", "hint": "Teste avec « il » ou « avaient ».", "items": [["___ joue au ballon.", "On", "Ont"], ["Les enfants ___ chaud.", "ont", "on"], ["___ va au parc.", "On", "Ont"], ["Elles ___ un chat.", "ont", "on"], ["Ils ___ des billes.", "ont", "on"], ["___ mange à midi.", "On", "Ont"], ["Les filles ___ des livres.", "ont", "on"], ["___ chante en classe.", "On", "Ont"]]}},KEY='mr-hom';
+ var get=function(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}},put=function(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}};
+ var old=window.mrRemErr;window.mrRemErr=function(nt){if(old)old(nt);if(HB[nt]){var o=get();o[nt]=(o[nt]||0)+1;put(o);window.mrHomRun=window.mrHomRun||{};mrHomRun[nt]=(mrHomRun[nt]||0)+1}};
+ var shuf=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a};
+ var R={id:'or-hom',name:'Mes homophones',sub:'a/à, et/est, on/ont',cls:'gn',badge:'🎯'},cache=null,rot=0;
+ window.mrHomGo=function(){cache=null;window.mrHomRun={};rot++;start(M.indexOf(R))};
+ Object.defineProperty(R,'steps',{get:function(){if(cache&&cur&&M[cur.m]===R)return cache;
+  var o=get(),ns=Object.keys(o).filter(function(k){return HB[k]&&o[k]>0}).sort(function(a,b){return o[b]-o[a]}).slice(0,2),out=[];
+  if(!ns.length){cache=[{t:'teach',title:'Mes homophones',say:'Pas encore d\'homophone à revoir.',html:'<p class="big">Pas encore d\'homophone à revoir 🎉</p><p>Les confusions a/à, et/est, on/ont viendront ici avec de nouvelles phrases.</p>'}];return cache}
+  ns.forEach(function(n){var d=HB[n],it=shuf(d.items);
+   out.push({t:'teach',title:n,say:d.expl,html:'<p class="big">'+esc(d.expl)+'</p>'+d.demo});
+   it.slice(0,4).forEach(function(x,k){var op=shuf([x[1],x[2]]);out.push({t:'choice',q:x[0],opts:op,ans:op.indexOf(x[1]),ok:'Oui : '+x[0].replace('___',x[1])+'',ko:k===0?d.hint:'Fais le test de remplacement.',nt:n})})});
+  out.push({t:'teach',js:'homend',title:'Bilan',say:'',html:'<div id="mrw"></div>',ns:ns});cache=out;return cache},set:function(){}});
+ window.MRX=(window.MRX||[]).concat([R]);
+ MRW['homend']=function(){var s=M[cur.m].steps[cur.i],box=document.getElementById('mrw');if(!box)return;var o=get(),run=window.mrHomRun||{},ok=[],ko=[];
+  s.ns.forEach(function(n){if(run[n]){ko.push(n);o[n]=Math.max(1,(o[n]||1)-(run[n]>0?0:1))}else{ok.push(n);delete o[n]}});put(o);window.mrHomRun={};
+  box.innerHTML='<p class="big">'+(ko.length?'Bien travaillé !':'Bravo, tout est réussi !')+'</p>'+(ok.length?'<p><b>Réussi :</b></p><div class="dic-list">'+ok.map(function(n){return '<span style="background:var(--pro-bg)">✓ '+esc(n)+'</span>'}).join('')+'</div>':'')+(ko.length?'<p><b>On y retournera :</b></p><div class="dic-list">'+ko.map(function(n){return '<span style="background:color-mix(in srgb,var(--ko) 18%,var(--card))">'+esc(n)+'</span>'}).join('')+'</div>':'')};
+})();
+
 /* Écran d'explication : la mini-question vient après « Suivant ». Mauvaise réponse = retour à l'explication. */
 window.mrTeach=function(s){
   if(s.bilreset&&!st.q)window.mrBil={};
