@@ -3569,11 +3569,13 @@ const conjug=()=>{
   let v=cgView('cj',G);if(CG.cj==null)v=v.replace(/<\/div>$/,cgCase('id="chrc"','⏱️','Défi chrono','Contre la montre')+'</div>');
   app.innerHTML=tabs('c')+`<h1>Conjugaison</h1>
   <p style="margin-top:8px;color:var(--soft);font-weight:700">Le verbe change avec celui qui agit et avec le temps.</p>
+  ${window.mrRemCount&&mrRemCount('conj')?`<button class="go" id="cjrem" style="margin-top:12px">🎯 Ma reprise de conjugaison (${mrRemCount('conj')})</button>`:''}
   ${v}
   <div hidden><button class="tile" id="chrcx"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>Conjugaison ou mélange, contre la montre</small></span></button></div>`;
   cgBind('cj',conjug);
   app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(+b.dataset.m));
   const ch=document.getElementById('chrc');if(ch)ch.onclick=()=>chronoMenu();
+  const cr=document.getElementById('cjrem');if(cr)cr.onclick=()=>mrRemGo(null,'conj');
   bindTabs();
 };
 
