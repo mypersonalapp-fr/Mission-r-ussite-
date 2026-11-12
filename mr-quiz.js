@@ -829,19 +829,21 @@ MRW['w-cal']=function(){var s=M[cur.m].steps[cur.i],box=document.getElementById(
 
 /* Calendrier : le mois en cours (jours, dates et textes suivent la date de l'appareil) */
 (function(){var d=new Date(),y=d.getFullYear(),mo=d.getMonth();
- if(mo===2||mo===4){y=2026;mo=10}
- window.mrCalM={y:y,m:mo};if(y===2026&&mo===10)return;
- var MN=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],nm=MN[mo],
- W=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'],fi=(new Date(y,mo,1).getDay()+6)%7;
- var map=function(w,dd){var wi=W.indexOf(w.toLowerCase()),f0=((wi-6)%7+7)%7+1,k=Math.round((dd-f0)/7),f1=((wi-fi)%7+7)%7+1;return f1+7*k};
- var P1=/(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche) (\d{1,2}) novembre/gi;
- var tr=function(str){var m,ds={};P1.lastIndex=0;while((m=P1.exec(str)))ds[m[2]]=map(m[1],+m[2]);
-  var r=str.replace(P1,function(a,w,dd){return w+' '+map(w,+dd)+' '+nm});
-  r=r.replace(/(date → |la date est le )(\d+)/g,function(a,b,n){return b+(ds[n]!==undefined?ds[n]:n)});
-  return r.replace(/mois est novembre/g,'mois est '+nm).replace(/mois → novembre/g,'mois → '+nm).replace(/en novembre/g,'en '+nm)};
+ window.mrCalM={y:y,m:mo};
+ var MN=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+ W=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+ var mm=function(add){var t=mo+add;return {y:y+Math.floor(t/12),m:((t%12)+12)%12}};
+ var map=function(w,dd,M){var wi=W.indexOf(w.toLowerCase()),fi=(new Date(M.y,M.m,1).getDay()+6)%7;return ((wi-fi)%7+7)%7+1+7*Math.floor((dd-1)/7)};
+ var cur={y:y,m:mo},sor=mm(3),vis=mm(6);
+ var WD='(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)';
+ var PA=new RegExp(WD+' (\\d{1,2}) (novembre|mars|mai)','gi');
+ var tgt=function(mn){return mn==='novembre'?cur:mn==='mars'?sor:vis};
+ var tr=function(str){var ds={},r=str.replace(PA,function(a,w,dd,mn){var M=tgt(mn.toLowerCase()),n=map(w,+dd,M);if(mn.toLowerCase()==='novembre')ds[dd]=n;return w+' '+n+' '+MN[M.m]});
+  r=r.replace(/(date → |la date est le )(\\d+)/g,function(a,b,n){return b+(ds[n]!==undefined?ds[n]:n)});
+  return r.replace(/mois est novembre/g,'mois est '+MN[cur.m]).replace(/mois → novembre/g,'mois → '+MN[cur.m]).replace(/en novembre/g,'en '+MN[cur.m])};
  var walk=function(o){if(!o||typeof o!=='object')return;
-  if(o.js==='w-cal'&&typeof o.say==='string'){var m=/(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche) (\d{1,2}) novembre/i.exec(o.say);if(m&&o.target)o.target=map(m[1],+m[2])}
-  Object.keys(o).forEach(function(k){var v=o[k];if(typeof v==='string'){if(v.indexOf('novembre')>=0||v.indexOf('date')>=0)o[k]=tr(v)}else if(v&&typeof v==='object')walk(v)})};
+  if(o.js==='w-cal'&&typeof o.say==='string'){var m=new RegExp(WD+' (\\d{1,2}) novembre','i').exec(o.say);if(m&&o.target)o.target=map(m[1],+m[2],cur)}
+  Object.keys(o).forEach(function(k){var v=o[k];if(typeof v==='string'){if(/novembre|mars|mai|date/.test(v))o[k]=tr(v)}else if(v&&typeof v==='object')walk(v)})};
  window.mrCalWalk=walk})();
 
 /* Case 18 : l'heure */
