@@ -352,7 +352,7 @@ window.mrDic=function(s){
   var sl=document.getElementById('dicslow');if(sl)sl.onclick=function(){mrSlow(s.w)};
   var fin=function(ok){var L=window.mrDicLog,k=s.mode==='s'?s.w:s.w;if(ok){if(L.ok.indexOf(k)<0)L.ok.push(k)}else if(L.ko.indexOf(k)<0)L.ko.push(k);mrFrag(k,ok);if(s.tag)mrFragSet(s.tag,ok)};
   var check=function(v,k){st.val=v;st.pick=k;var good=s.mode==='p'?s.opts[k]===(s.ans||s.w):mrNorm(v)===mrNorm(s.w);
-    if(good){st.ok=1;fin(st.tries===0)}else{st.tries=(st.tries||0)+1;if(st.tries>=2)fin(false);else setTimeout(function(){mrVoice(s.w)},300)}step();};
+    if(good){st.ok=1;fin(!st.tries)}else{st.tries=(st.tries||0)+1;if(st.tries>=2)fin(false);else setTimeout(function(){mrVoice(s.w)},300)}step();};
   document.querySelectorAll('[data-dp]').forEach(function(b){b.onclick=function(){check('',+b.dataset.dp)}});
   var ok=document.getElementById('dicok'),inp=document.getElementById('dicin');
   if(ok)ok.onclick=function(){if(mrNorm(inp.value))check(inp.value)};
@@ -885,6 +885,26 @@ window.MRREM={"mods": [{"id": "fra", "name": "Fractions", "icon": "🍕", "comps
   app.innerHTML=tabs('m')+'<div class="top"><button class="back" id="back">‹ Maths</button><b style="font-family:var(--display);font-size:1.2rem">Mon suivi</b></div><p style="margin-top:8px;color:var(--soft);font-weight:700">Ce que je sais faire, et ce que je retravaille.</p>'+(nko?'<button class="go" id="rgo" style="margin-top:12px">🎯 M\'entraîner sur mes erreurs ('+nko+')</button>':'')+h;
   bindTabs();document.getElementById('back').onclick=maths;var g=document.getElementById('rgo');if(g)g.onclick=function(){mrRemGo()};
   app.querySelectorAll('[data-rc]').forEach(function(b){b.onclick=function(){mrRemGo(b.dataset.rc)}})};
+})();
+
+/* Orthographe : mes mots à revoir */
+
+(function(){var BK={"devant": ["Le chat dort devant la porte.", "Rico marche devant son ami.", "La voiture est garée devant la maison."], "derrière": ["Le trésor est derrière le rocher.", "Le chien se cache derrière l'arbre.", "Léa est derrière Tom dans la file."], "dessous": ["Le chat est dessous.", "Regarde dessous : il y a une clé.", "La balle roule dessous."], "dessus": ["Pose le livre dessus.", "Le chat saute dessus.", "Il y a une tasse dessus."], "près": ["Mon sac est près de la porte.", "Rico s'assoit près du feu.", "L'école est près de chez moi."], "loin": ["La mer est loin d'ici.", "Le village est loin de la forêt.", "Il habite très loin."], "ici": ["Viens ici avec moi.", "Je range mes jouets ici.", "Ici, il fait chaud."], "partout": ["Il y a des fleurs partout.", "J'ai cherché mon stylo partout.", "Il neige partout."], "souvent": ["Je joue souvent au parc.", "Il mange souvent des pommes.", "Nous lisons souvent le soir."], "parfois": ["Parfois, nous allons à la piscine.", "Il pleut parfois en été.", "Léa chante parfois en classe."], "toujours": ["Il range toujours son sac.", "Elle sourit toujours.", "Nous mangeons toujours à midi."], "bientôt": ["Les vacances arrivent bientôt.", "Il va bientôt neiger.", "Nous partirons bientôt."], "tard": ["Il se couche tard.", "Nous rentrons tard ce soir.", "Il est tard."], "tôt": ["Rico part tôt le matin.", "Je me lève tôt.", "Le soleil se lève tôt."], "aujourd'hui": ["Aujourd'hui, il fait beau.", "Nous allons au parc aujourd'hui.", "Aujourd'hui, c'est mercredi."], "demain": ["Demain, nous irons au jardin.", "Je pars demain matin.", "Demain, Léa a école."], "hier": ["Hier, j'ai joué dehors.", "Il a plu hier.", "Hier, nous avons chanté."], "longtemps": ["Il a dormi longtemps.", "Nous avons marché longtemps.", "Je t'attends depuis longtemps."], "vite": ["Il court très vite.", "Marche vite !", "Le train roule vite."]},KEY='mr-fragile';
+ var gf=function(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}};
+ var words=function(){var f=gf(),out={};Object.keys(f).forEach(function(k){Object.keys(BK).forEach(function(w){var re=new RegExp("(^|[^a-zéèêàùôîç'])"+w.replace("'","'")+"($|[^a-zéèêàùôîç])","i");if(f[k]>0&&re.test(k))out[w]=(out[w]||0)+f[k]})});return out};
+ var shuf=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a};
+ var R={id:'or-rev',name:'Mes mots à revoir',sub:'De nouvelles phrases avec mes mots',cls:'gn',badge:'🎯'},cache=null;
+ window.mrOrRevGo=function(){cache=null;start(M.indexOf(R))};
+ Object.defineProperty(R,'steps',{get:function(){if(cache&&cur&&M[cur.m]===R)return cache;
+  var w=words(),ws=Object.keys(w).sort(function(a,b){return w[b]-w[a]}).slice(0,4);
+  if(!ws.length){cache=[{t:'teach',title:'Mes mots à revoir',say:'Pas encore de mots à revoir.',html:'<p class="big">Pas encore de mots à revoir 🎉</p><p>Les mots invariables que tu rates en dictée ou en copie viendront ici, dans de nouvelles phrases.</p>'}];return cache}
+  var out=[];ws.forEach(function(x){shuf(BK[x]).slice(0,2).forEach(function(s){out.push({t:'teach',js:'dic',title:'Dictée',mode:'s',w:s,nt:'Mot invariable mal mémorisé',q:'Écoute la phrase, puis écris-la. Mot à revoir : '+x,say:s,html:'',orw:x})})});
+  out.push({t:'teach',js:'orend',title:'Bravo',say:'',html:'<div id="mrw"></div>',ws:ws,sents:ws.map(function(x){return BK[x]})});cache=out;return cache},set:function(){}});
+ window.MRX=(window.MRX||[]).concat([R]);
+ MRW['orend']=function(){var s=M[cur.m].steps[cur.i],box=document.getElementById('mrw');if(!box)return;var L=window.mrDicLog||{ok:[],ko:[]},f=gf(),ok=[],ko=[];
+  s.ws.forEach(function(x){var bad=L.ko.some(function(k){return new RegExp("(^|[^a-zéèêàùôîç'])"+x+"($|[^a-zéèêàùôîç])","i").test(k)});if(bad)ko.push(x);else{ok.push(x);Object.keys(f).forEach(function(k){if(new RegExp("(^|[^a-zéèêàùôîç'])"+x+"($|[^a-zéèêàùôîç])","i").test(k))delete f[k]})}});
+  try{localStorage.setItem(KEY,JSON.stringify(f))}catch(e){}
+  box.innerHTML='<p class="big">'+(ko.length?'Bien travaillé !':'Bravo, tous réussis !')+'</p>'+(ok.length?'<p><b>Réussis :</b></p><div class="dic-list">'+ok.map(function(n){return '<span style="background:var(--pro-bg)">✓ '+esc(n)+'</span>'}).join('')+'</div>':'')+(ko.length?'<p><b>À revoir encore :</b></p><div class="dic-list">'+ko.map(function(n){return '<span style="background:color-mix(in srgb,var(--ko) 18%,var(--card))">'+esc(n)+'</span>'}).join('')+'</div>':'')};
 })();
 
 /* Écran d'explication : la mini-question vient après « Suivant ». Mauvaise réponse = retour à l'explication. */
