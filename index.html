@@ -862,8 +862,8 @@ const lecture=()=>{
    ['🔗 Liaisons et ponctuation',L2.map(m=>tileH(m,M.indexOf(m))).join(''),L2.filter(m=>save[m.id]).length+'/'+L2.length],
    ['🗼 Histoires illustrées',['lec-paris'].map(id=>M.find(m=>m.id===id)).filter(Boolean).map(m=>tileH(m,M.indexOf(m))).join(''),(save['lec-paris']?1:0)+'/1'],
    ['⏱️ Vitesse de lecture',`<button class="tile" id="lfl"><span class="badge b-det">⏱</span><span><b>Séances de lecture</b><small>${nf} séance(s) sur 20</small></span></button>`,nf+'/20']];
-  app.innerHTML=tabs('r')+`<h1>📖 Lecture</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">Écouter et lire pour comprendre.</p>${cgView('lec',G)}`;
-  cgBind('lec',lecture);
+  app.innerHTML=tabs('r')+`<h1>📖 Lecture</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">Écouter et lire pour comprendre.</p>${window.mrRemCount&&mrRemCount('lec')?`<button class="go" id="lrem" style="margin-top:12px">🎯 Ma reprise de lecture (${mrRemCount('lec')})</button>`:''}${cgView('lec',G)}`;
+  cgBind('lec',lecture);const lr=document.getElementById('lrem');if(lr)lr.onclick=()=>mrRemGo(null,'lec');
   bindTabs();app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(+b.dataset.m));
   const lf=document.getElementById('lfl');if(lf)lf.onclick=fluence;
 };
