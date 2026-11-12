@@ -684,6 +684,7 @@ window.mrTeach=function(s){
   const tq=document.getElementById('toq');if(tq)tq.onclick=()=>{try{speechSynthesis.cancel()}catch(e){}st.q=1;step();};
   document.getElementById('say').onclick=()=>say(s.say);
   document.querySelectorAll('.vc').forEach(b=>b.onclick=()=>say(b.dataset.say));
+  if(!s.js&&window.mrClkFill){try{var ol=document.querySelectorAll('.card svg.ck[data-h][data-m]');ol.forEach(function(v){var d=document.createElement('div');d.dataset.clk=v.dataset.h+':'+v.dataset.m;d.dataset.sz=ol.length>1?138:220;v.replaceWith(d)});if(ol.length)mrClkFill()}catch(e){}}
   if(s.js&&window.MRW&&MRW[s.js]){try{MRW[s.js]()}catch(e){}}
   else if(s.js==='syl'&&window.mrSyl)mrSyl();
   else if(s.js&&FHJ[s.js])FHJ[s.js]();
