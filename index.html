@@ -5032,12 +5032,13 @@ const cmap=(c,zoom)=>{
 };
 const cStop=()=>{if(qz&&qz.timer){clearInterval(qz.timer);qz.timer=null;}};
 let qz=null,cLet='Tous';
+const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
 const culture=()=>{
   stopCr(); if(typeof mstop==='function')mstop(); cStop(); cur=null; qz=null;
   const best=k=>save['k_'+k]!=null?`<small>Meilleur score : ${save['k_'+k]}</small>`:`<small>10 questions</small>`;
   app.innerHTML=tabs('k')+`<h1>Culture générale</h1>
-  <p style="margin-top:8px;color:var(--soft);font-weight:700">Les pays du monde : drapeau, nom et place sur la carte. Pays de A à Z.</p>
-  ${cgView('k',[['🌍 Les pays',`<button class="tile" id="k-list"><span class="badge im"><img src="${ICO.pays}" alt=""></span><span><b>Découvrir les pays</b><small>${CT.length} pays : drapeau et carte</small></span></button>`,CT.length+' pays'],['💼 Les métiers',M.filter(m=>m.met).map(m=>tileH(m,M.indexOf(m))).join(''),M.filter(m=>m.met&&save[m.id]).length+'/'+M.filter(m=>m.met).length],['🎮 Jeux',`
+  <p style="margin-top:8px;color:var(--soft);font-weight:700">Le monde autour de moi : le vivant, le temps, les lieux, les pays et les métiers.</p>
+  ${cgView('k',[['🌍 Les pays',`<button class="tile" id="k-list"><span class="badge im"><img src="${ICO.pays}" alt=""></span><span><b>Découvrir les pays</b><small>${CT.length} pays : drapeau et carte</small></span></button>`,CT.length+' pays'],...QGR(),['💼 Les métiers',M.filter(m=>m.met&&!m.q).map(m=>tileH(m,M.indexOf(m))).join(''),M.filter(m=>m.met&&!m.q&&save[m.id]).length+'/'+M.filter(m=>m.met&&!m.q).length],['🎮 Jeux',`
    <button class="tile" data-qz="f2n"><span class="badge im"><img src="${ICO.f2n}" alt=""></span><span><b>Quel est ce drapeau ?</b>${best('f2n')}</span></button>
    <button class="tile" data-qz="n2f"><span class="badge im"><img src="${ICO.n2f}" alt=""></span><span><b>Trouve le drapeau</b>${best('n2f')}</span></button>
    <button class="tile" data-qz="m2n"><span class="badge b-det">📍</span><span><b>Où est ce pays ?</b>${best('m2n')}</span></button>
