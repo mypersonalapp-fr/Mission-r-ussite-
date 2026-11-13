@@ -5032,7 +5032,7 @@ const cmap=(c,zoom)=>{
 };
 const cStop=()=>{if(qz&&qz.timer){clearInterval(qz.timer);qz.timer=null;}};
 let qz=null,cLet='Tous';
-const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
+const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble'],['ang','🇬🇧 Anglais']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
 const culture=()=>{
   stopCr(); if(typeof mstop==='function')mstop(); cStop(); cur=null; qz=null;
   const best=k=>save['k_'+k]!=null?`<small>Meilleur score : ${save['k_'+k]}</small>`:`<small>10 questions</small>`;
