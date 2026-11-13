@@ -384,7 +384,7 @@ window.mrFragSet=function(tag,ok){if(!tag)return;try{var f=mrFragGet();f[tag]=Ma
 
 /* Majuscule au début des réponses en plusieurs mots (« Un point », « Une majuscule ») ; les mots seuls testés restent tels quels */
 window.mrCap=function(o){o=String(o);return /\s/.test(o.trim())&&/^[a-zàâäéèêëîïôöùûüç]/.test(o)?o.charAt(0).toUpperCase()+o.slice(1):o};
-(function(){var run=function(){try{M.forEach(function(m){var ss;try{ss=m.steps}catch(e){return}(ss||[]).forEach(function(s){if(s.t==='choice'&&s.opts)s.opts=s.opts.map(mrCap)})})}catch(e){}};
+(function(){var run=function(){try{M.forEach(function(m){var ss;try{ss=m.steps}catch(e){return}(ss||[]).forEach(function(s){if(s.t==='choice'&&s.opts&&!/bien écrite|majuscule/i.test(s.q||''))s.opts=s.opts.map(mrCap)})})}catch(e){}};
  if(document.readyState==='complete')setTimeout(run,0);else addEventListener('load',run);})();
 
 /* Liaisons (oral) */

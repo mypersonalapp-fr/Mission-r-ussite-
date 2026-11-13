@@ -1216,7 +1216,7 @@ const matchQ=(ws,idx)=>({t:'match',q:'Relie chaque image à son mot.',pairs:idx.
 const buildQ=w=>({t:'build',q:'Remets les syllabes dans l\'ordre : '+w.e,words:shuf(w.s),j:'',ans:w.w,ok:'Bravo : « '+w.w+' » !',ko:'Lis les syllabes à voix haute, puis recommence.'});
 const chQ=(q,opts,ans,ok,ko)=>({t:'choice',q,opts,ans,ok,ko:ko||'Pense au sens de la phrase.'});
 function vocTheme(id,name,sub,badge,ws,q,extras){
-  const syl=ws.filter(w=>w.s);
+  const syl=ws.filter(w=>w.s&&new Set(w.s).size>1);
   M.push({id,name,sub,cls:'det',badge,voc:true,ws,steps:[
     {t:'teach',title:'Les mots à connaître',say:ws.map(full).join('. '),
       html:`<div class="vgrid">${ws.map(w=>`<button class="vc" data-say="${full(w)}"><span class="ve">${w.e}</span><span>${full(w)}</span></button>`).join('')}</div><p class="note">Touche un mot pour l'écouter.</p>`},
