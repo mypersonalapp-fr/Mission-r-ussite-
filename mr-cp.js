@@ -76,7 +76,7 @@ MRW['cp-lecmin']=function(){var s=M[cur.m].steps[cur.i],box=document.getElementB
   box.innerHTML=h+txt+(phase==='run'?'<button class="go" id="lmend" style="margin-top:10px">J\'ai fini</button>':'')+'<div id="lmr"></div>';
   var g=document.getElementById('lmgo');if(g)g.onclick=function(){phase='run';t=60;t0=Date.now();show();iv=setInterval(function(){t=60-Math.floor((Date.now()-t0)/1000);var e=document.getElementById('lmt');if(e)e.textContent='⏱ '+Math.max(0,t)+' s';if(t<=0){clearInterval(iv);phase='pick';show()}},250)};
   var en=document.getElementById('lmend');if(en)en.onclick=function(){clearInterval(iv);s._el=Math.max(1,Math.min(60,Math.round((Date.now()-t0)/1000)));phase='pick';show()};
-  box.querySelectorAll('[data-w]').forEach(function(x){if(phase==='pick')x.onclick=function(){var n=+x.dataset.w+1,el=s._el||60,wpm=Math.round(n*60/el);var rep=wpm>=50?'Au-dessus du repère de fin de CP (50 mots par minute) : bravo !':wpm>=30?'Tu es sur le bon chemin : le repère de fin de CP est de 30 mots par minute sans préparation.':'Ce n\'est pas une course. Relis le texte avec le micro 🔊, puis réessaie.';document.getElementById('lmr').innerHTML='<div class="fb ok mr-ok" style="margin-top:10px">Tu as lu <b>'+n+' mots</b> en <b>'+el+' s</b>, soit environ <b>'+wpm+' mots par minute</b>. '+rep+'</div><div class="row" style="margin-top:8px"><button class="ghost" id="lmre">↻ Réessayer</button><button class="speak" id="lmsay">🔊 Écouter le texte</button></div>';gate(true);document.getElementById('lmre').onclick=function(){phase='ready';show()};document.getElementById('lmsay').onclick=function(){say(s.text)};try{save.cplm=Math.max(save.cplm||0,wpm);persist()}catch(e){}}})};
+  box.querySelectorAll('[data-w]').forEach(function(x){if(phase==='pick')x.onclick=function(){var n=+x.dataset.w+1,el=s._el||60,wpm=Math.round(n*60/el);var rep=s.tg?(wpm>=s.tg?'Tu atteins le repère du CE1 ('+s.tg+' mots par minute) : bravo !':wpm>=s.tg-20?'Tu es presque au repère du CE1 : '+s.tg+' mots par minute.':'Ce n\'est pas une course. Relis le texte avec le micro 🔊, puis réessaie.'):wpm>=50?'Au-dessus du repère de fin de CP (50 mots par minute) : bravo !':wpm>=30?'Tu es sur le bon chemin : le repère de fin de CP est de 30 mots par minute sans préparation.':'Ce n\'est pas une course. Relis le texte avec le micro 🔊, puis réessaie.';document.getElementById('lmr').innerHTML='<div class="fb ok mr-ok" style="margin-top:10px">Tu as lu <b>'+n+' mots</b> en <b>'+el+' s</b>, soit environ <b>'+wpm+' mots par minute</b>. '+rep+'</div><div class="row" style="margin-top:8px"><button class="ghost" id="lmre">↻ Réessayer</button><button class="speak" id="lmsay">🔊 Écouter le texte</button></div>';gate(true);document.getElementById('lmre').onclick=function(){phase='ready';show()};document.getElementById('lmsay').onclick=function(){say(s.text)};try{save.cplm=Math.max(save.cplm||0,wpm);persist()}catch(e){}}})};
  show()};
 /* ---- widget : quiz interne (bilan) ---- */
 MRW['cp-bilan']=function(){var s=M[cur.m].steps[cur.i],box=document.getElementById('mrw');if(!box)return;gate(false);
@@ -877,6 +877,121 @@ mod('cp-algo','Des consignes pas à pas','Suivre et donner des ordres dans l’o
  S.push(N('Le robot fait 2 pas, puis encore 2 pas, puis encore 2 pas. Combien de pas en tout ?',6,'2 + 2 + 2.','Oui : 6 pas.','','Je répète'));
  S.push(C('Le robot doit aller de A1 à C1. Ses ordres sont ➡️ ⬇️ ➡️. Quelle est l’erreur ?','Le ⬇️ est de trop',['Il manque un ⬅️','Il faut commencer par ⬆️'],'Oui : sans ⬇️, il arrive en C1.','Cherche l’ordre en trop.',G3('A1','C1')));
  return S})(),MT);
+
+/* ================= PASSERELLE CP → CE1 ================= */
+var PF={pass:true},PM={mth:true,pass:true};
+var PT1='Ce matin, Léo se lève tôt. Il mange du pain avec de la confiture et boit un grand verre de lait. Puis il prend son sac et part à l’école avec sa maman. Dans la cour, il retrouve ses amis. Ils jouent aux billes jusqu’à ce que la cloche sonne.';
+var PT2='Samedi, Lola et son grand frère vont au marché. Il y a beaucoup de monde. Un marchand vend des pommes rouges, des poires jaunes et des raisins noirs. Lola choisit trois pommes. Son frère achète un pain chaud. Sur le chemin du retour, ils croquent leurs pommes en riant. À la maison, papa les attend avec une grande soupe pour le déjeuner.';
+mod('cp-p-fluide','Lire plus vite et plus juste','Du décodage à la lecture fluide','🚀',[
+ T('Lire avec fluidité','Lire avec fluidité, c’est lire sans buter sur chaque mot, en respectant les points. Au CE1, on vise environ 70 mots par minute.','<p class="big">Au CP : 50 mots par minute</p><p class="big">Au CE1 : 70 mots par minute</p><p>Je ne lis plus lettre par lettre, mais par <b>groupes de mots</b>.</p>',['Pour lire plus vite, je lis par…','Groupes de mots',['Lettres','Dessins']]),
+ T('Lire par groupes de mots','Je regarde plusieurs mots d’un coup et je m’arrête aux points et aux virgules.','<p class="big">Le petit chien / court / dans le jardin.</p><p>Chaque <b>/</b> est une petite pause.</p>',['Je fais une pause…','Aux points et aux virgules',['Au milieu de chaque mot','Jamais']]),
+ C('Quel découpage aide à bien lire ?','Le petit chat / dort / sur le canapé.',['Le / petit / chat dort sur / le canapé.','Le petit / chat dort / sur le / canapé.'],'Oui : les groupes de mots ont du sens.','Cherche les groupes qui vont ensemble.'),
+ C('Où dois-je faire une vraie pause ?','Au point',['Au milieu d’un mot','Entre deux lettres'],'Oui : au point.','Le point termine la phrase.'),
+ W('cp-lecmin',{text:PT1,tg:70},'Lecture minute 1'),
+ C('Que mange Léo au petit-déjeuner ?','Du pain avec de la confiture',['Des céréales','Un œuf'],'Oui : du pain avec de la confiture.','Relis le début.'),
+ C('À quoi jouent les enfants dans la cour ?','Aux billes',['Au ballon','À la corde'],'Oui : aux billes.','Relis la fin.'),
+ T('Je me prépare','Avant de lire à nouveau, j’écoute le texte, puis je le relis tout bas. Je lis mieux ensuite.','<p>Écoute le texte, puis lis-le tout bas.</p><p>'+PT2+'</p>'),
+ W('cp-lecmin',{text:PT2,tg:70},'Lecture minute 2'),
+ C('Où vont Lola et son frère ?','Au marché',['À la piscine','À l’école'],'Oui : au marché.','Relis la première phrase.'),
+ C('Que fait le marchand ?','Il vend des fruits',['Il lit un livre','Il cuisine une soupe'],'Oui : il vend des pommes, des poires et des raisins.','Relis la troisième phrase.'),
+ T('Mon objectif','Je m’entraîne un peu chaque jour : je relis un petit texte, d’abord avec la voix, puis tout seul, sans me presser.','<p class="big">Un texte · deux lectures · un peu chaque jour</p>')
+],PF);
+
+mod('cp-p-accord','Les premiers accords','Un chat, des chats, des chats noirs','🔗',[
+ T('Un seul ou plusieurs ?','Quand il y a plusieurs, on ajoute souvent un -s au nom. Le petit mot qui le précède change aussi.','<p class="big">un chat → des chat<b>s</b><br>le chat → les chat<b>s</b></p>',['Plusieurs chats : un chat ou…','Des chats',['Un chats','Des chat']]),
+ SO('Singulier ou pluriel ?',[['s','Un seul'],['p','Plusieurs']],[['un lapin','s'],['des lapins','p'],['la fleur','s'],['les fleurs','p'],['le livre','s'],['les livres','p']]),
+ C('Quel est le pluriel de « un lapin » ?','Des lapins',['Des lapin','Un lapins'],'Oui : des lapins.','Le petit mot et le nom changent.'),
+ C('Quel est le pluriel de « la fleur » ?','Les fleurs',['Les fleur','La fleurs'],'Oui : les fleurs.','Le petit mot et le nom changent.'),
+ C('Quel est le pluriel de « le crayon » ?','Les crayons',['Les crayon','Le crayons'],'Oui : les crayons.','Le petit mot et le nom changent.'),
+ C('Complète : « Les enfant… jouent. »','s',['x','e'],'Oui : les enfants.','Plusieurs enfants : on ajoute -s.'),
+ T('Le mot qui décrit s’accorde','Le mot qui décrit le nom prend aussi un -s quand il y a plusieurs.','<p class="big">un chat noir → des chats noir<b>s</b></p>',['Des chats noir…','s',['x','e']]),
+ C('Quel groupe est bien écrit ?','Des chats noirs',['Des chats noir','Un chats noirs'],'Oui : des chats noirs.','Le nom et le mot qui décrit changent.'),
+ C('Quel groupe est bien écrit ?','Les petites filles',['Les petite filles','Les petites fille'],'Oui : les petites filles.','Chaque mot du groupe porte un -s.'),
+ C('Quel groupe est bien écrit ?','Deux grands arbres',['Deux grand arbres','Deux grands arbre'],'Oui : deux grands arbres.','Chaque mot du groupe porte un -s.'),
+ T('Le verbe change aussi','Quand il y a plusieurs personnes ou animaux, le verbe change : il joue, ils jouent.','<p class="big">Il joue.<br>Ils jou<b>ent</b>.</p>',['Plusieurs enfants… au ballon.','jouent',['joue','jouer']]),
+ C('Quel verbe convient ? « Les chats … sur le tapis. »','dorment',['dort','dormir'],'Oui : les chats dorment.','Plusieurs chats : le verbe se termine par -ent.'),
+ C('Quel verbe convient ? « Le chien … dans le jardin. »','court',['courent','courir'],'Oui : un seul chien, il court.','Un seul chien : il court.'),
+ T('Quelques mots prennent -x','Certains mots prennent un -x au pluriel. Il faut les apprendre : un gâteau, des gâteaux ; un bateau, des bateaux.','<p class="big">un gâteau → des gâteau<b>x</b><br>un bateau → des bateau<b>x</b></p>',['Des bateau…','x',['s','e']]),
+ B('Remets les mots dans l’ordre.',['noirs','Les','dorment.','chats'],'Les chats noirs dorment.','Oui : « Les chats noirs dorment. »'),
+ B('Remets les mots dans l’ordre.',['rouges.','Les','mangent','enfants','des','pommes'],'Les enfants mangent des pommes rouges.','Oui : « Les enfants mangent des pommes rouges. »')
+],PF);
+
+mod('cp-p-phrase','J’écris une phrase complète','Qui ? Que fait-il ? Où ?','🖊️',[
+ T('Une phrase complète','Une phrase complète dit qui fait quelque chose, ce qu’il fait, et souvent où ou quand. Elle commence par une majuscule et finit par un point.','<p class="big">Le chien dort dans le jardin.</p><p><b>Qui ?</b> Le chien<br><b>Que fait-il ?</b> dort<br><b>Où ?</b> dans le jardin</p>',['Une phrase complète dit…','Qui fait quoi',['Un seul mot','Un chiffre']]),
+ C('Quelle phrase est complète ?','Le chien dort dans le jardin.',['Le chien dans le jardin.','Dort dans le jardin.'],'Oui : il y a qui, que fait-il et où.','Cherche qui et que fait-il.'),
+ C('Quelle phrase est complète ?','Lina mange une pomme.',['Une pomme.','Lina une pomme.'],'Oui : Lina mange une pomme.','Il faut un verbe.'),
+ C('Quelle phrase est complète ?','Sami joue au ballon.',['Au ballon.','Sami au ballon.'],'Oui : Sami joue au ballon.','Il faut un verbe.'),
+ C('Complète : « Lina … un livre. »','lit',['livre','rouge'],'Oui : Lina lit un livre.','Quel mot dit ce que fait Lina ?'),
+ T('Je rallonge ma phrase','Je peux ajouter où, quand ou comment pour donner plus d’informations.','<p class="big">Le chat dort.<br>Le chat dort <b>sur le canapé</b>.<br><b>Ce soir,</b> le chat dort sur le canapé.</p>',['« Sur le canapé » dit…','Où',['Qui','Quand']]),
+ C('Quelle phrase dit où ?','Le chat dort sur le canapé.',['Le chat dort.','Le chat joue.'],'Oui : sur le canapé.','Cherche le lieu.'),
+ C('Quelle phrase dit quand ?','Ce matin, Léo mange du pain.',['Léo mange du pain.','Léo mange du pain rond.'],'Oui : ce matin.','Cherche le moment.'),
+ B('Écris la phrase dans le bon ordre.',['Ce matin,','Léa','mange','une','tartine.'],'Ce matin, Léa mange une tartine.','Oui : « Ce matin, Léa mange une tartine. »'),
+ B('Écris la phrase dans le bon ordre.',['dans','chien','Le','court','le','jardin.'],'Le chien court dans le jardin.','Oui : « Le chien court dans le jardin. »'),
+ B('Écris la phrase dans le bon ordre.',['parc.','Sami','joue','au','Samedi,','ballon','au'],'Samedi, Sami joue au ballon au parc.','Oui : « Samedi, Sami joue au ballon au parc. »'),
+ C('Quelle phrase est bien écrite ?','Léa mange une tartine.',['Léa Mange une tartine.','Léa mange une tartine'],'Oui : majuscule au début, point à la fin.','Regarde les majuscules et le point.'),
+ T('Je relis ma phrase','Après avoir écrit, je relis : y a-t-il une majuscule, un point, un verbe, et du sens ?','<p class="big">✔ Majuscule<br>✔ Qui ? Que fait-il ?<br>✔ Point<br>✔ Ça a du sens</p>',['Après avoir écrit, je…','Relis',['Efface tout','Pars']]),
+ T('À toi d’écrire','Sur ton cahier, écris une phrase complète : qui, que fait-il, où ou quand. Puis relis-la.','<p class="big">✍️ Une phrase complète</p><p>Qui ? Que fait-il ? Où ?</p>')
+],PF);
+
+/* ---- Maths : passerelle ---- */
+var BX=function(c,d,u){var f=function(n,l,col){return n?'<span style="display:inline-block;border:2px solid '+col+';border-radius:10px;padding:2px 8px;margin:3px;font-weight:800">'+n+' '+l+'</span>':''};return '<div style="text-align:center;margin:6px 0">'+f(c,'centaine'+(c>1?'s':''),'#d9822b')+f(d,'dizaine'+(d>1?'s':''),'#2459e6')+f(u,'unité'+(u>1?'s':''),'#0e9a63')+'</div>'};
+mod('cp-p-n1000','Les nombres jusqu’à 1000','Centaines, dizaines et unités','🏔️',(function(){
+ var S=[T('Une centaine','Une centaine, c’est 10 dizaines. 10 dizaines, c’est 100 unités.','<p class="big">1 centaine = 10 dizaines = 100</p>'+BX(1,0,0),['10 dizaines, c’est…','100',['10','1000']]),
+  T('Lire un nombre à trois chiffres','Dans 237, il y a 2 centaines, 3 dizaines et 7 unités.','<p class="big">237 = 200 + 30 + 7</p>'+BX(2,3,7),['Dans 237, le chiffre des centaines est…','2',['3','7']])];
+ [[524,5,2,4],[318,3,1,8],[765,7,6,5],[402,4,0,2]].forEach(function(x){S.push(N('Dans '+x[0]+', quel est le chiffre des centaines ?',x[1],x[0]+' : '+x[1]+' centaines.','Oui : '+x[1]+'.',BX(x[1],x[2],x[3]),'Les centaines'));S.push(N('Dans '+x[0]+', quel est le chiffre des dizaines ?',x[2],x[0]+' : '+x[2]+' dizaines.','Oui : '+x[2]+'.',BX(x[1],x[2],x[3]),'Les dizaines'))});
+ [[3,4,5],[2,0,7],[8,0,9],[6,5,0]].forEach(function(x){var n=x[0]*100+x[1]*10+x[2];S.push(N(x[0]+' centaines, '+x[1]+' dizaines et '+x[2]+' unités : quel nombre ?',n,x[0]*100+' + '+x[1]*10+' + '+x[2]+'.','Oui : '+n+'.',BX(x[0],x[1],x[2]),'Quel nombre ?'))});
+ [[300,50,6],[400,20,0],[700,0,5],[900,10,3]].forEach(function(x){var n=x[0]+x[1]+x[2];S.push(N(x[0]+' + '+x[1]+' + '+x[2]+' = ?',n,'Je place les centaines, les dizaines, les unités.','Oui : '+n+'.','','Je compose'))});
+ [['100 – 200 – ? – 400',300,'de 100 en 100'],['340 – 350 – ? – 370',360,'de 10 en 10'],['500 – 600 – ? – 800',700,'de 100 en 100'],['610 – 620 – 630 – ?',640,'de 10 en 10']].forEach(function(q){S.push(N('Quel nombre manque ? '+q[0],q[1],'On compte '+q[2]+'.','Oui : '+q[1]+'.','','Je complète la suite'))});
+ S.push(N('Quel nombre vient juste après 199 ?',200,'Après 199, on change de centaine.','Oui : 200.','','Avant, après'));
+ S.push(N('Quel nombre vient juste avant 500 ?',499,'Juste avant 500.','Oui : 499.','','Avant, après'));
+ S.push(N('Quel nombre vient juste après 999 ?',1000,'Après 999, on arrive à mille.','Oui : 1000.','','Avant, après'));
+ S.push(T('Mille','Dix centaines font mille. 1000 s’écrit avec quatre chiffres.','<p class="big">10 centaines = 1000</p>',['10 centaines, c’est…','1000',['100','10']]));
+ [[347,374,'<'],[520,502,'>'],[618,618,'='],[905,950,'<']].forEach(function(x){S.push(C(x[0]+' … '+x[1]+' : quel signe ?',x[2],['<','>','='].filter(function(g){return g!==x[2]}),'Oui : '+x[0]+' '+x[2]+' '+x[1]+'.','Compare d’abord les centaines.'))});
+ S.push(B('Range du plus petit au plus grand.',['405','450','54','504'],'54 405 450 504','Oui : 54 – 405 – 450 – 504.','Le plus petit en premier.'));
+ return S})(),PM);
+
+mod('cp-p-add','L’addition posée','Sans retenue, puis avec retenue','➕',(function(){
+ var S=[T('Sans retenue','Je pose les unités sous les unités et les dizaines sous les dizaines. J’additionne en commençant par les unités.','<p>34 + 25 :</p>'+PA(34,25)+'<p>4 + 5 = 9 · 3 + 2 = 5 · résultat <b>59</b></p>',['J’additionne d’abord…','Les unités',['Les dizaines','Les centaines']])];
+ [[32,45],[24,13],[61,28],[53,35],[40,29]].forEach(function(x){S.push(N(x[0]+' + '+x[1]+' = ?',x[0]+x[1],'Unités d’abord, puis dizaines.','Oui : '+(x[0]+x[1])+'.',PA(x[0],x[1]),'J’additionne'))});
+ S.push(T('Avec retenue','Quand les unités font 10 ou plus, j’écris les unités et je retiens 1 dizaine.','<p>47 + 25 :</p>'+PA(47,25)+'<p>7 + 5 = 12 : j’écris <b>2</b> et je retiens <b>1</b>.<br>4 + 2 + 1 = 7 · résultat <b>72</b></p>',['7 + 5 = 12 : j’écris 2 et je retiens…','1',['2','5']]));
+ S.push(C('Quand dois-je retenir ?','Quand les unités font 10 ou plus',['Quand les dizaines font 5','Jamais'],'Oui : à partir de 10 unités.','Pense à 7 + 5 = 12.'));
+ [[38,24],[56,27],[45,37],[69,14],[28,35],[75,18]].forEach(function(x){S.push(N(x[0]+' + '+x[1]+' = ?',x[0]+x[1],'Les unités font plus de 9 : j’écris les unités et je retiens 1.','Oui : '+(x[0]+x[1])+'.',PA(x[0],x[1]),'J’additionne avec retenue'))});
+ S.push(T('Avec des centaines','Je fais pareil avec trois chiffres : unités, dizaines, puis centaines.','<p>235 + 142 :</p>'+PA(235,142)+'<p>5 + 2 = 7 · 3 + 4 = 7 · 2 + 1 = 3 · résultat <b>377</b></p>',['Avec trois chiffres, je termine par…','Les centaines',['Les unités','Les dizaines']]));
+ [[324,251],[412,356],[528,241],[258,134]].forEach(function(x){S.push(N(x[0]+' + '+x[1]+' = ?',x[0]+x[1],'Unités, dizaines, centaines.','Oui : '+(x[0]+x[1])+'.',PA(x[0],x[1]),'J’additionne'))});
+ S.push(N('Léo a 45 billes. Il en gagne 28. Combien en a-t-il ?',73,'45 + 28.','Oui : 73 billes.','','Problème'));
+ S.push(N('Dans un train, il y a 126 voyageurs. 43 autres montent. Combien de voyageurs ?',169,'126 + 43.','Oui : 169 voyageurs.','','Problème'));
+ return S})(),PM);
+
+mod('cp-p-pb2e','Les problèmes à deux étapes','Je cherche d’abord, puis je calcule','🧩',(function(){
+ var S=[T('Deux calculs','Dans certains problèmes, il faut faire deux calculs. Je cherche d’abord l’information qui manque, puis je réponds à la question.','<p class="big">1. Je lis<br>2. Je cherche ce qui manque<br>3. Je calcule<br>4. Je réponds</p><p>Exemple : Lina a 5 billes. Sami en a 3 de plus. Combien en ont-ils ensemble ?<br>Sami : 5 + 3 = 8. Ensemble : 5 + 8 = 13.</p>',['Je cherche d’abord…','L’information qui manque',['Le résultat final','Rien'] ])];
+ S.push(C('Lina a 5 billes. Sami en a 3 de plus. Quelle est la première question ?','Combien Sami a-t-il de billes ?',['Combien de billes en tout ?','Combien Lina en a-t-elle ?'],'Oui : d’abord les billes de Sami.','Il faut d’abord trouver ce que Sami possède.'));
+ [['Lina a 5 billes. Sami en a 3 de plus. Combien en ont-ils ensemble ?',13,'Sami : 5 + 3 = 8. Ensemble : 5 + 8.'],
+  ['Un sac contient 8 pommes. Un autre sac en contient 4 de moins. Combien de pommes en tout ?',12,'Autre sac : 8 − 4 = 4. En tout : 8 + 4.'],
+  ['Rico a 10 €. Il achète un livre à 4 € et un stylo à 3 €. Combien lui reste-t-il ?',3,'Dépense : 4 + 3 = 7. Reste : 10 − 7.'],
+  ['Dans un bus, il y a 12 personnes. 5 descendent, puis 3 montent. Combien de personnes dans le bus ?',10,'12 − 5 = 7, puis 7 + 3.'],
+  ['Léa a 15 autocollants. Elle en donne 4 à Sami puis 6 à Inès. Combien lui en reste-t-il ?',5,'Donnés : 4 + 6 = 10. Reste : 15 − 10.'],
+  ['Un livre coûte 6 €. Un cahier coûte 2 € de plus. Combien coûtent les deux ?',14,'Cahier : 6 + 2 = 8. Total : 6 + 8.'],
+  ['Tom a 9 cartes. Il en gagne 5, puis il en perd 3. Combien en a-t-il ?',11,'9 + 5 = 14, puis 14 − 3.'],
+  ['Une boîte contient 3 rangées de 2 gâteaux. Une autre boîte contient 4 gâteaux. Combien de gâteaux en tout ?',10,'Première boîte : 2 + 2 + 2 = 6. Total : 6 + 4.']].forEach(function(q){S.push(N(q[0],q[1],q[2],'Oui : '+q[1]+'.','','Problème à deux étapes'))});
+ S.push(C('Un livre coûte 6 €. Un cahier coûte 2 € de plus. Que cherche-t-on d’abord ?','Le prix du cahier',['Le prix des deux','Le prix du livre'],'Oui : le cahier, 6 + 2 = 8.','Le prix du cahier n’est pas donné.'));
+ return S})(),PM);
+
+mod('cp-p-heure','Lire l’heure','Heure pile et demie, bien lire l’horloge','⌚',[
+ T('Je révise l’heure','Petite aiguille : l’heure. Grande aiguille sur le 12 : heure pile. Grande aiguille sur le 6 : et demie.','<p class="big">12 → pile<br>6 → et demie</p>'+CK(2,0)+'<p class="big">2 h</p>'+CK(2,30)+'<p class="big">2 h 30</p>',['Grande aiguille sur le 6 : c’est…','Et demie',['Pile','Et quart']]),
+ C('Quelle heure est-il ?','1 h',['1 h 30','6 h'],'Oui : 1 h pile.','La grande aiguille est sur le 12.',CK(1,0)),
+ C('Quelle heure est-il ?','7 h 30',['7 h','6 h 30'],'Oui : 7 h 30.','La grande aiguille est sur le 6.',CK(7,30)),
+ C('Quelle heure est-il ?','11 h',['11 h 30','12 h'],'Oui : 11 h pile.','La grande aiguille est sur le 12.',CK(11,0)),
+ C('Quelle heure est-il ?','12 h 30',['12 h','6 h 12'],'Oui : 12 h 30.','La grande aiguille est sur le 6.',CK(12,30)),
+ C('Quelle heure est-il ?','4 h 30',['4 h','5 h 30'],'Oui : 4 h 30.','La petite aiguille est entre le 4 et le 5, la grande sur le 6.',CK(4,30)),
+ C('Quelle heure est-il ?','9 h',['9 h 30','3 h'],'Oui : 9 h pile.','La grande aiguille est sur le 12.',CK(9,0)),
+ C('Il est 6 h. Une demi-heure passe. Quelle heure est-il ?','6 h 30',['7 h','5 h 30'],'Oui : 6 h 30.','Une demi-heure.'),
+ C('Il est 3 h 30. Une demi-heure passe. Quelle heure est-il ?','4 h',['3 h','4 h 30'],'Oui : 4 h.','3 h 30 + une demi-heure.'),
+ N('Le film commence à 14 h et finit à 16 h. Il dure… (en h)',2,'16 − 14','Oui : 2 heures.','','Les durées'),
+ N('Il est 5 h. Deux heures passent. Quelle heure est-il ? (en h)',7,'5 + 2','Oui : 7 h.','','Les durées'),
+ T('L’après-midi et le soir','Après midi, on peut dire 13 h pour 1 h, 14 h pour 2 h, 15 h pour 3 h… jusqu’à 20 h pour 8 h du soir.','<p class="big">13 h = 1 h de l’après-midi<br>15 h = 3 h de l’après-midi<br>20 h = 8 h du soir</p>',['15 h, c’est…','3 h de l’après-midi',['5 h du matin','1 h du matin']]),
+ N('16 h, c’est … h de l’après-midi.',4,'16 − 12','Oui : 4 h de l’après-midi.','','Je convertis'),
+ N('18 h, c’est … h du soir.',6,'18 − 12','Oui : 6 h du soir.','','Je convertis')
+],PM);
 
 /* ---- Bilan CP (20 points) ---- */
 var BIL=[

@@ -35,7 +35,7 @@ var swap=function(id,scr){snap();var d=PS.data[id]||{g:'{}',r:'{}'};try{localSto
 /* ---------- progression ---------- */
 var inLv=function(m,k){return k==='CP'?!!m.cp:(k==='CE1'?!m.cp:false)};
 var core=function(m){return !m.train&&!m.remp&&!/^rem/.test(m.id)&&!m.voc&&!m.cj&&!m.lec&&!m.met};
-var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&(m.cp||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
+var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&!m.pass&&(m.cp||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
  var d=L.filter(function(m){return save[m.id]}).length;return Math.round(100*d/L.length)};
 var openLv=function(i){var ci=LVI(lvl());return i<=ci||(i===ci+1&&(P().early||prog(lvl())>=50))};
 var autoUp=function(){var p=P(),i=LVI(p.lvl);if(i<LV.length-1&&prog(p.lvl)>=90&&HAS[LV[i+1].k].length){p.lvl=LV[i+1].k;p.early=false;sv();view=p.lvl;return true}return false};
@@ -204,10 +204,10 @@ scr.tr=function(){var r=ST.res,k=ST.tl,li=LVI(k),nx=LV[li+1],p=r.ok/(r.n||1),tie
  '<button class="btn w" id="redo">Refaire un test</button><div style="height:8px"></div><button class="btn" id="togal">Voir ma galaxie ▶</button>'+(ST.toast?'<div class="toast">'+ST.toast+'</div>':''),'soft')};
 
 /* ---------- espace parent ---------- */
-var DOMICON={Lecture:'📖',Écriture:'✏️',Compréhension:'👂',Maths:'🧮',Langue:'🔤',Oral:'🗣️'};
+var DOMICON={Passerelle:'🌉',Lecture:'📖',Écriture:'✏️',Compréhension:'👂',Maths:'🧮',Langue:'🔤',Oral:'🗣️'};
 var parData=function(){var k=lvl(),out={};
  if(k==='CP'){var blocks={'Lecture':{'Lire':['cp-assemble','cp-s-nas','cp-s-voy','cp-s-cons','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin']},'Compréhension':{'Écouter et comprendre':['cp-histoire','cp-comprend','cp-consignes']},'Écriture':{'Geste et lettres':['cp-main','cp-lettres'],'Écrire':['cp-copie','cp-dictee','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']},'Langue':{'Mots et phrases':['cp-classe','cp-contraire','cp-gram','cp-nombre','cp-alpha','cp-maj','cp-ponct','cp-vocab'],'Oral':['cp-phrases','cp-syl','cp-sons','cp-poesie','cp-oral']},
-  'Maths':{'Nombres':['cp-n20','cp-diz','cp-compter','cp-compar','cp-suite'],'Calcul':['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult'],'Problèmes':['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab'],'Mesures et formes':['cp-long','cp-masse','cp-cal','cp-heure','cp-fig','cp-sol','cp-rep','cp-quad','cp-algo']}};
+  'Maths':{'Nombres':['cp-n20','cp-diz','cp-compter','cp-compar','cp-suite'],'Calcul':['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult'],'Problèmes':['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab'],'Mesures et formes':['cp-long','cp-masse','cp-cal','cp-heure','cp-fig','cp-sol','cp-rep','cp-quad','cp-algo']},'Passerelle':{'Vers le CE1 : français':['cp-p-fluide','cp-p-accord','cp-p-phrase'],'Vers le CE1 : maths':['cp-p-n1000','cp-p-add','cp-p-pb2e','cp-p-heure']}};
   Object.keys(blocks).forEach(function(d){var g={};Object.keys(blocks[d]).forEach(function(n){g[n]=blocks[d][n].map(function(id){var m=M.find(function(x){return x.id===id});return m?[m.name,save[id]?100:0]:null}).filter(Boolean)});out[d]={e:DOMICON[d],g:g}});
   var q=save.cpq;if(q){var g={};Object.keys(q.dom).forEach(function(d){g[d]=[['Bilan : '+d,Math.round(100*q.dom[d].ok/q.dom[d].n)]]});out['Bilan du CP']={e:'🏁',g:g}}
   return out}
@@ -315,8 +315,8 @@ var obs=null;var decor=function(){if(!obs){obs=new MutationObserver(refreshBar);
 var offBar=function(){var b=$('mrbar');if(b)b.style.display='none'};
 
 /* ---------- listes CP ---------- */
-var CPG={fr:[['👂 Écouter et parler',['cp-histoire','cp-phrases','cp-syl','cp-sons','cp-poesie','cp-oral']],['📖 Lire',['cp-assemble','cp-s-nas','cp-s-voy','cp-s-cons','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin','cp-comprend']],['✏️ Écrire',['cp-main','cp-lettres','cp-copie','cp-dictee','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']],['🔤 Mots et langue',['cp-classe','cp-contraire','cp-consignes','cp-gram','cp-nombre','cp-alpha','cp-maj','cp-ponct','cp-vocab']],['🏁 Bilan du CP',['cp-bilan']]],
- m:[['🔢 Les nombres',['cp-n20','cp-diz','cp-compter','cp-compar','cp-suite']],['🧮 Calculer',['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult']],['🧩 Les problèmes',['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab']],['📏 Mesures et durées',['cp-long','cp-masse','cp-cal','cp-heure']],['🔷 Géométrie',['cp-fig','cp-sol','cp-rep','cp-quad','cp-algo']]]};
+var CPG={fr:[['👂 Écouter et parler',['cp-histoire','cp-phrases','cp-syl','cp-sons','cp-poesie','cp-oral']],['📖 Lire',['cp-assemble','cp-s-nas','cp-s-voy','cp-s-cons','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin','cp-comprend']],['✏️ Écrire',['cp-main','cp-lettres','cp-copie','cp-dictee','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']],['🔤 Mots et langue',['cp-classe','cp-contraire','cp-consignes','cp-gram','cp-nombre','cp-alpha','cp-maj','cp-ponct','cp-vocab']],['🏁 Bilan du CP',['cp-bilan']],['🌉 Passerelle vers le CE1',['cp-p-fluide','cp-p-accord','cp-p-phrase']]],
+ m:[['🔢 Les nombres',['cp-n20','cp-diz','cp-compter','cp-compar','cp-suite']],['🧮 Calculer',['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult']],['🧩 Les problèmes',['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab']],['📏 Mesures et durées',['cp-long','cp-masse','cp-cal','cp-heure']],['🔷 Géométrie',['cp-fig','cp-sol','cp-rep','cp-quad','cp-algo']],['🌉 Passerelle vers le CE1',['cp-p-n1000','cp-p-add','cp-p-pb2e','cp-p-heure']]]};
 var cpHome=function(kind){if(view!=='CP')return false;stopCr();cur=null;var key=kind==='fr'?'g':'m',T=function(l){return l.map(function(m){return tileH(m,M.indexOf(m))}).join('')};
  var G=CPG[kind].map(function(g){var L=g[1].map(function(id){return M.find(function(m){return m.id===id})}).filter(Boolean);return [g[0],T(L),L.filter(function(m){return save[m.id]}).length+'/'+L.length]});
  window.MRORD=[].concat.apply([],G.map(function(g){return [].concat(Array.from(String(g[1]).matchAll(/data-m="(\d+)"/g)).map(function(x){return +x[1]}))}));
