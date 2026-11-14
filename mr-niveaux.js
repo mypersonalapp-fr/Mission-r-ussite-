@@ -206,7 +206,7 @@ scr.tr=function(){var r=ST.res,k=ST.tl,li=LVI(k),nx=LV[li+1],p=r.ok/(r.n||1),tie
 var DOMICON={Lecture:'📖',Écriture:'✏️',Compréhension:'👂',Maths:'🧮',Langue:'🔤',Oral:'🗣️'};
 var parData=function(){var k=lvl(),out={};
  if(k==='CP'){var blocks={'Lecture':{'Lire':['cp-assemble','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin']},'Compréhension':{'Écouter et comprendre':['cp-histoire','cp-comprend','cp-consignes']},'Écriture':{'Geste et lettres':['cp-main','cp-lettres'],'Écrire':['cp-copie','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']},'Langue':{'Mots et phrases':['cp-classe','cp-contraire','cp-gram','cp-nombre','cp-alpha','cp-maj'],'Oral':['cp-phrases','cp-syl','cp-sons']},
-  'Maths':{'Nombres':['cp-n20','cp-diz','cp-compter','cp-compar'],'Calcul':['cp-c10','cp-dec10','cp-dec20','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult'],'Problèmes':['cp-pb1','cp-pb2','cp-pb3'],'Mesures et formes':['cp-long','cp-masse','cp-cal','cp-heure','cp-fig','cp-sol','cp-rep','cp-quad']}};
+  'Maths':{'Nombres':['cp-n20','cp-diz','cp-compter','cp-compar'],'Calcul':['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult'],'Problèmes':['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab'],'Mesures et formes':['cp-long','cp-masse','cp-cal','cp-heure','cp-fig','cp-sol','cp-rep','cp-quad']}};
   Object.keys(blocks).forEach(function(d){var g={};Object.keys(blocks[d]).forEach(function(n){g[n]=blocks[d][n].map(function(id){var m=M.find(function(x){return x.id===id});return m?[m.name,save[id]?100:0]:null}).filter(Boolean)});out[d]={e:DOMICON[d],g:g}});
   var q=save.cpq;if(q){var g={};Object.keys(q.dom).forEach(function(d){g[d]=[['Bilan : '+d,Math.round(100*q.dom[d].ok/q.dom[d].n)]]});out['Bilan du CP']={e:'🏁',g:g}}
   return out}
@@ -315,7 +315,7 @@ var offBar=function(){var b=$('mrbar');if(b)b.style.display='none'};
 
 /* ---------- listes CP ---------- */
 var CPG={fr:[['👂 Écouter et parler',['cp-histoire','cp-phrases','cp-syl','cp-sons']],['📖 Lire',['cp-assemble','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin','cp-comprend']],['✏️ Écrire',['cp-main','cp-lettres','cp-copie','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']],['🔤 Mots et langue',['cp-classe','cp-contraire','cp-consignes','cp-gram','cp-nombre','cp-alpha','cp-maj']],['🏁 Bilan du CP',['cp-bilan']]],
- m:[['🔢 Les nombres',['cp-n20','cp-diz','cp-compter','cp-compar']],['🧮 Calculer',['cp-c10','cp-dec10','cp-dec20','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult']],['🧩 Les problèmes',['cp-pb1','cp-pb2','cp-pb3']],['📏 Mesures et durées',['cp-long','cp-masse','cp-cal','cp-heure']],['🔷 Géométrie',['cp-fig','cp-sol','cp-rep','cp-quad']]]};
+ m:[['🔢 Les nombres',['cp-n20','cp-diz','cp-compter','cp-compar']],['🧮 Calculer',['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult']],['🧩 Les problèmes',['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab']],['📏 Mesures et durées',['cp-long','cp-masse','cp-cal','cp-heure']],['🔷 Géométrie',['cp-fig','cp-sol','cp-rep','cp-quad']]]};
 var cpHome=function(kind){if(view!=='CP')return false;stopCr();cur=null;var key=kind==='fr'?'g':'m',T=function(l){return l.map(function(m){return tileH(m,M.indexOf(m))}).join('')};
  var G=CPG[kind].map(function(g){var L=g[1].map(function(id){return M.find(function(m){return m.id===id})}).filter(Boolean);return [g[0],T(L),L.filter(function(m){return save[m.id]}).length+'/'+L.length]});
  window.MRORD=[].concat.apply([],G.map(function(g){return [].concat(Array.from(String(g[1]).matchAll(/data-m="(\d+)"/g)).map(function(x){return +x[1]}))}));

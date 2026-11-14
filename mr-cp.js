@@ -646,6 +646,64 @@ mod('cp-quad','Le quadrillage et le tracé','Colonne, ligne, règle','📍',[
  ]},'Je trace des figures')
 ],MT);
 
+/* ---- Doubles et moitiés ---- */
+var DBL=function(n){return '<div style="text-align:center;font-size:1.3rem;line-height:1.3;margin:6px 0">'+new Array(n+1).join('🟣')+' <b>+</b> '+new Array(n+1).join('🟣')+'</div>'};
+var HLF=function(n){var h=n/2;return '<div style="text-align:center;font-size:1.3rem;line-height:1.3;margin:6px 0">'+new Array(n+1).join('🔵')+'<br><b>↓ 2 parts égales</b><br>'+new Array(h+1).join('🔵')+' | '+new Array(h+1).join('🔵')+'</div>'};
+mod('cp-dbl','Doubles et moitiés','Deux fois pareil, deux parts égales','🪞',(function(){
+ var S=[T('Le double','Le double d’un nombre, c’est ce nombre pris deux fois. Le double de 3, c’est 3 plus 3, donc 6.','<p class="big">Le double de 3 = 3 + 3 = <b>6</b></p>'+DBL(3),['Le double de 4, c’est…','8',['6','4']]),
+  T('La moitié','La moitié d’un nombre, c’est ce nombre partagé en deux parts égales. La moitié de 8, c’est 4, car 4 plus 4 font 8.','<p class="big">La moitié de 8 = <b>4</b></p>'+HLF(8),['La moitié de 6, c’est…','3',['2','12']])];
+ [2,5,4,3,6,10,7,8,9].forEach(function(n){S.push(N('Quel est le double de '+n+' ?',n*2,n+' + '+n+'.','Oui : '+n+' + '+n+' = '+n*2+'.',n<=6?DBL(n):'','Le double'))});
+ [4,6,10,8,12,14,16,20].forEach(function(n){S.push(N('Quelle est la moitié de '+n+' ?',n/2,'Quel nombre ajouté à lui-même fait '+n+' ?','Oui : '+n/2+' + '+n/2+' = '+n+'.',n<=10?HLF(n):'','La moitié'))});
+ S.push(N('Lina a 7 billes. Sami en a le double. Combien Sami a-t-il de billes ?',14,'Le double de 7 : 7 + 7.','Oui : 14 billes.','','Problème'));
+ S.push(N('Rico partage 12 bonbons en deux parts égales. Combien de bonbons chacun reçoit-il ?',6,'La moitié de 12.','Oui : 6 bonbons.','','Problème'));
+ S.push(N('Un paquet contient 5 gâteaux. Il y en a 2 pareils. Combien de gâteaux en tout ?',10,'Le double de 5.','Oui : 10 gâteaux.','','Problème'));
+ S.push(C('Le double de 4 est 8. Quelle est donc la moitié de 8 ?','4',['2','16'],'Oui : double et moitié vont ensemble.','La moitié défait le double.'));
+ S.push(C('Quelle égalité donne un double ?','6 + 6',['6 + 5','6 + 7'],'Oui : deux fois le même nombre.','Cherche deux nombres pareils.'));
+ S.push(MA('Relie chaque nombre à son double.',[['2','4'],['5','10'],['8','16']]));
+ return S})(),MT);
+
+/* ---- La monnaie ---- */
+var COIN=function(v){var c=v>=1&&v<=2;return '<span style="display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:'+(v===1?'#f2c94c':'#d9d9df')+';border:3px solid '+(v===1?'#c79a1c':'#9a9aa8')+';font:800 1rem var(--display);margin:3px">'+v+' €</span>'};
+var BILL=function(v){var col={5:'#a9b8a1',10:'#e8a0a0',20:'#a0b8e8'}[v]||'#ccc';return '<span style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:42px;border-radius:6px;background:'+col+';border:2px solid #666;font:800 1rem var(--display);margin:3px">'+v+' €</span>'};
+var MON=function(a){return '<div style="text-align:center;margin:6px 0">'+a.map(function(v){return v>=5?BILL(v):COIN(v)}).join('')+'</div>'};
+mod('cp-eur','La monnaie','Pièces, billets, payer et rendre','💶',(function(){
+ var S=[T('Pièces et billets','En France, on paie avec des euros. Il y a des pièces de 1 euro et 2 euros, et des billets de 5, 10 et 20 euros.',''+MON([1,2,5,10,20]),['Un billet de 10 €, c’est…','10 euros',['1 euro','100 euros']]),
+  T('Compter son argent','Pour savoir combien j’ai, j’additionne les pièces et les billets. Je commence par les plus grands.','<p class="big">5 + 2 + 1 = <b>8 €</b></p>'+MON([5,2,1]),['5 € + 2 € + 1 €, ça fait…','8 euros',['7 euros','9 euros']])];
+ [[[2,2,1],5],[[5,1,1],7],[[10,2],12],[[5,5,2],12],[[10,5,1],16],[[20,2,1],23]].forEach(function(x){S.push(N('Combien d’argent y a-t-il ?',x[1],'J’additionne : '+x[0].join(' + ')+'.','Oui : '+x[1]+' €.',MON(x[0]),'Je compte'))});
+ S.push(C('Je veux payer 8 €. Quelle somme est la bonne ?','5 € + 2 € + 1 €',['5 € + 2 €','2 € + 2 € + 2 €'],'Oui : 5 + 2 + 1 = 8.','Additionne chaque proposition.'));
+ S.push(C('Je veux payer 12 €. Quelle somme est la bonne ?','10 € + 2 €',['5 € + 5 €','10 € + 1 €'],'Oui : 10 + 2 = 12.','Additionne chaque proposition.'));
+ S.push(C('Je veux payer 7 €. Quelle somme est la bonne ?','5 € + 2 €',['5 € + 1 €','2 € + 2 €'],'Oui : 5 + 2 = 7.','Additionne chaque proposition.'));
+ S.push(T('Rendre la monnaie','Quand je donne plus que le prix, le vendeur me rend la différence. Je donne 10 € pour un objet à 7 €. On me rend 3 €.','<p class="big">10 € − 7 € = <b>3 €</b></p>'+MON([10]),['Je donne 10 € pour un objet à 7 €. On me rend…','3 €',['17 €','7 €']]));
+ [['Un pain coûte 2 €. Je donne 5 €.',3],['Un gâteau coûte 6 €. Je donne 10 €.',4],['Un jouet coûte 8 €. Je donne 10 €.',2],['Une glace coûte 3 €. Je donne 5 €.',2],['Un livre coûte 12 €. Je donne 20 €.',8]].forEach(function(q){S.push(N(q[0]+' Combien me rend-on ?',q[1],'Je soustrais le prix de ce que je donne.','Oui : on me rend '+q[1]+' €.','','Je rends la monnaie'))});
+ S.push(N('Rico achète un ballon à 5 € et un livre à 4 €. Combien paie-t-il en tout ?',9,'5 + 4.','Oui : 9 €.','','Problème'));
+ S.push(N('Lina a 10 €. Elle achète un jouet à 6 €. Combien lui reste-t-il ?',4,'10 − 6.','Oui : 4 €.','','Problème'));
+ S.push(T('Les centimes','Un euro, c’est aussi 100 centimes. Une pièce de 50 centimes, c’est la moitié d’un euro.','<p class="big">1 € = 100 centimes<br>50 c + 50 c = 1 €</p>',['Deux pièces de 50 centimes font…','1 euro',['2 euros','50 euros']]));
+ S.push(C('Combien de pièces de 50 centimes faut-il pour faire 1 € ?','2',['1','5'],'Oui : 50 + 50 = 100 centimes.','50 centimes + 50 centimes.'));
+ return S})(),MT);
+
+/* ---- Lire un tableau ou un graphique ---- */
+var TBL=function(head,rows){return '<table style="margin:8px auto;border-collapse:collapse;font:800 1.3rem var(--display);text-align:center"><tr>'+head.map(function(h){return '<td style="border:2px solid var(--line);padding:6px 14px;background:#eef2ff">'+h+'</td>'}).join('')+'</tr><tr>'+rows.map(function(r){return '<td style="border:2px solid var(--line);padding:6px 14px">'+r+'</td>'}).join('')+'</tr></table>'};
+var PIC=function(rows){return '<table style="margin:8px auto;border-collapse:collapse;font-size:1.3rem;text-align:left">'+rows.map(function(r){return '<tr><td style="padding:4px 10px;font:800 1rem var(--display)">'+r[0]+'</td><td style="padding:4px 10px;letter-spacing:.1em">'+new Array(r[1]+1).join(r[2])+'</td></tr>'}).join('')+'</table>'};
+var T1=TBL(['🐶','🐱','🐰'],[3,5,2]);
+var P1=PIC([['Pommes',4,'🍎'],['Bananes',2,'🍌'],['Fraises',3,'🍓']]);
+mod('cp-tab','Lire un tableau ou un graphique','Trouver une information, comparer','📊',[
+ T('Lire un tableau','Un tableau range des informations. Je cherche l’image, puis je lis le nombre en dessous.','<p>Combien d’animaux de chaque sorte ?</p>'+T1+'<p>Il y a <b>5</b> chats.</p>',['Dans ce tableau, combien de chiens ?','3',['5','2']]),
+ N('Combien y a-t-il de lapins ?',2,'Cherche 🐰 dans le tableau.','Oui : 2 lapins.',T1,'Je lis le tableau'),
+ N('Combien y a-t-il de chats ?',5,'Cherche 🐱 dans le tableau.','Oui : 5 chats.',T1,'Je lis le tableau'),
+ N('Combien d’animaux en tout ?',10,'J’additionne : 3 + 5 + 2.','Oui : 10 animaux.',T1,'J’additionne'),
+ N('Combien de chats de plus que de chiens ?',2,'5 − 3.','Oui : 2 de plus.',T1,'Je compare'),
+ T('Lire un graphique en images','Ici, chaque image représente un enfant. Je compte les images de chaque ligne.','<p>Le fruit préféré des enfants :</p>'+P1+'<p>1 image = 1 enfant.</p>',['Combien d’enfants préfèrent les bananes ?','2',['4','3']]),
+ N('Combien d’enfants préfèrent les pommes ?',4,'Compte les 🍎.','Oui : 4 enfants.',P1,'Je compte les images'),
+ N('Combien d’enfants préfèrent les fraises ?',3,'Compte les 🍓.','Oui : 3 enfants.',P1,'Je compte les images'),
+ C('Quel fruit est le plus aimé ?','Les pommes',['Les bananes','Les fraises'],'Oui : la ligne la plus longue.','Cherche la plus longue ligne.',P1),
+ C('Quel fruit est le moins aimé ?','Les bananes',['Les pommes','Les fraises'],'Oui : la ligne la plus courte.','Cherche la plus courte ligne.',P1),
+ N('Combien d’enfants ont répondu en tout ?',9,'4 + 2 + 3.','Oui : 9 enfants.',P1,'J’additionne'),
+ T('Le tableau de la météo','Je regarde chaque jour et je compte les ☀️ et les 🌧️.','<p>La météo de la semaine :</p>'+PIC([['Lundi',1,'☀️'],['Mardi',1,'🌧️'],['Mercredi',1,'☀️'],['Jeudi',1,'☀️'],['Vendredi',1,'🌧️']]),['Combien de jours de pluie ?','2',['3','5']]),
+ N('Combien y a-t-il de jours de soleil ?',3,'Compte les ☀️ : lundi, mercredi, jeudi.','Oui : 3 jours.',PIC([['Lundi',1,'☀️'],['Mardi',1,'🌧️'],['Mercredi',1,'☀️'],['Jeudi',1,'☀️'],['Vendredi',1,'🌧️']]),'Je compte'),
+ N('Dans la classe, il y a 5 filles et 7 garçons. Combien d’élèves en tout ?',12,'5 + 7.','Oui : 12 élèves.',TBL(['Filles','Garçons'],[5,7]),'Je lis et j’additionne'),
+ C('Dans ce tableau, qui est le plus nombreux ?','Les garçons',['Les filles','Autant'],'Oui : 7 est plus grand que 5.','Compare 5 et 7.',TBL(['Filles','Garçons'],[5,7]))
+],MT);
+
 /* ---- Bilan CP (20 points) ---- */
 var BIL=[
  {d:'Oral',k:'Compter les syllabes',q:'Combien de syllabes dans « banane » ?',o:['2','3','4'],a:1,h:'ba-na-ne.',say:'banane'},
