@@ -701,8 +701,49 @@ mod('cp-tab','Lire un tableau ou un graphique','Trouver une information, compare
  T('Le tableau de la météo','Je regarde chaque jour et je compte les ☀️ et les 🌧️.','<p>La météo de la semaine :</p>'+PIC([['Lundi',1,'☀️'],['Mardi',1,'🌧️'],['Mercredi',1,'☀️'],['Jeudi',1,'☀️'],['Vendredi',1,'🌧️']]),['Combien de jours de pluie ?','2',['3','5']]),
  N('Combien y a-t-il de jours de soleil ?',3,'Compte les ☀️ : lundi, mercredi, jeudi.','Oui : 3 jours.',PIC([['Lundi',1,'☀️'],['Mardi',1,'🌧️'],['Mercredi',1,'☀️'],['Jeudi',1,'☀️'],['Vendredi',1,'🌧️']]),'Je compte'),
  N('Dans la classe, il y a 5 filles et 7 garçons. Combien d’élèves en tout ?',12,'5 + 7.','Oui : 12 élèves.',TBL(['Filles','Garçons'],[5,7]),'Je lis et j’additionne'),
- C('Dans ce tableau, qui est le plus nombreux ?','Les garçons',['Les filles','Autant'],'Oui : 7 est plus grand que 5.','Compare 5 et 7.',TBL(['Filles','Garçons'],[5,7]))
+ C('Dans ce tableau, qui est le plus nombreux ?','Les garçons',['Les filles','Autant'],'Oui : 7 est plus grand que 5.','Compare 5 et 7.',TBL(['Filles','Garçons'],[5,7])),
+ T('J’organise des données','Pour compter plus facilement, je range les choses par sorte, puis je compte chaque groupe.','<p class="big">🍎 🐱 🍌 🐶 🍓 🐰</p><p>Je range : les <b>fruits</b> ensemble, les <b>animaux</b> ensemble.</p>',['Pour compter, je range les choses…','Par sorte',['Au hasard','Par taille de dessin']]),
+ SO('Range chaque image dans le bon groupe.',[['f','Fruits'],['a','Animaux']],[['🍎','f'],['🐱','a'],['🍌','f'],['🐶','a'],['🍓','f'],['🐰','a']]),
+ N('Dans 🍎 🐱 🍌 🐶 🍓 🐰 🐱, combien y a-t-il d’animaux ?',4,'Compte 🐱 🐶 🐰 🐱.','Oui : 4 animaux.','<p class="big">🍎 🐱 🍌 🐶 🍓 🐰 🐱</p>','Je range et je compte')
 ],MT);
+
+/* ---- Suites et régularités ---- */
+var FRZ=function(a){return '<p style="text-align:center;font-size:2rem;letter-spacing:.15em;margin:8px 0">'+a.join(' ')+'</p>'};
+mod('cp-suite','Suites et régularités','Continuer une frise, un motif, une suite de nombres','🔁',(function(){
+ var R='🔴',Bl='🔵',Ap='🍎',Ba='🍌',Tr='🔺',Sq='🟦',St='⭐',Mn='🌙';
+ var S=[T('Un motif qui se répète','Une frise est faite d’un motif qui se répète. Je cherche ce qui revient, toujours dans le même ordre.','<p class="big">Le motif : 🔴 🔵</p>'+FRZ([R,Bl,R,Bl,R,Bl]),['Après 🔴 🔵 🔴 🔵 🔴, il vient…',Bl,[R,'🟢']])];
+ S.push(C('Quelle image continue la frise ?',Bl,[R,'🟢'],'Oui : après le rouge, le bleu.','Le motif est rouge, bleu, rouge, bleu…',FRZ([R,Bl,R,Bl,R,'?'])));
+ S.push(C('Quelle image continue la frise ?',Ba,[Ap,'🍓'],'Oui : pomme, banane, pomme, banane…','Cherche ce qui revient.',FRZ([Ap,Ba,Ap,Ba,Ap,'?'])));
+ S.push(C('Quelle image continue la frise ?',Tr,[Sq,St],'Oui : le motif est 🔺 🔺 🟦.','Le motif a trois images.',FRZ([Tr,Tr,Sq,Tr,Tr,Sq,Tr,Tr,'?'])));
+ S.push(C('Quelle image continue la frise ?',Mn,[St,'☀️'],'Oui : étoile, lune, étoile, lune…','Cherche ce qui revient.',FRZ([St,Mn,St,Mn,St,'?'])));
+ S.push(C('Quelle image continue la frise ?','🌳',['🌸','🐶'],'Oui : fleur, fleur, arbre, fleur, fleur, arbre.','Le motif a trois images.',FRZ(['🌸','🌸','🌳','🌸','🌸','?'])));
+ S.push(C('Quel est le motif qui se répète ?',Tr+' '+Tr+' '+Sq,[Tr+' '+Sq,Sq+' '+Sq+' '+Tr],'Oui : 🔺 🔺 🟦.','Cherche le groupe qui revient.',FRZ([Tr,Tr,Sq,Tr,Tr,Sq])));
+ S.push(C('Quelle image se cache à la place du ? dans la frise ?','🟢',[R,Bl],'Oui : rouge, bleu, vert, rouge, bleu, vert.','Le motif a trois images.',FRZ([R,Bl,'🟢',R,Bl,'?'])));
+ S.push(B('Construis la frise : un rond rouge, un rond bleu, puis encore un rouge, un bleu.',[Bl,R,R,Bl],R+' '+Bl+' '+R+' '+Bl,'Oui : 🔴 🔵 🔴 🔵.','Rouge, bleu, rouge, bleu.'));
+ S.push(T('Les suites de nombres','Les nombres aussi suivent une règle. Dans 2, 4, 6, 8, on ajoute 2 à chaque fois.','<p class="big">2 → 4 → 6 → 8 → <b>10</b></p><p>On ajoute <b>2</b> chaque fois.</p>',['Dans 5, 10, 15, on ajoute…','5',['1','10']]));
+ [['2 – 4 – 6 – 8 – ?',10,'On ajoute 2.'],['5 – 10 – 15 – ?',20,'On ajoute 5.'],['10 – 20 – 30 – ?',40,'On ajoute 10.'],['1 – 3 – 5 – 7 – ?',9,'On ajoute 2.'],['3 – 6 – 9 – ?',12,'On ajoute 3.'],['20 – 18 – 16 – ?',14,'On enlève 2.'],['10 – 9 – 8 – ?',7,'On enlève 1.'],['50 – 40 – 30 – ?',20,'On enlève 10.']].forEach(function(q){S.push(N('Quel nombre vient ensuite ? '+q[0],q[1],q[2],'Oui : '+q[1]+'.','','Je continue la suite'))});
+ S.push(C('Quelle est la règle ? 4 – 8 – 12 – 16','On ajoute 4',['On ajoute 2','On enlève 4'],'Oui : on ajoute 4 à chaque fois.','Regarde l’écart entre deux nombres.'));
+ return S})(),MT);
+
+/* ---- Pensée algorithmique ---- */
+var G3=function(rob,star){var c={};if(star)c[star]='⭐';c[rob]='🤖';var h='<table style="margin:8px auto;border-collapse:collapse;font:800 1.4rem var(--display);text-align:center"><tr><td></td>';['A','B','C'].forEach(function(l){h+='<td style="padding:4px 14px;color:var(--soft)">'+l+'</td>'});h+='</tr>';[1,2,3].forEach(function(r){h+='<tr><td style="color:var(--soft);padding-right:6px">'+r+'</td>';['A','B','C'].forEach(function(l){h+='<td style="border:2px solid var(--line);width:50px;height:50px;font-size:1.6rem">'+(c[l+r]||'')+'</td>'});h+='</tr>'});return h+'</table>'};
+mod('cp-algo','Des consignes pas à pas','Suivre et donner des ordres dans l’ordre','🤖',(function(){
+ var S=[T('Des ordres dans l’ordre','Une suite d’ordres donnés dans le bon ordre s’appelle un programme. Si l’ordre change, le résultat change.','<p class="big">1. Je mets le dentifrice<br>2. Je me brosse les dents<br>3. Je me rince la bouche</p>',['Pour suivre un programme, je fais les ordres…','Dans l’ordre',['Au hasard','À l’envers']])];
+ S.push(B('Remets les ordres dans l’ordre pour te laver les mains.',['Je sèche mes mains.','J’ouvre le robinet.','Je mets du savon.'],'J’ouvre le robinet. Je mets du savon. Je sèche mes mains.','Oui : robinet, savon, séchage.','Commence par ouvrir le robinet.'));
+ S.push(B('Remets les ordres dans l’ordre pour t’habiller.',['Je mets mes chaussures.','Je mets mes chaussettes.'],'Je mets mes chaussettes. Je mets mes chaussures.','Oui : d’abord les chaussettes.','Les chaussettes viennent avant les chaussures.'));
+ S.push(T('Je donne des ordres à un robot','Un robot suit exactement mes ordres. ⬆️ monte, ⬇️ descend, ⬅️ va à gauche, ➡️ va à droite. Chaque flèche fait avancer d’une case.','<p class="big">⬆️ monte · ⬇️ descend<br>⬅️ gauche · ➡️ droite</p>'+G3('A1'),['⬇️ fait aller le robot…','Vers le bas',['Vers le haut','Vers la droite']]));
+ S.push(C('Le robot 🤖 part de A1. Ordres : ➡️ ➡️. Où arrive-t-il ?','En C1',['En B1','En A3'],'Oui : A1 → B1 → C1.','Une flèche = une case.',G3('A1')));
+ S.push(C('Le robot part de A1. Ordres : ⬇️ ⬇️. Où arrive-t-il ?','En A3',['En C1','En A2'],'Oui : A1 → A2 → A3.','Une flèche = une case.',G3('A1')));
+ S.push(C('Le robot part de B2. Ordres : ⬆️ ➡️. Où arrive-t-il ?','En C1',['En A1','En C3'],'Oui : B2 → B1 → C1.','Suis les flèches une par une.',G3('B2')));
+ S.push(C('Le robot part de C3. Ordres : ⬅️ ⬅️ ⬆️. Où arrive-t-il ?','En A2',['En A3','En B1'],'Oui : C3 → B3 → A3 → A2.','Suis les flèches une par une.',G3('C3')));
+ S.push(C('Quels ordres amènent le robot de A1 jusqu’à l’étoile ?','➡️ ⬇️',['⬇️ ⬇️','➡️ ➡️'],'Oui : A1 → B1 → B2.','Compte les cases à parcourir.',G3('A1','B2')));
+ S.push(C('Quels ordres amènent le robot de C1 jusqu’à l’étoile ?','⬅️ ⬅️',['⬅️ ⬇️','⬇️ ⬇️'],'Oui : C1 → B1 → A1.','Il doit aller vers la gauche.',G3('C1','A1')));
+ S.push(C('Quels ordres amènent le robot de A3 jusqu’à l’étoile ?','➡️ ➡️',['⬆️ ⬆️','⬇️ ➡️'],'Oui : A3 → B3 → C3.','Il doit aller vers la droite.',G3('A3','C3')));
+ S.push(T('Répéter des ordres','Quand un ordre revient, je peux dire combien de fois le répéter. « Répéter 2 fois ➡️ » veut dire ➡️ ➡️.','<p class="big">Répéter 2 fois ➡️ = ➡️ ➡️</p>',['Répéter 3 fois ⬇️, c’est…','⬇️ ⬇️ ⬇️',['⬇️ ⬇️','⬇️ ⬇️ ⬇️ ⬇️']]));
+ S.push(C('Le robot part de A1. Ordres : répéter 2 fois (➡️ ⬇️). Où arrive-t-il ?','En C3',['En B2','En C1'],'Oui : A1 → B1 → B2 → C2 → C3.','Fais ➡️ ⬇️, puis encore ➡️ ⬇️.',G3('A1')));
+ S.push(N('Le robot fait 2 pas, puis encore 2 pas, puis encore 2 pas. Combien de pas en tout ?',6,'2 + 2 + 2.','Oui : 6 pas.','','Je répète'));
+ S.push(C('Le robot doit aller de A1 à C1. Ses ordres sont ➡️ ⬇️ ➡️. Quelle est l’erreur ?','Le ⬇️ est de trop',['Il manque un ⬅️','Il faut commencer par ⬆️'],'Oui : sans ⬇️, il arrive en C1.','Cherche l’ordre en trop.',G3('A1','C1')));
+ return S})(),MT);
 
 /* ---- Bilan CP (20 points) ---- */
 var BIL=[
