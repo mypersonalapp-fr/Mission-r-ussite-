@@ -275,7 +275,7 @@ mod('cp-phr-ecr','J’écris une phrase','Qui ? Que fait-il ? Où ?','🧱',[
  B('Remets les mots dans l’ordre.',['au ballon','Sami','joue'],'Sami joue au ballon','Bravo : « Sami joue au ballon. »'),
  B('Remets les mots dans l’ordre.',['sur le banc','le chat','dort'],'le chat dort sur le banc','Bravo : « Le chat dort sur le banc. »'),
  B('Remets les mots dans l’ordre.',['une pomme','mange','Lina'],'Lina mange une pomme','Bravo : « Lina mange une pomme. »'),
- CR('Quelle phrase est bien écrite ?','Le chat dort sur le tapis.',['le chat dort sur le tapis','Le chat dort sur le tapis'],'Oui : majuscule au début et point à la fin.','Cherche la majuscule et le point.'),
+ CR('Quelle phrase est bien écrite ?','Le chat dort sur le tapis.',['Le Chat dort sur le tapis.','Le chat dort sur le tapis'],'Oui : majuscule au début et point à la fin.','Cherche la majuscule et le point.'),
  C('Quelle phrase a du sens ?','Sami mange une pomme.',['Pomme Sami le.','Mange pomme dort.'],'Oui, elle a du sens.','Une phrase dit qui fait quoi.')
 ]);
 
@@ -305,7 +305,7 @@ mod('cp-ecrit','J’écris une ou deux phrases','Le goûter, mon animal, la cart
 
 mod('cp-relire','Je relis et je corrige','Chercher et réparer','✅',[
  T('Ma liste de vérification','Je relis lentement. Je regarde la ligne, les espaces, la majuscule, le point et le sens.','<p class="big">✔ J’ai écrit sur la ligne<br>✔ Mes lettres se lisent<br>✔ Il y a des espaces<br>✔ Majuscule au début<br>✔ Point à la fin<br>✔ La phrase a du sens</p>',['Pour corriger, je…','Reprends seulement ce qui gêne',['Gomme toute la phrase','Ne relis pas']]),
- CR('Quelle phrase est bien écrite ?','Lina lit un livre.',['lina lit un livre.','Lina lit un livre'],'Oui, majuscule et point.','Majuscule au début, point à la fin.'),
+ CR('Quelle phrase est bien écrite ?','Lina lit un livre.',['Lina Lit un livre.','Lina lit un livre'],'Oui, majuscule et point.','Majuscule au début, point à la fin.'),
  CR('Quelle phrase est bien écrite ?','Le chat boit du lait.',['Le chatboit du lait.','Le chat boit du lait'],'Oui, bien séparée et bien terminée.','Regarde les espaces et le point.'),
  TP('Touche le mot qui est mal écrit.',['Sami','joue','au','balon'],3,'Oui : « ballon » s’écrit avec deux l.','Relis chaque mot lentement.'),
  TP('Touche le mot qui est mal écrit.',['Lina','mange','une','pome'],3,'Oui : « pomme » s’écrit avec deux m.','Relis chaque mot lentement.'),
@@ -386,15 +386,15 @@ mod('cp-maj','Majuscules et minuscules','Les grandes et les petites lettres','�
  MA('Relie chaque majuscule à sa minuscule.',[['A','a'],['D','d'],['R','r']]),
  SO('Majuscule ou minuscule ?',[['maj','Majuscule'],['min','Minuscule']],[['F','maj'],['h','min'],['Q','maj'],['a','min'],['M','maj'],['t','min'],['B','maj'],['e','min']]),
  T('Une majuscule au début de la phrase','Une phrase commence toujours par une majuscule et finit par un point.','<p class="big"><b>L</b>e chat dort.</p><p>La première lettre est grande. À la fin, il y a un point.</p>',['Une phrase commence par…','Une majuscule',['Un point','Une minuscule']]),
- CR('Quelle phrase commence bien ?','Rico joue au ballon.',['rico joue au ballon.','rICO joue au ballon.'],'Oui : la majuscule au début.','Regarde la première lettre.'),
- CR('Quelle phrase est bien écrite ?','Lina lit un livre.',['lina lit un livre.','Lina lit un livre'],'Oui : majuscule au début et point à la fin.','Cherche la majuscule et le point.'),
+ CR('Quel mot commence bien la phrase « … chat dort sur le tapis. » ?','Le',['le','lE'],'Oui : une phrase commence par une majuscule.','Regarde la première lettre.'),
+ CR('Quelle phrase est bien écrite ?','Théo mange une pomme.',['Théo Mange une pomme.','Théo mange une pomme'],'Oui : majuscule au début, point à la fin, pas de majuscule au milieu.','Cherche le point et les majuscules.'),
  T('Une majuscule aux prénoms et aux noms de lieux','Les prénoms et les noms de villes prennent une majuscule.','<p class="big">Lina · Sami · Paris · Lyon</p><p>Un prénom, un nom de ville : <b>majuscule</b>.</p>',['Mon prénom commence par…','Une majuscule',['Une minuscule','Un point']]),
  CR('Quel prénom est bien écrit ?','Sami',['sami','sAmi'],'Oui : Sami.','Un prénom commence par une majuscule.'),
  CR('Quel nom de ville est bien écrit ?','Lyon',['lyon','lYon'],'Oui : Lyon.','Une ville prend une majuscule.'),
  CR('Dans « Inès a un chat. », quelle lettre est une majuscule ?','I',['n','c'],'Oui : le I de Inès.','C’est la première lettre de la phrase.'),
  CR('Dans « Le Chat dort. », quelle est l’erreur ?','« Chat » n’a pas besoin de majuscule',['« Le » doit être en minuscule','Il n’y a pas d’erreur'],'Oui : « chat » s’écrit avec une minuscule.','Un nom ordinaire s’écrit avec une minuscule.'),
  B('Remets les mots dans l’ordre.',['livre.','Lina','un','lit'],'Lina lit un livre.','Oui : « Lina lit un livre. »'),
- B('Remets les mots dans l’ordre.',['dort.','Le','sur','tapis','chat','le'],'Le chat dort sur le tapis.','Oui : « Le chat dort sur le tapis. »')
+ B('Remets les mots dans l’ordre.',['dort','Le','sur','tapis.','chat','le'],'Le chat dort sur le tapis.','Oui : « Le chat dort sur le tapis. »')
 ]);
 
 /* =============== MATHS CP =============== */
@@ -753,7 +753,7 @@ var BIL=[
  {d:'Lecture',k:'Déchiffrer un mot',q:'Quel mot est écrit ? « sa – la – de »',o:['salade','malade','lavabo'],a:0,h:'Lis les trois syllabes.'},
  {d:'Lecture',k:'Mots fréquents',q:'Le lapin est ___ la cabane.',o:['dans','et','est'],a:0,h:'Où est le lapin ?'},
  {d:'Lecture',k:'Comprendre une phrase',q:'« Le pirate a une carte et un bateau. » Que possède le pirate ?',o:['Une carte et un bateau','Un chat','Un vélo'],a:0,h:'Relis la phrase.'},
- {d:'Écriture',k:'Majuscule et point',q:'Quelle phrase est bien écrite ?',o:['Le chat dort sur le tapis.','le chat dort sur le tapis','Le chat dort sur le tapis'],a:0,h:'Majuscule et point.'},
+ {d:'Écriture',k:'Majuscule et point',q:'Quelle phrase est bien écrite ?',o:['Le chat dort sur le tapis.','Le Chat dort sur le tapis.','Le chat dort sur le tapis'],a:0,h:'Majuscule et point.'},
  {d:'Écriture',k:'Phrase qui a du sens',q:'Quelle phrase a du sens ?',o:['Sami mange une pomme.','Pomme Sami le.','Mange dort pomme.'],a:0,h:'Qui fait quoi ?'},
  {d:'Langue',k:'Contraires',q:'Le contraire de « grand » ?',o:['petit','gros','haut'],a:0,h:'Un mot qui veut dire l’inverse.'},
  {d:'Langue',k:'Reconnaître le verbe',q:'Quel est le verbe ? « Lina lit un livre. »',o:['lit','Lina','livre'],a:0,h:'Que fait Lina ?'},
