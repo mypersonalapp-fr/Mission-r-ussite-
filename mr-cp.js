@@ -397,6 +397,139 @@ mod('cp-maj','Majuscules et minuscules','Les grandes et les petites lettres','�
  B('Remets les mots dans l’ordre.',['dort','Le','sur','tapis.','chat','le'],'Le chat dort sur le tapis.','Oui : « Le chat dort sur le tapis. »')
 ]);
 
+/* ===== Sons complexes (un par un) ===== */
+var SND=function(id,name,sub,badge,L,sents){
+ var labs=L.map(function(x){return x.lab});
+ var oth=function(i){var o=[];labs.forEach(function(l,k){if(k!==i)o.push(l)});return o.slice(0,2)};
+ var S=[];
+ var qw=function(w,i){return C('Quel son entends-tu dans ce mot ?',L[i].lab,oth(i),'Oui : « '+w+' », c’est le son '+L[i].lab+'.','Écoute encore le mot.',BIG(w)+LS(w))};
+ L.forEach(function(x,i){
+  S.push(T('Le son « '+x.lab+' »','Dans '+x.ex.slice(0,3).join(', ')+', j’entends le son '+x.lab+'. '+x.note,BIG(x.lab)+'<p>'+x.note+'</p><p>'+x.ex.map(VC).join('')+'</p>',['Dans « '+x.ex[0]+' », j’entends le son…',x.lab,oth(i)]));
+  x.q.slice(0,3).forEach(function(w){S.push(qw(w,i))});
+ });
+ var mix=[];L.forEach(function(x,i){x.q.slice(3,5).forEach(function(w){mix.push([w,i])})});
+ shufS(mix).forEach(function(m){S.push(qw(m[0],m[1]))});
+ var L3=L.slice(0,3);
+ S.push(SO('Range chaque mot dans le bon son.',L3.map(function(x){return [x.lab,x.lab]}),shufS([].concat.apply([],L3.map(function(x){return [[x.q[5],x.lab,'Écoute le son du mot.'],[x.q[0],x.lab,'Écoute le son du mot.']]})))));
+ L.forEach(function(x,i){
+  var good=x.q.slice(0,3),bad=[];L.forEach(function(y,k){if(k!==i)bad.push(y.q[k%3])});
+  var all=shufS(good.concat(bad));var idx=[];all.forEach(function(w,k){if(good.indexOf(w)>=0)idx.push(k)});
+  S.push(TM('Touche les mots où tu entends le son « '+x.lab+' ».',all,idx,'Oui : '+good.join(', ')+'.'));
+ });
+ sents.forEach(function(s){S.push(B('Lis et remets les mots dans l’ordre.',s[0],s[1],'Oui : « '+s[1]+' »'))});
+ return mod(id,name,sub,badge,S,MT);
+};
+SND('cp-s-nas','Les sons on, an, in','ballon, maman, lapin','🎶',[
+ {lab:'on',note:'Il s’écrit « on » ou « om ».',ex:['ballon','maison','pont','citron'],q:['ballon','maison','pont','mouton','citron','savon']},
+ {lab:'an',note:'Il s’écrit « an » ou « en ».',ex:['maman','enfant','dent','vent'],q:['maman','enfant','dent','vent','tente','banc']},
+ {lab:'in',note:'Il s’écrit « in », « ain » ou « ein ».',ex:['lapin','pain','main','jardin'],q:['lapin','pain','main','jardin','sapin','train']}
+],[[['Maman','mange','un','melon.'],'Maman mange un melon.'],[['Le','lapin','mange','du','pain.'],'Le lapin mange du pain.'],[['Mon','enfant','a','un','ballon.'],'Mon enfant a un ballon.']]);
+SND('cp-s-voy','Les sons ou, oi, au, ai','chou, moi, gâteau, lait','🎵',[
+ {lab:'ou',note:'Il s’écrit « ou ».',ex:['chou','loup','souris','bouche'],q:['chou','loup','souris','bouche','rouge','doudou']},
+ {lab:'oi',note:'Il s’écrit « oi » et on entend « oua ».',ex:['moi','roi','voiture','étoile'],q:['moi','roi','voiture','étoile','poisson','poire']},
+ {lab:'eau',note:'Il s’écrit « eau », « au » ou « o ». On entend « o ».',ex:['bateau','gâteau','auto','jaune'],q:['bateau','gâteau','auto','jaune','chapeau','chaud']},
+ {lab:'ai',note:'Il s’écrit « ai » ou « ei ». On entend « è ».',ex:['lait','balai','vrai','mai'],q:['lait','balai','vrai','mai','chaise','fraise']}
+],[[['Le','loup','a','une','bouche.'],'Le loup a une bouche.'],[['Moi,','je','mange','un','gâteau.'],'Moi, je mange un gâteau.'],[['Le','roi','boit','du','lait.'],'Le roi boit du lait.']]);
+SND('cp-s-cons','Les sons ch, gn, ill, ph','chat, montagne, fille, photo','🎼',[
+ {lab:'ch',note:'Il s’écrit « ch ». On entend « ch » comme dans « chut ».',ex:['chat','chien','vache','cheval'],q:['chat','chien','vache','cheval','machine','niche']},
+ {lab:'gn',note:'Il s’écrit « gn ». On entend « gn » comme dans « agneau ».',ex:['montagne','oignon','ligne','agneau'],q:['montagne','oignon','ligne','agneau','champignon','signe']},
+ {lab:'ill',note:'Il s’écrit « ill ». On entend « ye » comme dans « fille ».',ex:['fille','famille','abeille','grenouille'],q:['fille','famille','abeille','grenouille','coquille','bille']},
+ {lab:'ph',note:'Il s’écrit « ph ». On entend « f » comme dans « photo ».',ex:['photo','phare','éléphant','dauphin'],q:['photo','phare','éléphant','dauphin','téléphone','phoque']}
+],[[['Le','chat','mange','un','champignon.'],'Le chat mange un champignon.'],[['La','fille','prend','une','photo.'],'La fille prend une photo.'],[['L’abeille','vole','vers','la','montagne.'],'L’abeille vole vers la montagne.']]);
+
+/* ===== Dictée ===== */
+var DW=function(w,bad){return C('Écoute le mot, puis choisis comment il s’écrit.',w,bad,'Oui : « '+w+' ».','Écoute encore et regarde bien chaque lettre.',LS(w))};
+var DL=function(w){return B('Écoute le mot, puis écris-le avec les lettres. '+LS(w),w.split(''),w,'Oui : « '+w+' ».','Écoute encore le mot. Recommence.','')};
+mod('cp-dictee','Dictée de mots et de phrases','J’écoute, j’écris, je relis','🎙️',[
+ T('Comment faire une dictée','Une dictée, c’est écrire ce que j’entends. J’écoute, je répète dans ma tête, j’écris, puis je relis.','<p class="big">1. J’écoute<br>2. Je répète dans ma tête<br>3. J’écris<br>4. Je relis</p>',['À la fin, je…','Relis',['Jette ma feuille','Pose mon stylo']]),
+ DW('poisson',['poison','poisonn']),
+ DW('école',['ecole','écolle']),
+ DW('lapin',['lapain','lapein']),
+ DW('maison',['maisson','mèzon']),
+ DW('gâteau',['gato','gâteaux']),
+ DW('jardin',['jardain','jardan']),
+ DL('chat'),DL('lune'),DL('pomme'),DL('vélo'),DL('livre'),
+ T('Dictée de phrases','Pour une phrase, j’écoute toute la phrase, puis je l’écris mot par mot. Je n’oublie pas la majuscule au début et le point à la fin. Par exemple : Le chat dort.','<p class="big">Le chat dort.</p><p>Majuscule au début, point à la fin.</p>',['Une phrase se termine par…','Un point',['Une lettre','Un espace']]),
+ B('Écoute la phrase puis reconstruis-la. '+LS('Le chat dort sur le tapis.'),['dort','Le','sur','tapis.','chat','le'],'Le chat dort sur le tapis.','Oui : « Le chat dort sur le tapis. »'),
+ B('Écoute la phrase puis reconstruis-la. '+LS('Lina mange une pomme.'),['pomme.','Lina','une','mange'],'Lina mange une pomme.','Oui : « Lina mange une pomme. »'),
+ B('Écoute la phrase puis reconstruis-la. '+LS('Sami a un ballon rouge.'),['rouge.','a','Sami','ballon','un'],'Sami a un ballon rouge.','Oui : « Sami a un ballon rouge. »'),
+ B('Écoute la phrase puis reconstruis-la. '+LS('Papa lit un livre.'),['livre.','lit','Papa','un'],'Papa lit un livre.','Oui : « Papa lit un livre. »'),
+ C('Écoute la phrase, puis choisis la bonne écriture.','La souris mange du fromage.',['La souris mange du fromage','La souris Mange du fromage.'],'Oui : majuscule, mots bien écrits, point final.','Regarde la fin et les majuscules.',LS('La souris mange du fromage.')),
+ C('Écoute la phrase, puis choisis la bonne écriture.','Mon frère a un gros chien.',['Mon frère a un gros chien','Mon Frère a un gros chien.'],'Oui : majuscule au début, point à la fin.','Regarde la fin et les majuscules.',LS('Mon frère a un gros chien.'))
+],MT);
+
+/* ===== Poésie et comptines ===== */
+var CMP=function(lines){return '<p class="big" style="font-size:1.25rem;line-height:1.7;text-align:center">'+lines.join('<br>')+'</p>'};
+var CP1=['Pomme de reinette et pomme d’api,','tapis, tapis rouge.','Pomme de reinette et pomme d’api,','tapis, tapis gris.'];
+var CP2=['Au clair de la lune,','Mon ami Pierrot,','Prête-moi ta plume','Pour écrire un mot.'];
+mod('cp-poesie','Comptines et poésie','Écouter, apprendre, réciter','🎤',[
+ T('Je choisis une comptine','Une comptine est un petit texte qu’on apprend par cœur et qu’on dit à voix haute. Écoute la première. '+CP1.join(' '),'<p>Un petit texte à apprendre par cœur et à dire à voix haute.</p>'+CMP(CP1),['Une comptine, c’est…','Un petit texte à apprendre',['Une recette','Un calcul']]),
+ C('Quel mot manque ? « Pomme de reinette et pomme d’… »','api',['ami','âne'],'Oui : pomme d’api.','Écoute le début de la comptine.',CMP(CP1)),
+ C('Quel mot manque ? « tapis, tapis … »','rouge',['rond','roux'],'Oui : tapis rouge.','Regarde le deuxième vers.',CMP(CP1)),
+ B('Remets les vers dans l’ordre.',['Pomme de reinette et pomme d’api,','tapis, tapis rouge.'],CP1[0]+' '+CP1[1],'Oui : « '+CP1[0]+' '+CP1[1]+' »','Le premier vers parle de la pomme.'),
+ T('Pour apprendre par cœur','Je ne retiens pas tout d’un coup. J’apprends un vers à la fois, puis j’ajoute le suivant.','<p class="big">1. J’écoute<br>2. Je répète un vers<br>3. Je cache le texte<br>4. Je dis tout en entier</p>',['Pour apprendre, je commence par…','Un vers',['Tout le texte','La fin']]),
+ T('Ma deuxième comptine','Écoute Au clair de la lune, puis répète chaque vers après moi. '+CP2.join(' '),'<p>Répète chaque vers après avoir écouté.</p>'+CMP(CP2),['« Au clair de la… »','lune',['plume','nuit']]),
+ C('Quel mot manque ? « Prête-moi ta … »','plume',['lune','mot'],'Oui : prête-moi ta plume.','Écoute le troisième vers.',CMP(CP2)),
+ C('Que veut écrire Pierrot ?','Un mot',['Une lettre','Un livre'],'Oui : pour écrire un mot.','Regarde le dernier vers.',CMP(CP2)),
+ B('Remets les vers dans l’ordre.',['Prête-moi ta plume','Au clair de la lune,'],CP2[0]+' '+CP2[2],'Oui : d’abord la lune, puis la plume.','La comptine commence par la lune.'),
+ T('Je récite avec ma voix','Pour bien réciter, je parle lentement, assez fort, et je regarde la personne qui m’écoute.','<p class="big">🗣️ Lentement<br>📢 Assez fort<br>👀 Je regarde</p><p>Choisis une comptine et récite-la à un adulte.</p>',['Pour bien réciter, je parle…','Lentement et assez fort',['Très vite','Tout bas']])
+],MT);
+
+/* ===== Ponctuation ===== */
+var PQ=function(s,p){var o=['.','?','!'];return C('Quel signe termine la phrase ?',p,o.filter(function(x){return x!==p}),'Oui : « '+s+' '+p+' ».','Est-ce que ça raconte, ça demande ou ça exclame ?',BIG(s+' …'))};
+mod('cp-ponct','La ponctuation','Point, point d’interrogation, point d’exclamation','❓',[
+ T('Le point','Le point termine une phrase qui raconte quelque chose. Par exemple : Lina lit un livre.','<p class="big">Lina lit un livre<b>.</b></p>',['Une phrase qui raconte se termine par…','Un point',['Un point d’interrogation','Une virgule']]),
+ T('Le point d’interrogation','Le point d’interrogation termine une question. On pose une question avec « où », « qui », « quand », « pourquoi ». Par exemple : Où est mon sac ?','<p class="big">Où est mon sac <b>?</b></p>',['Une question se termine par…','Un point d’interrogation',['Un point','Un point d’exclamation']]),
+ T('Le point d’exclamation','Le point d’exclamation montre la surprise, la joie, la peur, ou un ordre. Par exemple : Quel beau dessin !','<p class="big">Quel beau dessin <b>!</b><br>Attention <b>!</b></p>',['Pour montrer la surprise, j’utilise…','Un point d’exclamation',['Un point','Une virgule']]),
+ PQ('Sami joue au ballon','.'),PQ('Où est mon chat','?'),PQ('Quel beau dessin','!'),PQ('Tu aimes les pommes','?'),PQ('Maman prépare le dîner','.'),PQ('Au secours','!'),PQ('Pourquoi tu pleures','?'),PQ('Le chien dort','.'),
+ MA('Relie chaque signe à son rôle.',[['?','Une question'],['!','Une surprise'],['.','Une phrase qui raconte']]),
+ TM('Touche les phrases qui sont des questions.',['Tu viens ?','Je mange.','Où vas-tu ?','Quel bruit !','Il dort.'],[0,2],'Oui : « Tu viens ? » et « Où vas-tu ? ».'),
+ B('Remets les mots dans l’ordre.',['est','Où','chat','mon','?'],'Où est mon chat ?','Oui : « Où est mon chat ? »'),
+ B('Remets les mots dans l’ordre.',['beau','Quel','jour','!'],'Quel beau jour !','Oui : « Quel beau jour ! »'),
+ C('Quelle phrase est bien écrite ?','Où est ton sac ?',['Où est ton sac.','Où est ton sac !'],'Oui : une question finit par ?','Une question finit par un point d’interrogation.')
+],MT);
+
+/* ===== Vocabulaire par thèmes ===== */
+var VQ=function(pic,good,bad){return C('Comment s’appelle cette image ?',good,bad,'Oui : '+good+'.','Regarde bien l’image.','<p class="big" style="font-size:3rem;text-align:center">'+pic+'</p>')};
+mod('cp-vocab','Les mots par thèmes','Le corps, les animaux, les vêtements, les saisons','🗂️',[
+ T('Le corps','Je connais les parties de mon corps : la tête, les bras, les jambes, les mains, les pieds.','<p>'+['la tête','les bras','les jambes','les mains','les pieds'].map(VC).join('')+'</p>',['Avec quoi je marche ?','Mes jambes',['Mes oreilles','Mes yeux']]),
+ C('Avec quoi j’écoute ?','Mes oreilles',['Mes yeux','Mes mains'],'Oui : mes oreilles.','Quelle partie entend les sons ?'),
+ C('Avec quoi je regarde ?','Mes yeux',['Mes pieds','Mes oreilles'],'Oui : mes yeux.','Quelle partie voit ?'),
+ C('Avec quoi je sens une fleur ?','Mon nez',['Ma bouche','Mon genou'],'Oui : mon nez.','Quelle partie sent les odeurs ?'),
+ C('Avec quoi j’écris ?','Ma main',['Mon pied','Mon dos'],'Oui : ma main.','Quelle partie tient le stylo ?'),
+ T('Les animaux','Je connais des animaux de la ferme : le chien, le chat, le lapin, le cheval, la vache, le cochon.','<p>'+['le chien','le chat','le lapin','le cheval','la vache','le cochon'].map(VC).join('')+'</p>',['La vache est un…','Animal de la ferme',['Vêtement','Fruit']]),
+ VQ('🐶','Le chien',['Le chat','Le lapin']),VQ('🐴','Le cheval',['La vache','Le cochon']),VQ('🐮','La vache',['Le cheval','Le chat']),VQ('🐷','Le cochon',['Le chien','Le lapin']),
+ T('Les vêtements','Je m’habille avec un pantalon, un manteau, une robe, des chaussettes, des gants, une casquette.','<p>'+['un pantalon','un manteau','une robe','des chaussettes','des gants','une casquette'].map(VC).join('')+'</p>',['Pour mes mains, je mets…','Des gants',['Des chaussettes','Une casquette']]),
+ VQ('🧦','Des chaussettes',['Des gants','Une casquette']),VQ('🧥','Un manteau',['Une robe','Un pantalon']),VQ('👗','Une robe',['Un manteau','Des gants']),VQ('🧢','Une casquette',['Des chaussettes','Un pantalon']),
+ T('Les saisons','L’année a quatre saisons : le printemps, l’été, l’automne et l’hiver.','<p>'+['le printemps','l’été','l’automne','l’hiver'].map(VC).join('')+'</p>',['Il y a… saisons dans une année.','4',['3','12']]),
+ C('En quelle saison il neige ?','En hiver',['En été','Au printemps'],'Oui : la neige arrive en hiver.','Quand fait-il très froid ?','<p class="big" style="font-size:3rem;text-align:center">❄️</p>'),
+ C('En quelle saison les fleurs sortent ?','Au printemps',['En hiver','En automne'],'Oui : au printemps.','Les fleurs reviennent quand il fait plus doux.','<p class="big" style="font-size:3rem;text-align:center">🌸</p>'),
+ C('En quelle saison on va à la plage ?','En été',['En hiver','En automne'],'Oui : en été.','Il fait très chaud.','<p class="big" style="font-size:3rem;text-align:center">☀️</p>'),
+ C('En quelle saison les feuilles tombent ?','En automne',['Au printemps','En été'],'Oui : en automne.','Les feuilles deviennent rousses.','<p class="big" style="font-size:3rem;text-align:center">🍂</p>'),
+ MA('Relie chaque image à son mot.',[['🐶','chien'],['🧦','chaussettes'],['❄️','hiver']]),
+ SO('Range chaque mot dans le bon groupe.',[['a','Animaux'],['v','Vêtements'],['s','Saisons']],[['lapin','a'],['manteau','v'],['été','s'],['vache','a'],['robe','v'],['hiver','s'],['cheval','a'],['gants','v'],['printemps','s']]),
+ C('Quel mot n’est pas un animal ?','Le manteau',['Le chien','Le cheval'],'Oui : le manteau est un vêtement.','Cherche ce qui se porte.')
+],MT);
+
+/* ===== Raconter et reformuler ===== */
+var ST2='Samedi, Sami part en pique-nique avec sa grand-mère. Dans le panier, il y a du pain, du fromage et des fraises. Au bord de la rivière, une fourmi marche sur la nappe. Sami la regarde, puis il lui donne une miette de pain. Le soir, il raconte sa journée à papa.';
+mod('cp-oral','Je raconte et je reformule','Dire ce qui s’est passé avec mes mots','🗣️',[
+ T('Le pique-nique de Sami',ST2,'<p>Écoute l’histoire, puis lis-la.</p><p>'+ST2.split('. ').join('.</p><p>')+'</p>'),
+ C('Avec qui Sami part-il ?','Sa grand-mère',['Son père','Son maître'],'Oui : avec sa grand-mère.','Relis le début.'),
+ C('Qu’y a-t-il dans le panier ?','Du pain, du fromage et des fraises',['Du gâteau et du lait','Des pommes et des noix'],'Oui : pain, fromage et fraises.','Relis la deuxième phrase.'),
+ C('Où mangent-ils ?','Au bord de la rivière',['Dans un jardin','À l’école'],'Oui : au bord de la rivière.','Relis la troisième phrase.'),
+ C('Quel animal Sami voit-il ?','Une fourmi',['Un chat','Une abeille'],'Oui : une fourmi.','Il marche sur la nappe.'),
+ C('Que donne Sami à la fourmi ?','Une miette de pain',['Une fraise','Un bout de fromage'],'Oui : une miette de pain.','Relis l’avant-dernière phrase.'),
+ B('Remets l’histoire dans l’ordre.',['Sami donne une miette à la fourmi.','Sami part avec sa grand-mère.','Le soir, Sami raconte sa journée.'],'Sami part avec sa grand-mère. Sami donne une miette à la fourmi. Le soir, Sami raconte sa journée.','Oui : départ, fourmi, retour.','Pense au début, au milieu et à la fin.'),
+ T('Reformuler','Reformuler, c’est dire la même chose avec d’autres mots. « Sami rentre chez lui » veut dire « Sami revient à la maison ».','<p class="big">Sami rentre chez lui.<br>= Sami revient à la maison.</p>',['Reformuler, c’est…','Dire pareil avec d’autres mots',['Répéter exactement','Dire le contraire']]),
+ C('Quelle phrase dit la même chose que « Sami regarde la fourmi » ?','Sami observe la fourmi.',['Sami écrase la fourmi.','Sami mange la fourmi.'],'Oui : regarder, c’est observer.','Cherche la phrase qui garde le même sens.'),
+ C('Quelle phrase dit la même chose que « Maman est contente » ?','Maman est joyeuse.',['Maman est fâchée.','Maman est fatiguée.'],'Oui : contente, joyeuse.','Cherche un mot qui veut dire pareil.'),
+ C('Quelle phrase dit la même chose que « Le chien court vite » ?','Le chien se dépêche.',['Le chien dort.','Le chien marche lentement.'],'Oui : courir vite, se dépêcher.','Cherche la phrase qui garde le même sens.'),
+ C('Que fait Sami ? Quelle réponse est une phrase complète ?','Sami donne une miette à la fourmi.',['Une miette.','La fourmi.'],'Oui : une phrase complète a un qui et un que fait-il.','Une phrase complète dit qui et ce qu’il fait.'),
+ T('Pour raconter à voix haute','Pour bien raconter : je dis qui, où et quand. J’utilise « d’abord », « ensuite », « enfin ». Je parle assez fort.','<p class="big">Qui ? Où ? Quand ?<br>D’abord… Ensuite… Enfin…</p>',['Pour raconter dans l’ordre, je dis…','D’abord, ensuite, enfin',['Hier, hier, hier','Non, non, non']]),
+ T('À toi de raconter','Raconte à un adulte l’histoire de Sami avec tes mots. Puis dis-lui ce que tu as préféré.','<p class="big">🗣️ Raconte l’histoire<br>avec tes mots</p><p>Qui ? Où ? Qu’est-ce qui se passe ?</p>')
+],MT);
+
 /* =============== MATHS CP =============== */
 var DZ=function(d,u){var h='<div style="background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px 12px;margin:6px 0;text-align:center">';for(var i=0;i<d;i++)h+='<span style="display:inline-block;border:2px solid #2459e6;background:#dbe7ff;border-radius:10px;padding:2px 6px;margin:3px;font-weight:800">1 dizaine<br><span style="font-size:.9rem">🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵</span></span>';if(u){h+='<span style="display:inline-block;margin:3px;font-size:1.3rem">'+new Array(u+1).join('🔴')+'</span>'}return h+'</div>'};
 var DOTS=function(n,e){return '<div style="font-size:1.5rem;line-height:1.3;text-align:center">'+new Array(n+1).join(e||'🔴')+'</div>'};

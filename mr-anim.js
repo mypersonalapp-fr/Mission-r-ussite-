@@ -132,7 +132,7 @@
   };
   var tickDom=function(muts){
     try{
-      var ms=document.querySelectorAll('.hmap:not([data-mr]),.hmapL:not([data-mr]),.hmapW:not([data-mr])');for(var z=0;z<ms.length;z++)decorate(ms[z]);twinkle();gameAnim();var rb=document.getElementById('rst');if(rb&&!document.querySelector('.mr-ver')&&document.querySelector('.hmap')){var vv=document.createElement('p');vv.className='mr-ver';vv.textContent='Version 77';rb.parentNode.insertBefore(vv,rb.nextSibling);}
+      var ms=document.querySelectorAll('.hmap:not([data-mr]),.hmapL:not([data-mr]),.hmapW:not([data-mr])');for(var z=0;z<ms.length;z++)decorate(ms[z]);twinkle();gameAnim();var rb=document.getElementById('rst');if(rb&&!document.querySelector('.mr-ver')&&document.querySelector('.hmap')){var vv=document.createElement('p');vv.className='mr-ver';vv.textContent='Version 78';rb.parentNode.insertBefore(vv,rb.nextSibling);}
       for(var i=0;i<muts.length;i++){var a=muts[i].addedNodes;for(var k=0;k<a.length;k++)scan(a[k]);}
     }catch(e){}
   };
