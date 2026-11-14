@@ -381,12 +381,49 @@ mod('cp-alpha','L’alphabet','Les lettres dans l’ordre','🔤',[
  B('Range les mots dans l’ordre alphabétique.',['tapis','chat','vélo','lune'],'chat lune tapis vélo','Oui : C, L, T, V.')
 ]);
 
+mod('cp-maj','Majuscules et minuscules','Les grandes et les petites lettres','🔠',[
+ T('Deux sortes de lettres','Chaque lettre existe en majuscule, la grande, et en minuscule, la petite.','<p class="big">A a · B b · D d · G g · R r</p><p>La <b>majuscule</b> est la grande lettre.<br>La <b>minuscule</b> est la petite lettre.</p>',['La grande lettre, c’est…','La majuscule',['La minuscule','Le point']]),
+ MA('Relie chaque majuscule à sa minuscule.',[['A','a'],['D','d'],['R','r']]),
+ SO('Majuscule ou minuscule ?',[['maj','Majuscule'],['min','Minuscule']],[['F','maj'],['h','min'],['Q','maj'],['a','min'],['M','maj'],['t','min'],['B','maj'],['e','min']]),
+ T('Une majuscule au début de la phrase','Une phrase commence toujours par une majuscule et finit par un point.','<p class="big"><b>L</b>e chat dort.</p><p>La première lettre est grande. À la fin, il y a un point.</p>',['Une phrase commence par…','Une majuscule',['Un point','Une minuscule']]),
+ CR('Quelle phrase commence bien ?','Rico joue au ballon.',['rico joue au ballon.','rICO joue au ballon.'],'Oui : la majuscule au début.','Regarde la première lettre.'),
+ CR('Quelle phrase est bien écrite ?','Lina lit un livre.',['lina lit un livre.','Lina lit un livre'],'Oui : majuscule au début et point à la fin.','Cherche la majuscule et le point.'),
+ T('Une majuscule aux prénoms et aux noms de lieux','Les prénoms et les noms de villes prennent une majuscule.','<p class="big">Lina · Sami · Paris · Lyon</p><p>Un prénom, un nom de ville : <b>majuscule</b>.</p>',['Mon prénom commence par…','Une majuscule',['Une minuscule','Un point']]),
+ CR('Quel prénom est bien écrit ?','Sami',['sami','sAmi'],'Oui : Sami.','Un prénom commence par une majuscule.'),
+ CR('Quel nom de ville est bien écrit ?','Lyon',['lyon','lYon'],'Oui : Lyon.','Une ville prend une majuscule.'),
+ CR('Dans « Inès a un chat. », quelle lettre est une majuscule ?','I',['n','c'],'Oui : le I de Inès.','C’est la première lettre de la phrase.'),
+ CR('Dans « Le Chat dort. », quelle est l’erreur ?','« Chat » n’a pas besoin de majuscule',['« Le » doit être en minuscule','Il n’y a pas d’erreur'],'Oui : « chat » s’écrit avec une minuscule.','Un nom ordinaire s’écrit avec une minuscule.'),
+ B('Remets les mots dans l’ordre.',['livre.','Lina','un','lit'],'Lina lit un livre.','Oui : « Lina lit un livre. »'),
+ B('Remets les mots dans l’ordre.',['dort.','Le','sur','tapis','chat','le'],'Le chat dort sur le tapis.','Oui : « Le chat dort sur le tapis. »')
+]);
+
 /* =============== MATHS CP =============== */
 var DZ=function(d,u){var h='<div style="background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px 12px;margin:6px 0;text-align:center">';for(var i=0;i<d;i++)h+='<span style="display:inline-block;border:2px solid #2459e6;background:#dbe7ff;border-radius:10px;padding:2px 6px;margin:3px;font-weight:800">1 dizaine<br><span style="font-size:.9rem">🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵</span></span>';if(u){h+='<span style="display:inline-block;margin:3px;font-size:1.3rem">'+new Array(u+1).join('🔴')+'</span>'}return h+'</div>'};
 var DOTS=function(n,e){return '<div style="font-size:1.5rem;line-height:1.3;text-align:center">'+new Array(n+1).join(e||'🔴')+'</div>'};
 var PA=function(a,b,op){var x=String(a),y=String(b),w=Math.max(x.length,y.length),pd=function(t,n){while(t.length<n)t=' '+t;return t};return '<pre style="display:inline-block;margin:6px auto;font:800 2.2rem/1.15 \'Courier New\',monospace;text-align:right;background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 18px">  '+pd(x,w)+'\n'+(op||'+')+' '+pd(y,w)+'\n'+new Array(w+3).join('─')+'</pre>'};
 var ri=function(a,b){return a+Math.floor(rnd()*(b-a+1))};
 var pick=function(a,n){return shufS(a).slice(0,n)};
+
+mod('cp-n20','Les nombres jusqu’à 20','Compter, lire et construire pas à pas','🌱',(function(){
+ var ROWS=function(n,e){e=e||'🔴';var h='<div style="text-align:center;font-size:1.5rem;line-height:1.35;margin:6px 0">';h+=new Array(Math.min(n,10)+1).join(e);if(n>10)h+='<br>'+new Array(n-10+1).join(e);return h+'</div>'};
+ var S=[T('Je compte jusqu’à 10','Un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix.','<p class="big">1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10</p>'+ROWS(10),['Après 9, il y a…','10',['8','11']]),
+  T('De 11 à 16','Après dix, je continue : onze, douze, treize, quatorze, quinze, seize. Treize, c’est dix et trois.','<p class="big">11 onze · 12 douze · 13 treize<br>14 quatorze · 15 quinze · 16 seize</p>'+ROWS(13),['Treize, c’est dix et…','3',['1','13']]),
+  T('De 17 à 20','Dix-sept, dix-huit, dix-neuf, vingt. Dix-sept, c’est dix et sept.','<p class="big">17 dix-sept · 18 dix-huit<br>19 dix-neuf · 20 vingt</p>'+ROWS(17),['Après 19, il y a…','20',['18','21']])];
+ [12,15,17,14,19,16,20,13].forEach(function(n){S.push(N('Combien y a-t-il de ronds ?',n,'Dix sur la première ligne, puis compte les autres.','Oui : '+n+'.',ROWS(n),'Je compte'))});
+ [['11 – 12 – ? – 14',13],['15 – 16 – ? – 18',17],['16 – ? – 18 – 19',17],['? – 12 – 13 – 14',11],['17 – 18 – 19 – ?',20],['13 – 14 – ? – 16',15]].forEach(function(q){S.push(N('Quel nombre manque ? '+q[0],q[1],'On compte de 1 en 1.','Oui : '+q[1]+'.','','Je complète la suite'))});
+ S.push(N('Quel nombre vient juste après 15 ?',16,'Après 15, on dit seize.','Oui : 16.','','Avant, après'));
+ S.push(N('Quel nombre vient juste avant 20 ?',19,'Juste avant vingt.','Oui : 19.','','Avant, après'));
+ S.push(N('Quel nombre vient juste avant 13 ?',12,'Juste avant treize.','Oui : 12.','','Avant, après'));
+ S.push(N('Compte à rebours : 20 – 19 – ? – 17',18,'On recule de 1 en 1.','Oui : 18.','','Compte à rebours'));
+ S.push(N('Dix et sept : quel nombre ?',17,'10 + 7.','Oui : 17.','','Quel nombre ?'));
+ S.push(N('Dix et quatre : quel nombre ?',14,'10 + 4.','Oui : 14.','','Quel nombre ?'));
+ S.push(N('Une dizaine et 9 unités : quel nombre ?',19,'10 + 9.','Oui : 19.','','Quel nombre ?'));
+ S.push(C('Quel nombre s’écrit « seize » ?','16',['6','60'],'Oui : 16.','Seize, c’est dix et six.'));
+ S.push(C('Quel nombre s’écrit « quatorze » ?','14',['4','40'],'Oui : 14.','Quatorze, c’est dix et quatre.'));
+ S.push(C('Quel nombre est le plus grand ?','18',['13','15'],'Oui : 18.','Compare les unités après la dizaine.'));
+ S.push(B('Range du plus petit au plus grand.',['17','12','19','14'],'12 14 17 19','Oui : 12 – 14 – 17 – 19.','Le plus petit en premier.'));
+ S.push(B('Range du plus grand au plus petit.',['11','18','15','20'],'20 18 15 11','Oui : 20 – 18 – 15 – 11.','Le plus grand en premier.'));
+ return S})(),MT);
 
 mod('cp-diz','Les dizaines et les unités','Construire et décomposer un nombre','🔟',(function(){
  var S=[T('Une dizaine, c’est 10 unités','Une dizaine, c’est un groupe de dix unités. Vingt-quatre, c’est deux dizaines et quatre unités.','<p class="big">1 dizaine = 10 unités</p>'+DZ(2,4)+'<p>24 = 2 dizaines et 4 unités = <b>20 + 4</b></p>',['1 dizaine, c’est…','10 unités',['5 unités','100 unités']]),
@@ -567,6 +604,32 @@ mod('cp-sol','Les solides','Cube, pavé, boule, cylindre, cône','🧊',[
 ],MT);
 
 var GRID='<table style="margin:8px auto;border-collapse:collapse;font:800 1.6rem var(--display);text-align:center"><tr><td></td><td style="padding:6px 14px;color:var(--soft)">A</td><td style="padding:6px 14px;color:var(--soft)">B</td><td style="padding:6px 14px;color:var(--soft)">C</td></tr><tr><td style="color:var(--soft)">1</td><td style="border:2px solid var(--line);padding:6px 14px">⚪</td><td style="border:2px solid var(--line);padding:6px 14px">⭐</td><td style="border:2px solid var(--line);padding:6px 14px">🟦</td></tr><tr><td style="color:var(--soft)">2</td><td style="border:2px solid var(--line);padding:6px 14px">❤️</td><td style="border:2px solid var(--line);padding:6px 14px">🔺</td><td style="border:2px solid var(--line);padding:6px 14px">⚪</td></tr></table>';
+var ROW3=function(a){return '<p class="big" style="text-align:center;font-size:2.2rem;letter-spacing:.3em">'+a.join(' ')+'</p>'};
+var COL3=function(a){return '<p class="big" style="text-align:center;font-size:2rem;line-height:1.3">'+a.join('<br>')+'</p>'};
+mod('cp-rep','Je me repère','Droite, gauche, devant, derrière','🧭',[
+ T('Gauche et droite','Je lis de gauche à droite. Le premier est à gauche, le dernier est à droite.','<p class="big">🍎 ⚽ 🐱</p><p>🍎 est à <b>gauche</b>.<br>🐱 est à <b>droite</b>.<br>⚽ est <b>entre</b> les deux.</p>',['Dans « 🍎 ⚽ 🐱 », la pomme est à…','Gauche',['Droite','Entre les deux']]),
+ C('Qui est tout à droite ?','Le chat',['La pomme','Le ballon'],'Oui : le chat est à droite.','Le dernier, quand on lit.',ROW3(['🍎','⚽','🐱'])),
+ C('Qui est tout à gauche ?','La pomme',['Le chat','Le ballon'],'Oui : la pomme est à gauche.','Le premier, quand on lit.',ROW3(['🍎','⚽','🐱'])),
+ C('Qui est entre la voiture et la fleur ?','Le chien',['Le soleil','La maison'],'Oui : le chien.','Cherche au milieu.',ROW3(['🚗','🐶','🌸'])),
+ C('Qui est à droite du chien ?','La fleur',['La voiture','Le chien'],'Oui : la fleur.','Va vers la droite.',ROW3(['🚗','🐶','🌸'])),
+ C('Qui est à gauche de la fleur ?','Le chien',['Le soleil','La fleur'],'Oui : le chien est juste à gauche.','Va vers la gauche.',ROW3(['🚗','🐶','🌸'])),
+ T('Devant et derrière','Quand ils avancent vers la droite, le premier de la file est devant et le dernier est derrière.','<p class="big">🚲 🚌 🚗 →</p><p>Ils avancent vers la <b>droite</b>.<br>🚗 est <b>devant</b>.<br>🚲 est <b>derrière</b>.</p>',['Celui qui est en tête est…','Devant',['Derrière','Au-dessus']]),
+ C('Les véhicules avancent vers la droite. Lequel est devant ?','La voiture',['Le vélo','Le bus'],'Oui : la voiture est devant.','Le plus avancé vers la droite.',ROW3(['🚲','🚌','🚗','→'])),
+ C('Les véhicules avancent vers la droite. Lequel est derrière ?','Le vélo',['La voiture','Le bus'],'Oui : le vélo est derrière.','Le dernier de la file.',ROW3(['🚲','🚌','🚗','→'])),
+ C('Les animaux avancent vers la droite. Qui est entre le lapin et la tortue ?','Le chat',['Le chien','La souris'],'Oui : le chat est au milieu.','Cherche au milieu.',ROW3(['🐰','🐱','🐢','→'])),
+ T('Au-dessus et au-dessous','Ce qui est en haut est au-dessus. Ce qui est en bas est au-dessous.','<p class="big">☁️<br>🏠<br>🐶</p><p>Le nuage est <b>au-dessus</b> de la maison.<br>Le chien est <b>au-dessous</b> de la maison.</p>',['Le nuage est…','Au-dessus de la maison',['Au-dessous de la maison','À droite de la maison']]),
+ C('Qu’est-ce qui est au-dessus de la maison ?','Le nuage',['Le chien','L’arbre'],'Oui : le nuage.','Regarde en haut.',COL3(['☁️','🏠','🐶'])),
+ C('Qu’est-ce qui est au-dessous de la maison ?','Le chien',['Le nuage','Le soleil'],'Oui : le chien.','Regarde en bas.',COL3(['☁️','🏠','🐶'])),
+ C('Quel animal est tout en haut ?','L’oiseau',['Le poisson','Le chat'],'Oui : l’oiseau.','Le plus haut.',COL3(['🐦','🐱','🐟'])),
+ T('Je me repère sur le quadrillage','Sur le quadrillage, je peux dire ce qui est à droite, à gauche, au-dessus ou au-dessous.','<p>Dans ce quadrillage, ⭐ est <b>à droite</b> de ⚪ et <b>au-dessus</b> de 🔺.</p>'+GRID,['Dans ce quadrillage, ⭐ est à droite de…','⚪',['🟦','❤️']]),
+ C('Quelle figure est à droite de l’étoile ?','Le carré',['Le rond','Le triangle'],'Oui : le carré bleu.','Va d’une case vers la droite.',GRID),
+ C('Quelle figure est à gauche du triangle ?','Le cœur',['Le carré','L’étoile'],'Oui : le cœur.','Va d’une case vers la gauche.',GRID),
+ C('Quelle figure est au-dessous de l’étoile ?','Le triangle',['Le cœur','Le carré'],'Oui : le triangle.','Descends d’une case.',GRID),
+ C('Quelle figure est au-dessus du cœur ?','Le rond',['Le triangle','L’étoile'],'Oui : le rond.','Monte d’une case.',GRID),
+ C('Le pion part de A1. Il va deux cases vers la droite. Où arrive-t-il ?','En C1',['En A2','En B2'],'Oui : A1 → B1 → C1.','Avance de deux cases vers la droite.',GRID),
+ C('Le pion part de C1. Il descend d’une case, puis il va d’une case vers la gauche. Où arrive-t-il ?','En B2',['En A1','En B1'],'Oui : C1 → C2 → B2.','Suis le chemin case par case.',GRID)
+],MT);
+
 mod('cp-quad','Le quadrillage et le tracé','Colonne, ligne, règle','📍',[
  T('Je me repère sur un quadrillage','Je donne la colonne, la lettre, puis la ligne, le chiffre. B1, c’est la colonne B, la ligne 1.','<p>Dans <b>B1</b> : la colonne <b>B</b>, la ligne <b>1</b>.</p>'+GRID,['B1, c’est la colonne B et…','La ligne 1',['La ligne 2','La colonne A']]),
  C('Quelle figure est en B1 ?','L’étoile',['Le cœur','Le triangle'],'Oui : B1, c’est l’étoile.','Colonne B, ligne 1.',GRID),
