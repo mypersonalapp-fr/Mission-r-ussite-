@@ -11,9 +11,9 @@
 <meta name="theme-color" content="#f2f5ff">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Mission réussite</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-niveaux.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
   --verb:#e0393f; --verb-bg:#ffe3e4;
@@ -835,7 +835,8 @@ const cgBind=(key,fn)=>{
 const home=()=>{
   cur=null;
   stopCr();
-  const miss=M.filter(m=>!m.train&&!m.voc&&!m.cj&&!m.mth&&!m.lec&&!m.met&&!m.remp), done=miss.filter(m=>save[m.id]).length;
+  if(window.MRNIV&&MRNIV.cpHome('fr'))return;
+  const miss=M.filter(m=>!m.train&&!m.voc&&!m.cj&&!m.mth&&!m.lec&&!m.met&&!m.remp&&!m.cp), done=miss.filter(m=>save[m.id]).length;
   app.innerHTML=tabs('g')+`
   <h1>Français</h1>
   <p style="margin-top:8px;color:var(--soft);font-weight:700">Verbe, groupe nominal, pronom : un petit travail pour chaque mot.</p>
@@ -858,7 +859,7 @@ const home=()=>{
   bindTabs();
 };
 const tabs=on=>`<div class="tabs"><button class="tab" data-tab="h" style="${'gv'.includes(on)?'':'flex:0 0 auto;padding-inline:18px'}">🏠 Accueil</button>${'gv'.includes(on)?`<button class="tab ${on==='g'?'on':''}" data-tab="g">Grammaire</button><button class="tab ${on==='v'?'on':''}" data-tab="v">Vocabulaire</button>`:''}</div>`;
-const bindTabs=()=>app.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{const k=b.dataset.tab;if(k!=='h'&&!openSet().has(k)){toast('🔒 Réussis une mission pour débloquer cette destination');return;}GO[k]();});
+const bindTabs=()=>app.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{const k=b.dataset.tab;if(k!=='h'&&!openSet().has(k)){toast(window.MRNIV?MRNIV.lockMsg():'🔒 Réussis une mission pour débloquer cette destination');return;}GO[k]();});
 const soon=(t,e)=>{stopCr(); cur=null; app.innerHTML=`${tabs('x')}<h1>${e} ${t}</h1><p style="margin-top:14px;font-weight:800;color:var(--soft)">Cet espace arrive bientôt.</p>`;bindTabs();};
 const lecture=()=>{
   stopCr(); cur=null;
@@ -3914,6 +3915,7 @@ let mtab='nb',mmode='m';
 const maths=()=>{
   if(mmode==='m'&&(mtab==='calc'||mtab==='ent'))mtab='nb'; if(mmode==='f'&&mtab!=='calc'&&mtab!=='ent')mtab='calc';
   stopCr(); mstop(); cur=null; ma=null;
+  if(mmode==='m'&&window.MRNIV&&MRNIV.cpHome('m'))return;
   const best=(k,n=10)=>save['m_'+k]!=null?`<small>Meilleur score : ${save['m_'+k]}/${n}</small>`:`<small>${n} calculs</small>`;
   const GR={
    nb:[['🔢 Compter',['n-c100','n-c999']],['🧱 Unités → milliers',['n-uni','n-cen','n-mil']],['🟦 Blocs de dix',['bl-dz','bl-cen','bl-cmb','bl-fab','n-diz','n-ent']],['⚖️ Ranger et comparer',['n-ord','ce-l4','n-av','n-dr']],['⏱️ Compter vite',['n-s1','n-s2','n-s3','n-s4','n-s5','n-s10','n-s20']],['✂️ Décomposer un nombre',['n-dec']],['🔤 Les nombres en lettres',['ce-l2','n-let']],['👭 Pair et impair',['n-pi']],['✌️ Doubles et moitiés',['n-dou','n-moi']],['🔁 Suites, frises et tableaux',['sui-1','sui-2','sui-bil','tab-1','tab-bil']],['🥇 Les nombres ordinaux',['ord-1','ord-2']],['🏁 Mon bilan',['nb-bil']]],
@@ -4030,7 +4032,7 @@ const okList=()=>{
   const ks=Object.keys(save), has=r=>ks.some(k=>r.test(k)&&save[k]);
   return [M.some(m=>save[m.id]&&!m.cj&&!m.mth&&!m.lec&&!m.met), M.some(m=>save[m.id]&&m.cj), M.some(m=>save[m.id]&&m.mth)||has(/^m_/), has(/^(gx_|best_)/), (()=>{try{return Object.keys(JSON.parse(localStorage.getItem('done')||'{}')).length>0}catch(e){return false}})(), has(/^k_/)||M.some(m=>m.met&&save[m.id]), has(/^(lg|en|bl|tr|rc)_/), has(/^fl_/), M.some(m=>m.lec&&save[m.id])];
 };
-const openSet=()=>new Set(['g','v','c','m','j','s','k','l','f','r']);
+const openSet=()=>window.MRNIV?MRNIV.openSet():new Set(['g','v','c','m','j','s','k','l','f','r']);
 const toast=t=>{let d=document.getElementById('toast');if(!d){d=document.createElement('div');d.id='toast';document.body.appendChild(d);}d.textContent=t;d.className='on';clearTimeout(d._t);d._t=setTimeout(()=>{d.className='';},2400);};
 const CLUES=[
  {ic:'🧭',t:'La boussole de Rico',tx:'Rico a laissé sa boussole près du camp. L\'aiguille montre le chemin vers la rivière.'},
@@ -4132,7 +4134,7 @@ function adventure(){
   document.getElementById('bagb').onclick=bag;
   document.getElementById('rst').onclick=()=>resetUI(adventure);
   app.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{const c=CLUES[+x.dataset.c];document.getElementById('cb').textContent=c.t+' : '+c.tx;});
-  app.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{const k=x.dataset.d;if(!op.has(k)){toast('🔒 Réussis une mission pour débloquer cette destination');return;}GO[k]();});
+  app.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{const k=x.dataset.d;if(!op.has(k)){toast(window.MRNIV?MRNIV.lockMsg():'🔒 Réussis une mission pour débloquer cette destination');return;}GO[k]();});
 }
 
 const resetUI=back=>{
@@ -4153,7 +4155,8 @@ window.addEventListener('resize',fitL);window.addEventListener('orientationchang
 const accueil=()=>{
   { const pu=unseen(); if(pu.length){stopCr(); showClues(pu,accueil); return;} }
   stopCr(); if(typeof mstop==='function')mstop(); cur=null;
-  const fr=M.filter(m=>!m.train&&!m.voc&&!m.cj&&!m.mth&&!m.lec&&!m.met&&!m.remp), frDone=fr.filter(m=>save[m.id]).length;
+  if(window.MRNIV&&MRNIV.pres()!=='e'){MRNIV.presView();MRNIV.decor();return;}
+  const fr=M.filter(m=>!m.train&&!m.voc&&!m.cj&&!m.mth&&!m.lec&&!m.met&&!m.remp&&!m.cp), frDone=fr.filter(m=>save[m.id]).length;
   const ks=Object.keys(save), has=r=>ks.some(k=>r.test(k)&&save[k]);
   const OK=okList();
   const ns=OK.filter(Boolean).length;
@@ -4182,6 +4185,7 @@ const accueil=()=>{
   document.getElementById('hnameL').onclick=()=>document.getElementById('hname').click();
   document.getElementById('rst').onclick=()=>resetUI(accueil);
   { const op=openSet(); app.querySelectorAll('.hs[data-tab]').forEach(x=>{if(!op.has(x.dataset.tab))x.classList.add('lk');}); }
+  if(window.MRNIV)MRNIV.decor();
 };
 
 /* ---------- Fluence : 20 séances ---------- */
@@ -5494,8 +5498,9 @@ function rcDraw(){
     rcDraw();};
 }
 
+if(window.MRCP_BUILD&&!window.MRCP_DONE){window.MRCP_DONE=1;MRCP_BUILD(M);}
 if(window.MRXEXT&&!window.MRXEXT_DONE){window.MRXEXT_DONE=1;Object.keys(MRXEXT).forEach(id=>{const m=M.find(x=>x.id===id);if(!m)return;const nt=(m.steps.find(x=>x.nt)||{}).nt||m.name;const add=MRXEXT[id].map(s=>Object.assign({},s,{nt:s.nt||nt,_x:1}));let k=m.steps.length;const l=m.steps[k-1];if(l&&l.t==='teach'&&(l.js==='bilend'||!l.chk&&!l.html))k--;m.steps.splice(k,0,...add);});}
-accueil();
+window.MRNIV?MRNIV.boot():accueil();
 </script>
 
 </body>
