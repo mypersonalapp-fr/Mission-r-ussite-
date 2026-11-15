@@ -35,7 +35,7 @@ var swap=function(id,scr){snap();var d=PS.data[id]||{g:'{}',r:'{}'};try{localSto
 /* ---------- progression ---------- */
 var inLv=function(m,k){return k==='CP'?!!m.cp:(k==='CE1'?!m.cp:false)};
 var core=function(m){return !m.train&&!m.remp&&!/^rem/.test(m.id)&&!m.voc&&!m.cj&&!m.lec&&!m.met};
-var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&!m.pass&&(m.cp||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
+var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&!m.pass&&!(window.MRREV&&MRREV.all.has(m.id))&&(m.cp||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
  var d=L.filter(function(m){return save[m.id]}).length;return Math.round(100*d/L.length)};
 var passMods=function(k){return typeof M==='undefined'?[]:M.filter(function(m){return m.pass&&inLv(m,k)})};
 var passPct=function(k){var L=passMods(k);return L.length?Math.round(100*L.filter(function(m){return save[m.id]}).length/L.length):100};
