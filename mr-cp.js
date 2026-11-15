@@ -660,6 +660,101 @@ mod('cp-mult','Des groupes égaux','Additionner plusieurs fois la même quantit�
  var S=[T('Plusieurs groupes égaux','Trois assiettes avec deux biscuits dans chaque assiette : deux plus deux plus deux, six.','<p>3 assiettes, 2 biscuits dans chaque assiette :</p><p class="big">🍪🍪 &nbsp; 🍪🍪 &nbsp; 🍪🍪</p><p class="big">2 + 2 + 2 = 6</p><p>3 groupes de 2 font 6.</p>',['3 groupes de 2 font…','6',['5','8']])];
  [['4 sacs contiennent chacun 2 pommes. Combien de pommes en tout ?',8,'2 + 2 + 2 + 2','🍎'],['3 boîtes contiennent chacune 5 crayons. Combien de crayons ?',15,'5 + 5 + 5','✏️'],['2 assiettes de 4 biscuits : combien de biscuits ?',8,'4 + 4','🍪'],['5 paquets de 2 cartes : combien de cartes ?',10,'2 + 2 + 2 + 2 + 2','🃏'],['3 rangées de 3 fleurs : combien de fleurs ?',9,'3 + 3 + 3','🌷'],['2 mains de 5 doigts : combien de doigts ?',10,'5 + 5','✋'],['4 paniers de 3 fruits : combien de fruits ?',12,'3 + 3 + 3 + 3','🍓'],['3 vélos ont chacun 2 roues. Combien de roues ?',6,'2 + 2 + 2','🚲']].forEach(function(x){S.push(N(x[0],x[1],'Écris l’addition : '+x[2]+'.','Oui : '+x[2]+' = '+x[1]+'.','<div class="pic">'+x[3]+'</div>','Groupes égaux'))});
  return S})(),MT);
+/* ===== Comptines (suite) : textes traditionnels ===== */
+var CS1=['Une souris verte','qui courait dans l’herbe,','je l’attrape par la queue,','je la montre à ces messieurs.'];
+var CS2=['Meunier, tu dors,','ton moulin va trop vite.','Meunier, tu dors,','ton moulin va trop fort.'];
+var CS3=['Frère Jacques, Frère Jacques,','dormez-vous ? Dormez-vous ?','Sonnez les matines ! Sonnez les matines !','Ding, dang, dong. Ding, dang, dong.'];
+mod('cp-comptines2','Mes comptines (la suite)','Trois comptines à dire avec le rythme','🎶',[
+ T('Une souris verte','Écoute la comptine de la souris verte, puis dis-la avec moi, un vers à la fois. '+CS1.join(' '),'<p>Dis chaque vers après l’avoir écouté.</p>'+CMP(CS1),['Dans la comptine, la souris est…','verte',['rouge','grise']]),
+ C('Où court la souris ?','Dans l’herbe',['Dans la maison','Dans l’eau'],'Oui : elle court dans l’herbe.','Relis le deuxième vers.',CMP(CS1)),
+ C('Comment attrape-t-on la souris ?','Par la queue',['Par la patte','Par l’oreille'],'Oui : par la queue.','Relis le troisième vers.',CMP(CS1)),
+ B('Remets les vers dans l’ordre.',['qui courait dans l’herbe,','Une souris verte'],CS1[0]+' '+CS1[1],'Oui : on commence par la souris verte.','La comptine commence par « Une souris… ».'),
+ T('Les mots qui riment','Deux mots riment quand ils finissent par le même son. Chat et rat riment. Lune et prune riment. Gâteau et château riment.','<p class="big">chat 🐱 – rat 🐀<br>lune 🌙 – prune 🍑<br>gâteau 🎂 – château 🏰</p>',['Quel mot rime avec « chat » ?','rat',['lune','pain']]),
+ C('Quel mot rime avec « souris » ?','riz',['lune','chat'],'Oui : souris et riz riment.','Écoute la fin du mot : « ouris » ou « i » ?'),
+ C('Quel mot rime avec « lune » ?','prune',['pomme','chat'],'Oui : lune et prune riment.','Écoute la fin : « une ».'),
+ C('Quel mot rime avec « château » ?','gâteau',['chapeau rond','chat'],'Oui : château et gâteau riment.','Écoute la fin : « o ».'),
+ T('Ma deuxième comptine : Meunier, tu dors','Cette comptine se dit doucement, comme une berceuse. Écoute, puis répète. '+CS2.join(' '),'<p>Dis-la doucement, comme une berceuse.</p>'+CMP(CS2),['« Meunier, tu … »','dors',['cours','chantes']]),
+ C('Qui dort dans la comptine ?','Le meunier',['Le boulanger','Le chat'],'Oui : le meunier.','C’est le premier mot du premier vers.',CMP(CS2)),
+ C('Quel mot manque ? « ton moulin va trop … »','vite',['loin','haut'],'Oui : trop vite, puis trop fort.','Regarde le deuxième vers.',CMP(CS2)),
+ N('Combien de syllabes dans « souris » ? Frappe : sou-ris.',2,'Frappe dans tes mains : sou – ris.','Oui : 2 syllabes.','','Frappe les syllabes'),
+ N('Combien de syllabes dans « meunier » ?',2,'meu – nier.','Oui : 2 syllabes.','','Frappe les syllabes'),
+ N('Combien de syllabes dans « escargot » ?',3,'es – car – got.','Oui : 3 syllabes.','','Frappe les syllabes'),
+ T('Ma troisième comptine : Frère Jacques','Dans cette comptine, on dit chaque vers deux fois. Écoute, puis répète. '+CS3.join(' '),'<p>On dit chaque vers deux fois.</p>'+CMP(CS3),['Dans « Frère Jacques », on répète chaque vers…','deux fois',['trois fois','une seule fois']]),
+ C('Qu’est-ce qu’on doit sonner ?','Les matines',['Les cloches du soir','Les trompettes'],'Oui : les matines.','Relis le troisième vers.',CMP(CS3)),
+ C('Quels sont les trois derniers mots ?','Ding, dang, dong',['Tic, tac, toc','Boum, bam, bim'],'Oui : ding, dang, dong.','Relis le dernier vers.',CMP(CS3)),
+ T('Je dis ma comptine avec le rythme','Pour bien dire une comptine, je frappe le rythme dans mes mains, je dis les mots nets et je respire entre les vers.','<p class="big">👏 Je frappe le rythme<br>🗣️ Je dis bien les mots<br>🌬️ Je respire entre les vers</p><p>Choisis ta comptine préférée et dis-la à un adulte.</p>',['Pour garder le rythme, je…','Frappe dans mes mains',['Cours','Chuchote très bas']])
+]);
+
+/* ===== Culture littéraire : mes livres de CP ===== */
+var CT=function(t){return '<p class="big" style="font-size:1.05rem;line-height:1.5;text-align:left">'+t+'</p>'};
+mod('cp-oeuvres','Mes histoires de CP','Cinq contes à connaître','📚',[
+ T('Un conte, c’est quoi ?','Un conte est une histoire très ancienne, qu’on racontait avant même qu’il y ait des livres. Il y a des personnages, un problème, et une fin. Aujourd’hui, on va découvrir cinq contes célèbres.','<p class="big">📖 Des personnages<br>⚡ Un problème<br>🏁 Une fin</p>',['Un conte est une histoire…','très ancienne',['sans personnages','qui n’a pas de fin']]),
+ T('Le Petit Chaperon rouge','Une petite fille porte une galette à sa grand-mère. Dans la forêt, elle rencontre le loup. Le loup court chez la grand-mère et prend sa place dans le lit. À la fin, un chasseur sauve tout le monde.','<p class="big">👧🧺 → 🌲🐺 → 👵🛏️ → 🏹</p>'+CT('Le Petit Chaperon rouge est un conte très connu. Les frères Grimm l’ont raconté.'),['Que porte la petite fille à sa grand-mère ?','Une galette',['Un gâteau au chocolat','Un livre']]),
+ C('Qui rencontre-t-elle dans la forêt ?','Le loup',['Un ours','Un renard'],'Oui : le loup.','Regarde les images : une forêt, et un animal à grandes dents.'),
+ T('Les Trois Petits Cochons','Trois petits cochons construisent chacun une maison : une en paille, une en bois, une en briques. Le loup souffle et fait s’envoler la maison de paille, puis celle de bois. Mais il n’arrive pas à abattre celle en briques.','<p class="big">🐷 paille 🌾<br>🐷 bois 🪵<br>🐷 briques 🧱</p>',['Quelle maison résiste au loup ?','Celle en briques',['Celle en paille','Celle en bois']]),
+ C('Que fait le loup devant les maisons ?','Il souffle',['Il chante','Il dort'],'Oui : il souffle très fort.','Relis : « Le loup … et fait s’envoler la maison ».'),
+ T('Boucle d’or et les trois ours','Boucle d’or entre dans la maison de trois ours. Elle goûte leur soupe, casse la petite chaise et s’endort dans le petit lit. Quand les ours reviennent, elle se réveille et s’enfuit.','<p class="big">👧 + 🐻🐻🐻<br>🥣 🪑 🛏️</p>',['Que fait Boucle d’or dans le petit lit ?','Elle s’endort',['Elle chante','Elle cuisine']]),
+ C('Combien y a-t-il d’ours ?','Trois',['Deux','Quatre'],'Oui : trois ours.','C’est dans le titre.'),
+ T('Le Petit Poucet','Le Petit Poucet est un garçon pas plus grand qu’un pouce. Pour retrouver le chemin de la maison, il sème des petits cailloux blancs dans la forêt.','<p class="big">👦 petit comme un pouce 👍<br>⚪⚪⚪ cailloux blancs</p>',['Que sème le Petit Poucet ?','Des cailloux blancs',['Des graines','Des bonbons']]),
+ C('Pourquoi sème-t-il des cailloux ?','Pour retrouver son chemin',['Pour jouer','Pour décorer la forêt'],'Oui : les cailloux montrent le chemin du retour.','Pense à la forêt : on peut s’y perdre.'),
+ T('Le Vilain Petit Canard','Un petit canard est différent des autres : tout le monde se moque de lui. Il est triste et s’en va. À la fin, il se voit dans l’eau : c’est un magnifique cygne.','<p class="big">🐥 → 😢 → 🦢</p>',['À la fin, le petit canard devient…','un cygne',['un oiseau noir','un poussin']]),
+ C('Que fait-on au petit canard au début ?','On se moque de lui',['On le félicite','On l’invite à jouer'],'Oui : on se moque de lui parce qu’il est différent.','Relis le début : « tout le monde … ».'),
+ MA('Relie chaque conte à son personnage.',[['Le Petit Chaperon rouge','le loup'],['Boucle d’or','trois ours'],['Le Petit Poucet','cailloux blancs']]),
+ SO('Dans quel conte ? Trie.',[['p','Les Trois Petits Cochons'],['c','Le Petit Chaperon rouge']],[['une maison de briques','p'],['une galette','c'],['une maison de paille','p'],['un chasseur','c']]),
+ B('Remets l’histoire du Petit Chaperon rouge dans l’ordre.',['La petite fille part chez sa grand-mère.','Elle rencontre le loup.','Le chasseur sauve tout le monde.'],'La petite fille part chez sa grand-mère. Elle rencontre le loup. Le chasseur sauve tout le monde.','Oui : début, milieu, fin.','Il y a un début, un milieu et une fin.'),
+ T('Je raconte une histoire','Pour raconter une histoire, je dis qui sont les personnages, ce qui leur arrive, puis comment ça finit. Je peux aussi dire si j’ai aimé et pourquoi.','<p class="big">👤 Qui ?<br>⚡ Que se passe-t-il ?<br>🏁 Comment ça finit ?</p><p>Choisis ton conte préféré et raconte-le à un adulte.</p>',['Pour raconter, je dis d’abord…','Qui sont les personnages',['La fin seulement','Le titre seulement']])
+]);
+
+/* ===== Calcul mental éclair ===== */
+mod('cp-cmental','Calcul mental éclair','Calculer dans ma tête, sans mes doigts','⚡',[
+ T('Calculer dans ma tête','Calculer dans sa tête, c’est répondre vite, sans compter sur ses doigts. Pour y arriver, je connais des petites astuces et je m’entraîne un peu chaque jour.','<p class="big">⚡ J’utilise une astuce<br>🧠 Je calcule dans ma tête<br>🔁 Je m’entraîne souvent</p>',['Calculer dans sa tête, c’est calculer…','sans les doigts',['très lentement','en écrivant']]),
+ T('Un de plus, un de moins','Ajouter 1, c’est dire le nombre d’après. Enlever 1, c’est dire le nombre d’avant.','<p class="big">8 + 1 = <b>9</b><br>8 − 1 = <b>7</b></p>',['14 + 1 = …','15',['13','16']]),
+ N('Combien font 12 + 1 ?',13,'Le nombre d’après 12.','Oui : 13.','','Un de plus'),
+ N('Combien font 19 − 1 ?',18,'Le nombre d’avant 19.','Oui : 18.','','Un de moins'),
+ T('Les amis de 10','Je connais les couples qui font 10. Je les ai dans la tête : 1 et 9, 2 et 8, 3 et 7, 4 et 6, 5 et 5.','<p class="big">1 + 9 · 2 + 8<br>3 + 7 · 4 + 6<br>5 + 5</p>',['7 + … = 10','3',['2','4']]),
+ N('6 + … = 10',4,'Quel est l’ami de 6 ?','Oui : 6 + 4 = 10.','','Complète'),
+ N('… + 8 = 10',2,'Quel est l’ami de 8 ?','Oui : 2 + 8 = 10.','','Complète'),
+ N('9 + … = 10',1,'Il manque 1.','Oui : 9 + 1 = 10.','','Complète'),
+ T('Les doubles','Un double, c’est le même nombre deux fois. 4 + 4 = 8 : le double de 4 est 8. Il faut les connaître par cœur.','<p class="big">2 + 2 = 4 · 3 + 3 = 6<br>4 + 4 = 8 · 5 + 5 = 10<br>6 + 6 = 12 · 7 + 7 = 14</p>',['Le double de 6 est…','12',['10','14']]),
+ N('Quel est le double de 7 ?',14,'7 + 7.','Oui : 14.','','Le double'),
+ N('Quel est le double de 8 ?',16,'8 + 8.','Oui : 16.','','Le double'),
+ T('Ajouter 10','Ajouter 10, c’est ajouter une dizaine : le chiffre des dizaines augmente de 1 et les unités ne changent pas.','<p class="big">23 + 10 = <b>33</b><br>45 + 10 = <b>55</b></p>',['34 + 10 = …','44',['35','43']]),
+ N('Combien font 26 + 10 ?',36,'Le chiffre des dizaines passe de 2 à 3.','Oui : 36.','','Ajoute 10'),
+ N('Combien font 52 + 10 ?',62,'Les dizaines : 5 devient 6.','Oui : 62.','','Ajoute 10'),
+ N('Combien font 47 − 10 ?',37,'Les dizaines : 4 devient 3.','Oui : 37.','','Enlève 10'),
+ MA('Relie chaque calcul à son résultat.',[['5 + 5','10'],['6 + 6','12'],['8 + 8','16']]),
+ C('Quel calcul est un double ?','7 + 7',['7 + 8','7 + 3'],'Oui : 7 + 7, c’est 7 deux fois.','Un double : deux nombres identiques.'),
+ T('Éclair !','Maintenant, je m’entraîne vite : je regarde, je réfléchis une seconde, je réponds.','<p class="big">👀 Je regarde<br>💭 Je réfléchis<br>⚡ Je réponds</p>'),
+ N('Combien font 5 + 4 ?',9,'5 + 5 − 1, ou 4 + 4 + 1.','Oui : 9.','','Éclair'),
+ N('Combien font 10 − 3 ?',7,'Ami de 3 : 7.','Oui : 7.','','Éclair'),
+ N('Combien font 15 + 1 ?',16,'Le nombre d’après 15.','Oui : 16.','','Éclair'),
+ N('Combien font 9 + 9 ?',18,'Le double de 9.','Oui : 18.','','Éclair'),
+ N('Combien font 31 + 10 ?',41,'Les dizaines : 3 devient 4.','Oui : 41.','','Éclair')
+],MT);
+
+/* ===== Logique ===== */
+mod('cp-logique','Je réfléchis comme un détective','Trier, déduire, trouver l’intrus','🕵️',[
+ T('Réfléchir comme un détective','Un détective regarde les indices, puis il réfléchit pour trouver la solution. Toi aussi, tu peux le faire : il suffit de bien regarder et de réfléchir.','<p class="big">🔍 Je regarde les indices<br>💭 Je réfléchis<br>✅ Je trouve la solution</p>',['Un détective regarde…','les indices',['la télé','ses pieds']]),
+ C('Quel est l’intrus ?','Carotte',['Pomme','Poire'],'Oui : la carotte est un légume, les autres sont des fruits.','Cherche ce qui ne va pas avec les autres.','<p class="big">🍎 🍐 🥕 🍌</p>'),
+ C('Quel est l’intrus ?','Chaise',['Chien','Chat'],'Oui : la chaise n’est pas un animal.','Cherche ce qui ne va pas avec les autres.','<p class="big">🐶 🐱 🪑 🐰</p>'),
+ SO('Ça vole ou ça ne vole pas ? Trie.',[['v','Ça vole'],['n','Ça ne vole pas']],[['🐦 un oiseau','v'],['🚗 une voiture','n'],['✈️ un avion','v'],['🐱 un chat','n'],['🦋 un papillon','v']]),
+ SO('Chaud ou froid ? Trie.',[['c','Chaud'],['f','Froid']],[['☀️ le soleil','c'],['🧊 un glaçon','f'],['🔥 le feu','c'],['⛄ un bonhomme de neige','f']]),
+ T('Les suites logiques','Dans une suite logique, il y a une règle qui se répète. Je trouve la règle, puis je continue.','<p class="big">🔴 🔵 🔴 🔵 🔴 <b>?</b></p><p>La règle : rouge, bleu, rouge, bleu…</p>',['Après 🔴 🔵 🔴 🔵 🔴, il vient…','🔵',['🔴','🟢']]),
+ C('Quelle forme vient après ?','🔺',['🔷','⭕'],'Oui : carré, triangle, carré, triangle…','Trouve la règle qui se répète.','<p class="big">🟦 🔺 🟦 🔺 🟦 <b>?</b></p>'),
+ C('Quelle forme vient après ?','⭕',['🔺','🟦'],'Oui : rond, rond, carré, rond, rond, carré…','Regarde bien : deux ronds, puis un carré.','<p class="big">⭕ ⭕ 🟦 ⭕ ⭕ 🟦 ⭕ <b>?</b></p>'),
+ T('Vrai ou faux ?','Une phrase est vraie quand elle dit ce qui existe vraiment. Elle est fausse quand elle dit quelque chose qui n’existe pas.','<p class="big">Les poissons vivent dans l’eau. <b>Vrai</b><br>Les chats ont des plumes. <b>Faux</b></p>',['« Le soleil brille la nuit. » C’est…','faux',['vrai','impossible à dire']]),
+ C('« Les oiseaux ont des plumes. »','Vrai',['Faux'],'Oui : c’est vrai.','Pense à un oiseau que tu connais.'),
+ C('« Un cube a quatre pattes. »','Faux',['Vrai'],'Oui : un cube n’a pas de pattes.','Réfléchis : est-ce qu’un cube marche ?'),
+ T('Si… alors…','« Si… alors… », c’est une règle : quand un indice est vrai, je peux conclure. Si je vois un nuage noir et de la pluie, alors je prends mon parapluie.','<p class="big">☔ S’il pleut,<br>alors je prends mon parapluie.</p>',['S’il pleut, alors je prends…','mon parapluie',['mes lunettes de soleil','ma pelle']]),
+ C('S’il fait nuit, alors… Que fait le soleil ?','Il est couché',['Il brille fort','Il est au milieu du ciel'],'Oui : la nuit, le soleil est couché.','Pense à la nuit.'),
+ T('Qui est le plus grand ?','Lina est plus grande que Sami. Sami est plus grand que Rico. Je range : Lina, puis Sami, puis Rico.','<p class="big">Lina 🧍‍♀️ &gt; Sami 🧍 &gt; Rico 🧒</p>',['Qui est le plus petit ?','Rico',['Lina','Sami']]),
+ C('Léa est plus rapide que Tom. Tom est plus rapide que Max. Qui est le plus lent ?','Max',['Léa','Tom'],'Oui : Max est le plus lent.','Range-les du plus rapide au plus lent.'),
+ T('Qui est-ce ?','Je trouve un animal grâce à des indices. « Je suis petit. J’ai quatre pattes. Je fais miaou. » C’est un chat.','<p class="big">❓ petit · 4 pattes · miaou<br>→ 🐱</p>',['« J’ai des ailes et je dis cui-cui. » Qui suis-je ?','un oiseau',['un chat','un poisson']]),
+ C('Qui suis-je ? « Je vis dans l’eau. J’ai des nageoires. »','Un poisson',['Un chien','Un oiseau'],'Oui : un poisson.','Pense aux nageoires.'),
+ C('Je t’ai donné un indice : je suis rond, je roule, on me tape avec le pied. Qui suis-je ?','Un ballon',['Un livre','Un cube'],'Oui : un ballon.','Pense à un jeu avec les pieds.'),
+ C('La pomme est posée sur la table. Où est la pomme ?','Dessus',['Dessous','Dedans'],'Oui : sur la table, c’est dessus.','« Sur » veut dire dessus.','<p class="big">🍎 sur 🪑</p>'),
+ T('Je réfléchis avec des étapes','Pour résoudre un problème de logique, je lis bien, je cherche les indices, j’élimine ce qui ne va pas, puis je vérifie ma réponse.','<p class="big">1. Je lis<br>2. Je cherche les indices<br>3. J’élimine<br>4. Je vérifie</p>',['À la fin, je …','vérifie',['m’arrête','recommence tout']])
+],MT);
 
 /* ---- Problèmes ---- */
 mod('cp-pb1','Problèmes : ajouter ou enlever','« Ils arrivent » ou « il en reste » ?','🧩',(function(){
