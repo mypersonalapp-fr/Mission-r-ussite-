@@ -824,7 +824,7 @@ const CGS='padding:12px 4px;display:flex;flex-direction:column;align-items:cente
 window.MRREV=(()=>{const R={fr:['oi','s-an','s-on','s-in','s-ch','s-gn','s-ill','s-j','s-k','s-g','s-f','s-o','s-è','s-é','s-eu','s-r','s-l','f-debut','f-ponct','dl-1'],
  nb:['n-c100','n-uni','n-diz','n-av','n-s1','n-s2','n-s5','n-s10','n-dou','n-moi','sui-1','sui-2','sui-bil','tab-1','tab-bil'],
  sg:['pb-s1','pb-s2','pb-s4'],geo:['g-fig','g-cot','g-sol','g-qua','lab-1','lab-2','lab-3','lab-bil'],heu:['he-1','he-4']};
- R.all=new Set([].concat(R.fr,R.nb,R.sg,R.geo,R.heu));return R})();
+ R.voc=['v-fete','v-cuisine','v-animaux','v-maison','v-actions','v-ecole','v-habits','v-corps','v-bain','v-transport','v-meteo','v-fruits','v-chambre'];R.all=new Set([].concat(R.fr,R.nb,R.sg,R.geo,R.heu,R.voc));return R})();
 const REVT='🔁 Révisions du CP';
 const cgCase=(attr,ic,nm,sm)=>`<button class="card" ${attr} style="${CGS}">${ic.startsWith('img:')?`<img src="${ICO[ic.slice(4)]}" alt="" style="width:56px;height:56px;object-fit:contain">`:`<span style="font-size:${ic.length>3?22:32}px;line-height:1.25;font-weight:800">${ic}</span>`}<b style="font-family:var(--display);font-size:.85rem;line-height:1.15">${nm}</b><small style="color:var(--soft);font-weight:800">${sm||'&nbsp;'}</small></button>`;
 const cgWrap=cs=>`<div class="cgw" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px">${cs}</div>`;
@@ -1339,6 +1339,7 @@ const vocab=()=>{
   const list=M.filter(m=>m.voc), done=list.filter(m=>save[m.id]).length;
   app.innerHTML=tabs('v')+`<h1>Vocabulaire</h1>
   <p style="margin-top:8px;color:var(--soft);font-weight:700">Des mots à voir, écouter, relier et reconstruire.</p>
+  ${window.MRNIV&&MRNIV.lv()==='CE1'?'<p style="margin-top:6px;font-weight:800;color:var(--pro)">🔁 Révisions du CP : ces thèmes sont les mots du CP.</p>':''}
   ${cgWrap(list.map(m=>cgCase(`data-m="${M.indexOf(m)}"`,m.badge,m.name,save[m.id]?'★ Réussi':'')).join('')+cgCase('id="chrv"','⏱️','Défi chrono','Contre la montre'))}
   <div hidden><button class="tile" id="chrvx"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>Vocabulaire ou mélange, contre la montre</small></span></button></div>
   <p style="margin-top:18px;font-weight:800;color:var(--soft)">${done} thème${done>1?'s':''} sur ${list.length} réussi${done>1?'s':''}</p>`;
