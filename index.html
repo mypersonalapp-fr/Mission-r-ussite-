@@ -4139,12 +4139,10 @@ function adventure(){
   ${res?`<button class="go" id="resume" style="margin-top:12px">▶ Reprendre : ${esc(res.name)}</button>`:''}
   <p class="lead" style="margin-top:18px">📓 Le carnet de Rico</p><div class="nbk" style="margin-top:8px">${CLUES.map((c,i)=>`<span ${seen.includes(i)?`data-c="${i}" style="cursor:pointer"`:''}>${seen.includes(i)?c.ic:'❔'}</span>`).join('')}</div><p class="pzm" id="cb" style="color:var(--ink)"></p>
   <p class="lead" style="margin-top:14px">Destinations</p><div class="menu" style="margin-top:8px">${SUBJ.map(s=>`<button class="tile" data-d="${s[0]}"><span class="badge b-gn">${s[2]}</span><span><b>${s[1]}</b><small>${ok[SUBJ.indexOf(s)]?'⭐ Étoile gagnée':'À explorer'}</small></span></button>`).join('')}</div>
-  <div class="menu" style="margin-top:14px"><button class="tile" id="bagb"><span class="badge b-det">🎒</span><span><b>Mon sac d'explorateur</b><small>Respirer, se calmer, oser</small></span></button></div>
-  <button class="ghost" id="rst" style="margin-top:14px;width:100%">↻ Tout recommencer</button>`;
+  <div class="menu" style="margin-top:14px"><button class="tile" id="bagb"><span class="badge b-det">🎒</span><span><b>Mon sac d'explorateur</b><small>Respirer, se calmer, oser</small></span></button></div>`;
   document.getElementById('back').onclick=accueil;
   const r=document.getElementById('resume');if(r)r.onclick=()=>start(M.indexOf(res),true);
   document.getElementById('bagb').onclick=bag;
-  document.getElementById('rst').onclick=()=>resetUI(adventure);
   app.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{const c=CLUES[+x.dataset.c];document.getElementById('cb').textContent=c.t+' : '+c.tx;});
   app.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{const k=x.dataset.d;if(!op.has(k)){toast(window.MRNIV?MRNIV.lockMsg():'🔒 Réussis une mission pour débloquer cette destination');return;}GO[k]();});
 }
@@ -4185,8 +4183,7 @@ const accueil=()=>{
    <button class="hnameL" id="hnameL" aria-label="Changer le prénom">${esc(save.name||'Miguel')} <small>✏️</small></button>
    <div class="hstarsL">${OK.map((_,i)=>`<i>${star(i)}</i>`).join('')}</div>
    <button class="hgoL" id="hgoL" aria-label="Continuer">▶</button>
-  </div>
-  <button class="ghost" id="rst" style="margin-top:14px;width:100%">↻ Tout recommencer</button>`;
+  </div>`;
   bindTabs();
   document.getElementById('hname').onclick=e=>{const b=e.currentTarget;b.outerHTML='<input class="hname hin" id="hin" maxlength="14" value="'+esc(save.name||'Miguel')+'" aria-label="Prénom">';const i=document.getElementById('hin');i.focus();i.select();
     const ok=()=>{const v=i.value.trim().slice(0,14);if(v){save.name=v;persist();}accueil();};
@@ -4195,7 +4192,6 @@ const accueil=()=>{
   document.getElementById('hgoL').onclick=adventure;
   fitL();setTimeout(fitL,80);
   document.getElementById('hnameL').onclick=()=>document.getElementById('hname').click();
-  document.getElementById('rst').onclick=()=>resetUI(accueil);
   { const op=openSet(); app.querySelectorAll('.hs[data-tab]').forEach(x=>{if(!op.has(x.dataset.tab))x.classList.add('lk');}); }
   if(window.MRNIV)MRNIV.decor();
 };
