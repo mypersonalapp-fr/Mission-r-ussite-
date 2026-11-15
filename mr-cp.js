@@ -456,7 +456,7 @@ mod('cp-dictee','Dictée de mots et de phrases','J’écoute, j’écris, je rel
  B('Écoute la phrase puis reconstruis-la. '+LS('Papa lit un livre.'),['livre.','lit','Papa','un'],'Papa lit un livre.','Oui : « Papa lit un livre. »'),
  C('Écoute la phrase, puis choisis la bonne écriture.','La souris mange du fromage.',['La souris mange du fromage','La souris Mange du fromage.'],'Oui : majuscule, mots bien écrits, point final.','Regarde la fin et les majuscules.',LS('La souris mange du fromage.')),
  C('Écoute la phrase, puis choisis la bonne écriture.','Mon frère a un gros chien.',['Mon frère a un gros chien','Mon Frère a un gros chien.'],'Oui : majuscule au début, point à la fin.','Regarde la fin et les majuscules.',LS('Mon frère a un gros chien.'))
-],MT);
+]);
 
 /* ===== Poésie et comptines ===== */
 var CMP=function(lines){return '<p class="big" style="font-size:1.25rem;line-height:1.7;text-align:center">'+lines.join('<br>')+'</p>'};
@@ -473,7 +473,7 @@ mod('cp-poesie','Comptines et poésie','Écouter, apprendre, réciter','🎤',[
  C('Que veut écrire Pierrot ?','Un mot',['Une lettre','Un livre'],'Oui : pour écrire un mot.','Regarde le dernier vers.',CMP(CP2)),
  B('Remets les vers dans l’ordre.',['Prête-moi ta plume','Au clair de la lune,'],CP2[0]+' '+CP2[2],'Oui : d’abord la lune, puis la plume.','La comptine commence par la lune.'),
  T('Je récite avec ma voix','Pour bien réciter, je parle lentement, assez fort, et je regarde la personne qui m’écoute.','<p class="big">🗣️ Lentement<br>📢 Assez fort<br>👀 Je regarde</p><p>Choisis une comptine et récite-la à un adulte.</p>',['Pour bien réciter, je parle…','Lentement et assez fort',['Très vite','Tout bas']])
-],MT);
+]);
 
 /* ===== Ponctuation ===== */
 var PQ=function(s,p){var o=['.','?','!'];return C('Quel signe termine la phrase ?',p,o.filter(function(x){return x!==p}),'Oui : « '+s+' '+p+' ».','Est-ce que ça raconte, ça demande ou ça exclame ?',BIG(s+' …'))};
@@ -487,7 +487,7 @@ mod('cp-ponct','La ponctuation','Point, point d’interrogation, point d’excla
  B('Remets les mots dans l’ordre.',['est','Où','chat','mon','?'],'Où est mon chat ?','Oui : « Où est mon chat ? »'),
  B('Remets les mots dans l’ordre.',['beau','Quel','jour','!'],'Quel beau jour !','Oui : « Quel beau jour ! »'),
  C('Quelle phrase est bien écrite ?','Où est ton sac ?',['Où est ton sac.','Où est ton sac !'],'Oui : une question finit par ?','Une question finit par un point d’interrogation.')
-],MT);
+]);
 
 /* ===== Vocabulaire par thèmes ===== */
 var VQ=function(pic,good,bad){return C('Comment s’appelle cette image ?',good,bad,'Oui : '+good+'.','Regarde bien l’image.','<p class="big" style="font-size:3rem;text-align:center">'+pic+'</p>')};
@@ -509,7 +509,7 @@ mod('cp-vocab','Les mots par thèmes','Le corps, les animaux, les vêtements, le
  MA('Relie chaque image à son mot.',[['🐶','chien'],['🧦','chaussettes'],['❄️','hiver']]),
  SO('Range chaque mot dans le bon groupe.',[['a','Animaux'],['v','Vêtements'],['s','Saisons']],[['lapin','a'],['manteau','v'],['été','s'],['vache','a'],['robe','v'],['hiver','s'],['cheval','a'],['gants','v'],['printemps','s']]),
  C('Quel mot n’est pas un animal ?','Le manteau',['Le chien','Le cheval'],'Oui : le manteau est un vêtement.','Cherche ce qui se porte.')
-],MT);
+]);
 
 /* ===== Raconter et reformuler ===== */
 var ST2='Samedi, Sami part en pique-nique avec sa grand-mère. Dans le panier, il y a du pain, du fromage et des fraises. Au bord de la rivière, une fourmi marche sur la nappe. Sami la regarde, puis il lui donne une miette de pain. Le soir, il raconte sa journée à papa.';
@@ -528,7 +528,24 @@ mod('cp-oral','Je raconte et je reformule','Dire ce qui s’est passé avec mes 
  C('Que fait Sami ? Quelle réponse est une phrase complète ?','Sami donne une miette à la fourmi.',['Une miette.','La fourmi.'],'Oui : une phrase complète a un qui et un que fait-il.','Une phrase complète dit qui et ce qu’il fait.'),
  T('Pour raconter à voix haute','Pour bien raconter : je dis qui, où et quand. J’utilise « d’abord », « ensuite », « enfin ». Je parle assez fort.','<p class="big">Qui ? Où ? Quand ?<br>D’abord… Ensuite… Enfin…</p>',['Pour raconter dans l’ordre, je dis…','D’abord, ensuite, enfin',['Hier, hier, hier','Non, non, non']]),
  T('À toi de raconter','Raconte à un adulte l’histoire de Sami avec tes mots. Puis dis-lui ce que tu as préféré.','<p class="big">🗣️ Raconte l’histoire<br>avec tes mots</p><p>Qui ? Où ? Qu’est-ce qui se passe ?</p>')
-],MT);
+]);
+
+mod('cp-accsv','Le verbe s’accorde avec le sujet','Un seul : -e · Plusieurs : -ent','🤝',[
+ T('Qui fait l’action ?','Le sujet, c’est celui qui fait l’action. Pour le trouver, je pose la question : qui est-ce qui fait l’action ?','<p class="big">Le chat <b>saute</b>.</p><p>Qui saute ? <b>Le chat</b>. C’est le sujet.</p>',['Dans « Lina chante. », qui chante ?','Lina',['Chante','Un chant']]),
+ TM('Touche le sujet : Le chien court dans le jardin.',['Le','chien','court','dans','le','jardin.'],[0,1],'Oui : Le chien. C’est lui qui court.'),
+ T('Un seul ou plusieurs ?','Le verbe change avec le sujet. Un seul sujet : le verbe finit souvent par -e. Plusieurs sujets : il finit par -ent.','<p class="big">Le chat saut<b>e</b>.<br>Les chats saut<b>ent</b>.</p><p>On n’entend pas -ent, mais on l’écrit !</p>',['Les oiseaux chant… ?','chantent',['chante','chantes']]),
+ C('Le garçon … dans la cour.','joue',['jouent','joues'],'Oui : un seul garçon, donc joue.','Un seul garçon : -e.'),
+ C('Les filles … dans la cour.','jouent',['joue','joues'],'Oui : plusieurs filles, donc jouent.','Plusieurs filles : -ent.'),
+ C('Lina … une chanson.','chante',['chantent','chantes'],'Oui : Lina est seule, donc chante.','Un seul sujet : -e.'),
+ C('Mes amis … à la fête.','arrivent',['arrive','arrives'],'Oui : plusieurs amis, donc arrivent.','Plusieurs amis : -ent.'),
+ SO('Un seul sujet ou plusieurs ? Mets le verbe dans la bonne colonne.',[['e','Un seul : -e'],['ent','Plusieurs : -ent']],[['Le lapin saute.','e'],['Les lapins sautent.','ent'],['Sami mange.','e'],['Les enfants mangent.','ent'],['Ma sœur danse.','e'],['Mes sœurs dansent.','ent']]),
+ T('Il, elle, ils, elles','Je peux remplacer le sujet par un petit mot. Il ou elle : un seul. Ils ou elles : plusieurs.','<p class="big">Lina chante → <b>Elle</b> chante.<br>Les filles chantent → <b>Elles</b> chantent.</p>',['« Les garçons marchent. » Je remplace par…','Ils',['Il','Elle']]),
+ C('Ils … vers l’école.','marchent',['marche','marches'],'Oui : ils, donc plusieurs : marchent.','Ils = plusieurs : -ent.'),
+ C('Elle … un gâteau.','mange',['mangent','manges'],'Oui : elle, donc une seule : mange.','Elle = une seule : -e.'),
+ C('Quelle phrase est juste ?','Les enfants jouent.',['Les enfants joue.','Les enfants joues.'],'Oui : plusieurs enfants, donc jouent.','Plusieurs enfants : -ent.'),
+ B('Construis la phrase.',['Les','oiseaux','chantent.','chante.'],'Les oiseaux chantent.','Bravo : Les oiseaux chantent.','Plusieurs oiseaux : le verbe finit par -ent.'),
+ B('Construis la phrase.',['Le','bébé','dort.','dorment.'],'Le bébé dort.','Bravo : Le bébé dort.','Un seul bébé : dort.')
+]);
 
 /* =============== MATHS CP =============== */
 var DZ=function(d,u){var h='<div style="background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px 12px;margin:6px 0;text-align:center">';for(var i=0;i<d;i++)h+='<span style="display:inline-block;border:2px solid #2459e6;background:#dbe7ff;border-radius:10px;padding:2px 6px;margin:3px;font-weight:800">1 dizaine<br><span style="font-size:.9rem">🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵</span></span>';if(u){h+='<span style="display:inline-block;margin:3px;font-size:1.3rem">'+new Array(u+1).join('🔴')+'</span>'}return h+'</div>'};
@@ -992,6 +1009,51 @@ mod('cp-p-heure','Lire l’heure','Heure pile et demie, bien lire l’horloge','
  N('16 h, c’est … h de l’après-midi.',4,'16 − 12','Oui : 4 h de l’après-midi.','','Je convertis'),
  N('18 h, c’est … h du soir.',6,'18 − 12','Oui : 6 h du soir.','','Je convertis')
 ],PM);
+
+
+/* ---- Les nombres ordinaux ---- */
+var ORD=function(arr){return '<div style="display:flex;justify-content:center;gap:6px;font-size:2rem;margin:8px 0">'+arr.map(function(a,i){return '<span style="text-align:center">'+a+'<br><small style="font:800 .8rem var(--display)">'+(i===0?'1er':(i+1)+'e')+'</small></span>'}).join('')+'</div>'};
+var ANI=['🐶','🐱','🐰','🐸','🐻','🦊'];
+mod('cp-ord','Premier, deuxième, troisième…','Les nombres qui donnent la place','🥇',[
+ T('Premier, deuxième, troisième','Les nombres ordinaux disent la place dans une file ou une course. Le premier arrive en tête, puis le deuxième, puis le troisième.','<p class="big">🥇 1er · premier<br>🥈 2e · deuxième<br>🥉 3e · troisième</p>',['Celui qui arrive en tête est le…','premier',['deuxième','troisième']]),
+ T('Les places de 4 à 10','Après troisième, on dit quatrième, cinquième, sixième, septième, huitième, neuvième, dixième. On écrit le nombre, puis « e » : 4e, 5e, 6e…','<p class="big">4e quatrième · 5e cinquième<br>6e sixième · 7e septième<br>8e huitième · 9e neuvième<br>10e dixième</p>',['Après le troisième, il y a le…','quatrième',['deuxième','sixième']]),
+ TP('Touche le 3e animal.',ANI,2,'Oui : le lapin 🐰 est le 3e.','Compte depuis la gauche : 1er, 2e, 3e.'),
+ TP('Touche le 5e animal.',ANI,4,'Oui : l’ours 🐻 est le 5e.','Compte depuis la gauche.'),
+ TP('Touche le 1er animal.',ANI,0,'Oui : le chien 🐶 est le premier.','Le premier, c’est celui du début.'),
+ MA('Relie chaque écriture à son nom.',[['2e','deuxième'],['5e','cinquième'],['9e','neuvième']]),
+ T('Les places de 11 à 20','On ajoute « ième » au nombre : onzième, douzième, treizième, quatorzième, quinzième, seizième, dix-septième, dix-huitième, dix-neuvième, vingtième.','<p class="big">11e onzième · 12e douzième<br>15e quinzième · 17e dix-septième<br>20e <b>vingtième</b></p>',['15e se dit…','quinzième',['quinzaine','cinquième']]),
+ C('Comment écrit-on 20e en lettres ?','vingtième',['vingtaine','deuxième'],'Oui : vingtième.','Vingt + ième.'),
+ N('Lina est la 5e dans la file. Combien d’enfants sont devant elle ?',4,'Devant la 5e, il y a le 1er, 2e, 3e et 4e.','Oui : 4 enfants.','','Dans la file'),
+ N('Sami est le 8e. Combien d’enfants sont devant lui ?',7,'Il y a un enfant de moins que son numéro.','Oui : 7 enfants.','','Dans la file'),
+ N('Quel numéro a le dixième ?',10,'Dixième : 10e.','Oui : 10.','','Écris le nombre'),
+ N('Quel numéro a le dix-septième ?',17,'Dix-sept + ième.','Oui : 17.','','Écris le nombre'),
+ N('Je suis le 12e. Quel est le numéro juste avant moi ?',11,'Juste avant 12.','Oui : le 11e.','','Juste avant'),
+ SO('Un nombre ou une place ? Trie.',[['n','Un nombre'],['p','Une place']],[['3','n'],['3e','p'],['8','n'],['premier','p'],['15','n'],['huitième','p']]),
+ C('Rico est 2e et Lina est 3e. Qui arrive avant ?','Rico',['Lina','Les deux ensemble'],'Oui : le 2e arrive avant le 3e.','Le plus petit numéro arrive avant.')
+],MT);
+
+/* ---- Les tables d'addition ---- */
+mod('cp-tabadd','Les tables d’addition','Additionner vite, sans compter','➕',[
+ T('Les tables d’addition','Une table d’addition, ce sont toutes les additions d’un même nombre. Quand je les connais par cœur, je calcule vite, sans compter sur mes doigts.','<p class="big">3 + 1 = 4<br>3 + 2 = 5<br>3 + 3 = 6</p>',['3 + 4 = …','7',['6','8']]),
+ T('Ajouter 1, ajouter 2','Ajouter 1, c’est dire le nombre suivant. Ajouter 2, c’est faire deux pas de plus.','<p class="big">7 + 1 = <b>8</b><br>7 + 2 = <b>9</b></p>',['8 + 2 = …','10',['9','11']]),
+ N('Combien font 6 + 1 ?',7,'Le nombre qui suit 6.','Oui : 7.','','Ajoute 1'),
+ N('Combien font 9 + 2 ?',11,'Deux pas après 9.','Oui : 11.','','Ajoute 2'),
+ T('Les doubles','Un double, c’est deux fois le même nombre. Les doubles sont faciles à retenir : ce sont mes amis !','<p class="big">4 + 4 = <b>8</b><br>6 + 6 = <b>12</b><br>8 + 8 = <b>16</b></p>',['7 + 7 = …','14',['13','15']]),
+ N('Combien font 9 + 9 ?',18,'Le double de 9.','Oui : 18.','','Le double'),
+ T('Le presque-double','6 + 7, c’est presque 6 + 6. Je pars du double, puis j’ajoute 1 : 12 + 1 = 13.','<p class="big">6 + 7<br>6 + 6 = 12, puis + 1<br>= <b>13</b></p>',['7 + 8 = …','15',['14','16']]),
+ N('Combien font 8 + 9 ?',17,'8 + 8 = 16, puis + 1.','Oui : 17.','','Presque-double'),
+ N('Combien font 5 + 6 ?',11,'5 + 5 = 10, puis + 1.','Oui : 11.','','Presque-double'),
+ T('Passer par 10','Pour 8 + 5, je complète d’abord à 10 : 8 + 2 = 10. Il reste 3 à ajouter : 10 + 3 = 13.','<p class="big">8 + 5<br>8 + <b>2</b> = 10<br>10 + <b>3</b> = <b>13</b></p>',['9 + 4 : d’abord 9 + … = 10','1',['2','4']]),
+ N('Combien font 9 + 4 ?',13,'9 + 1 = 10, puis 10 + 3.','Oui : 13.','','Passe par 10'),
+ N('Combien font 7 + 5 ?',12,'7 + 3 = 10, puis 10 + 2.','Oui : 12.','','Passe par 10'),
+ N('Combien font 8 + 6 ?',14,'8 + 2 = 10, puis 10 + 4.','Oui : 14.','','Passe par 10'),
+ T('Dans les deux sens','3 + 8 donne le même résultat que 8 + 3. Je commence par le plus grand nombre : c’est plus facile.','<p class="big">3 + 8 = 8 + 3 = <b>11</b></p>',['2 + 9 = 9 + 2 = …','11',['10','12']]),
+ SO('Le résultat est-il plus petit ou plus grand que 10 ?',[['m','Moins de 10'],['p','Plus de 10']],[['6 + 3','m'],['7 + 5','p'],['4 + 4','m'],['8 + 6','p'],['5 + 2','m'],['9 + 9','p']]),
+ MA('Relie chaque addition à son résultat.',[['6 + 7','13'],['8 + 8','16'],['9 + 5','14']]),
+ C('Quelle addition fait 15 ?','8 + 7',['8 + 6','9 + 5'],'Oui : 8 + 7 = 15.','Calcule chaque proposition.'),
+ N('Lina a 8 billes. Elle en gagne 7. Combien de billes a-t-elle ?',15,'8 + 7.','Oui : 15 billes.','','Problème'),
+ N('Sami a 6 cartes et Rico en a 9. Combien de cartes ont-ils en tout ?',15,'6 + 9, ou 9 + 6.','Oui : 15 cartes.','','Problème')
+],MT);
 
 /* ---- Bilan CP (20 points) ---- */
 var BIL=[
