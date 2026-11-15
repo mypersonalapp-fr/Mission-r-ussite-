@@ -3601,7 +3601,7 @@ const conjug=()=>{
 /* ---------- Jeux ---------- */
 const norm=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
 const gwords=i=>(i==='all'?M.filter(m=>m.voc).flatMap(m=>m.ws.map(w=>({...w,theme:m.name}))):M.filter(m=>m.voc)[+i].ws.map(w=>({...w,theme:M.filter(m=>m.voc)[+i].name})))
-  .filter(w=>!/[œ\s'-]/.test(w.w)&&w.w.length>=3&&w.w.length<=8);
+  .filter(w=>!/[œ\s'-]/.test(w.w)&&w.w.length>=3&&w.w.length<=((window.MRNIV&&MRNIV.lv()==='CP')?5:8));
 const LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 const jeuxTop=t=>`${tabs('j')}<div class="top"><button class="back" id="back">‹ Jeux</button><b style="font-family:var(--display);font-size:1.2rem">${t}</b></div>`;
@@ -3695,9 +3695,12 @@ const say=()=>{const k=pos/5;g('fhq').innerHTML=pos===0?'Craplave est au 12. On 
 g('fhj').onclick=async()=>{if(busy||pos>=60)return;busy=true;rt();const from=pos;for(let j=1;j<=5;j++){await hop((from+j-1)*6,(from+j)*6);const t=tk[(from+j)%60];t.setAttribute('stroke','#e0393f');t.setAttribute('stroke-width',5);setT(svg,from+j,4);g('fhr').innerHTML=`<span style="color:#e0393f">${j}</span>`;await sleep(120)}pos+=5;chips();g('fhr').innerHTML=`<span style="color:#0e9a63">5 traits = 1 paquet · nombre ${pos/5}</span>`;say();busy=false};
 g('fhz').onclick=()=>{if(busy)return;pos=0;rt();setT(svg,0,4);place(0,0);chips();g('fhr').innerHTML='&nbsp;';say()};
 setT(svg,0,4);place(0,0);say()}};new MutationObserver(()=>document.querySelectorAll('svg.ck:not([data-b])').forEach(api.bind)).observe(document.documentElement,{childList:true,subtree:true});return api})();
+const CPJEUX=['pendu','loto','ballons','memory','course'];
+const JH2=()=>{let s=JHSRC;if((window.MRNIV&&MRNIV.lv()==='CP'))s=s.split('\n').filter(l=>!/data-g=/.test(l)||CPJEUX.some(k=>l.includes('data-g="'+k+'"'))).join('\n').replace(/<p class="lead"[^>]*>img:crefl[^<]*<\/p><div class="menu"[^>]*>\s*<\/div>/,'');return s};
+let JHSRC='';
 const jeux=()=>{
   stopCr(); cur=null;
-  const JH=`
+  const JH=JHSRC=`
   <p class="lead" style="margin-top:22px">img:cmots Jeux de mots</p><div class="menu" style="margin-top:10px">
    <button class="tile" data-g="pendu"><span class="badge im"><img src="${ICO.pendu}" alt=""></span><span><b>Le pendu</b><small>Trouve le mot avant la fin du dessin</small></span></button>
    <button class="tile" data-g="croises"><span class="badge im"><img src="${ICO.croises}" alt=""></span><span><b>Les mots croisés</b><small>Remplis la grille avec les images</small></span></button>
@@ -3716,21 +3719,22 @@ const jeux=()=>{
    <button class="tile" data-g="course"><span class="badge im"><img src="${ICO.chr}" alt=""></span><span><b>Course de calculs</b><small>Réponds vite pour gagner</small></span></button>
   </div>
 `;
-  const JG=[...JH.matchAll(/<p class="lead"[^>]*>([^<]*)<\/p><div class="menu"[^>]*>([\s\S]*?)\n  <\/div>/g)].map(m=>[m[1],m[2],(n=>n+(n>1?' jeux':' jeu'))((m[2].match(/class="tile"/g)||[]).length)]);
+  const JHX=JH;
+  const JG=[...(JH2()).matchAll(/<p class="lead"[^>]*>([^<]*)<\/p><div class="menu"[^>]*>([\s\S]*?)\n  <\/div>/g)].map(m=>[m[1],m[2],(n=>n+(n>1?' jeux':' jeu'))((m[2].match(/class="tile"/g)||[]).length)]);
   app.innerHTML=tabs('j')+`<h1>Jeux</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">Joue et apprends en même temps.</p>${cgView('jx',JG)}`;
   cgBind('jx',jeux);
   bindTabs();
-  gq('[data-g="bac"]').onclick=bacStart;
-  gq('[data-g="pendu"]').onclick=()=>pickTheme('Le pendu',i=>penduStart(i));
-  gq('[data-g="morpion"]').onclick=morpionMenu;
-  gq('[data-g="croises"]').onclick=()=>pickTheme('Les mots croisés',i=>crossStart(i));
-  gq('[data-g="memory"]').onclick=()=>memMenu();
-  gq('[data-g="ballons"]').onclick=()=>balMenu();
-  gq('[data-g="meles"]').onclick=()=>pickTheme('Mots mêlés',i=>mmStart(i));
-  gq('[data-g="course"]').onclick=()=>courseMenu();
-  gq('[data-g="loto"]').onclick=()=>lotoMenu();
-  gq('[data-g="tresor"]').onclick=()=>tresorStart();
-  gq('[data-g="serpent"]').onclick=()=>snakeMenu();
+  (gq('[data-g=\"bac\"]')||{}).onclick=bacStart;
+  (gq('[data-g=\"pendu\"]')||{}).onclick=()=>pickTheme('Le pendu',i=>penduStart(i));
+  (gq('[data-g=\"morpion\"]')||{}).onclick=morpionMenu;
+  (gq('[data-g=\"croises\"]')||{}).onclick=()=>pickTheme('Les mots croisés',i=>crossStart(i));
+  (gq('[data-g=\"memory\"]')||{}).onclick=()=>memMenu();
+  (gq('[data-g=\"ballons\"]')||{}).onclick=()=>balMenu();
+  (gq('[data-g=\"meles\"]')||{}).onclick=()=>pickTheme('Mots mêlés',i=>mmStart(i));
+  (gq('[data-g=\"course\"]')||{}).onclick=()=>courseMenu();
+  (gq('[data-g=\"loto\"]')||{}).onclick=()=>lotoMenu();
+  (gq('[data-g=\"tresor\"]')||{}).onclick=()=>tresorStart();
+  (gq('[data-g=\"serpent\"]')||{}).onclick=()=>snakeMenu();
 };
 
 /* ----- Pendu ----- */
@@ -3906,7 +3910,7 @@ const mres=c=>c[1]==='+'?c[0]+c[2]:c[0]-c[2];
 const mtxt=c=>`${c[0]} ${c[1]==='+'?'+':'−'} ${c[2]}`;
 const mhint=c=>{const u=c[0]%10,d=c[0]-u,r=c[1]==='+'?d+c[2]:d-c[2];
   return `Mets les ${u} unités de côté : ${d} ${c[1]==='+'?'+':'−'} ${c[2]} = ${r}. Puis on remet les ${u} : ${r} + ${u} = ${r+u}.`;};
-const mgen=l=>{for(;;){
+const mgen=l=>{if(l===0){for(;;){const add=Math.random()<.6,a=ri(add?3:6,add?14:18),t=ri(1,add?20-a>6?6:20-a:Math.min(6,a-1));if(add&&a+t>20)continue;if(!add&&a-t<1)continue;return [a,add?'+':'-',t];}}for(;;){
   const add=Math.random()<.55, t=ri(l===3?2:1,l===3?7:5)*10;
   let a=l===1?ri(11,99):l===2?ri(101,189):ri(80,192);
   if(a%10===0)continue;
@@ -4056,7 +4060,7 @@ const unseen=()=>okList().map((v,i)=>v&&!seenC().includes(i)?i:-1).filter(i=>i>=
 function showClues(list,then){
   if(!list.length){then();return;}
   const i=list.shift();save.seen=[...seenC(),i];persist();
-  const c=CLUES[i],cnt=save.seen.length,nd=SEQ[2+cnt],dn=nd?SUBJ.find(s=>s[0]===nd):null;
+  const c=CLUES[i],cnt=save.seen.length,nd=SEQ[2+cnt],dn=nd&&openSet().has(nd)?SUBJ.find(s=>s[0]===nd):null;
   app.innerHTML=`<div class="card done"><div class="star">⭐</div><h2>Nouvel indice de Rico !</h2><div style="font-size:3.4rem">${c.ic}</div><p><b>${c.t}</b></p><p>${c.tx}</p>${dn?`<p style="color:var(--ok);font-weight:800">🔓 Nouvelle destination : ${dn[2]} ${dn[1]}</p>`:''}<p style="color:var(--soft);font-weight:700">${cnt} étoile${cnt>1?'s':''} sur 9</p><button class="go" id="cn">${list.length?'Indice suivant ›':'Continuer'}</button></div>`;
   document.getElementById('cn').onclick=()=>showClues(list,then);
 }
@@ -4419,7 +4423,7 @@ const BAL={
  oi:{t:'les mots avec oi',e:'⭐',good:['poire','noix','étoile','roi','voiture','poisson','froid','trois','voix','boire','oiseau','noir'],bad:['mouton','mouche','route','souris','bouche','couteau','bouton','poule','chou','nous','vous']},
  ou:{t:'les mots avec ou',e:'🐑',good:['mouton','mouche','route','souris','bouche','couteau','bouton','poule','chou','nous','vous','jour'],bad:['poire','noix','étoile','roi','voiture','poisson','froid','trois','voix','boire','noir']},
  plur:{t:'les mots au pluriel',e:'🔢',good:['des tables','les livres','mes amis','ces chats','des fleurs','les enfants','des ballons','mes stylos'],bad:['une table','le livre','mon ami','ce chat','une fleur','l\'enfant','un ballon','mon stylo']}};
-function balMenu(){gxMenu('Ballons à éclater','Touche seulement les bons ballons avant la fin du temps. Que veux-tu éclater ?',Object.entries(BAL).map(([k,v])=>[k,v.e,'Touche '+v.t]),balStart);}
+function balMenu(){gxMenu('Ballons à éclater','Touche seulement les bons ballons avant la fin du temps. Que veux-tu éclater ?',Object.entries(BAL).filter(([k])=>!(window.MRNIV&&MRNIV.lv()==='CP')||['oi','ou','noms'].includes(k)).map(([k,v])=>[k,v.e,'Touche '+v.t]),balStart);}
 function balStart(k){
   const tok=++gx.tok, C=BAL[k], B={k,pts:0,err:0,t:45};
   app.innerHTML=jeuxTop('Ballons à éclater')+`<div id="gx-live"><div class="gxb" style="display:flex;justify-content:space-between;font-family:var(--display);font-weight:700;margin-bottom:8px"><span>Touche <u>${C.t}</u></span><span class="chip" id="gx-t">0:45</span></div>
@@ -4447,7 +4451,7 @@ function balStart(k){
 const MEMP={
  plur:[['une table','des tables'],['un élève','des élèves'],['le livre','les livres'],['la cour','les cours'],['un stylo','des stylos'],['une chaise','des chaises'],['mon ami','mes amis'],['ce chat','ces chats'],['un cartable','des cartables'],['une ardoise','des ardoises']],
  inf:[['tu ranges','ranger'],['il gronde','gronder'],['vous récitez','réciter'],['ils jouent','jouer'],['elle lit','lire'],['je chante','chanter'],['nous mangeons','manger'],['tu écris','écrire'],['il dort','dormir'],['ils lavent','laver']]};
-function memMenu(){gxMenu('Memory','Retrouve les paires. Quelle sorte de paires ?',[['img','🖼️','Image + mot','Un dessin et son mot'],['plur','🔢','Singulier + pluriel','une table / des tables'],['inf','📝','Verbe + infinitif','tu ranges / ranger']],memStart);}
+function memMenu(){if((window.MRNIV&&MRNIV.lv()==='CP')){memStart('img');return;}gxMenu('Memory','Retrouve les paires. Quelle sorte de paires ?',[['img','🖼️','Image + mot','Un dessin et son mot'],['plur','🔢','Singulier + pluriel','une table / des tables'],['inf','📝','Verbe + infinitif','tu ranges / ranger']],memStart);}
 function memStart(k){
   let pairs;
   if(k==='img'){const seen=new Set();pairs=shuf(gwords('all')).filter(w=>!seen.has(w.e)&&seen.add(w.e)).slice(0,6).map(w=>[w.e,full(w)]);}
@@ -4511,7 +4515,7 @@ function mmDraw(){
 let rc=null;
 function courseMenu(){
   app.innerHTML=jeuxTop('Course de calculs')+`<p style="color:var(--soft);font-weight:700;margin-bottom:12px">Réponds juste pour faire avancer ta voiture. Arrive la première aux 8 calculs !</p>
-  <p class="lead">Les calculs</p><div class="menu" style="margin:8px 0 14px">${[1,2,3].map(l=>`<button class="tile" data-l="${l}"><span class="badge b-det">${l}★</span><span><b>Niveau ${STAR(l)}</b></span></button>`).join('')}</div>
+  <p class="lead">Les calculs</p><div class="menu" style="margin:8px 0 14px">${((window.MRNIV&&MRNIV.lv()==='CP')?[0]:[1,2,3]).map(l=>l===0?`<button class="tile" data-l="0"><span class="badge b-det">+ −</span><span><b>Calculs jusqu'à 20</b></span></button>`:`<button class="tile" data-l="${l}"><span class="badge b-det">${l}★</span><span><b>Niveau ${STAR(l)}</b></span></button>`).join('')}</div>
   <p class="lead">La voiture ordinateur</p><div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">${[['t','Tranquille'],['n','Normale'],['r','Rapide']].map(([k,n],i)=>`<button class="ghost" data-s="${k}" style="${i===1?'border-color:var(--gn)':''}">${n}</button>`).join('')}</div>`;
   jeuxBack(); bindTabs();
   let spd='n'; app.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{spd=b.dataset.s;app.querySelectorAll('[data-s]').forEach(x=>x.style.borderColor=x===b?'var(--gn)':'');});

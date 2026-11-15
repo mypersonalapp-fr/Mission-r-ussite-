@@ -12,7 +12,7 @@ var LV=[
  {k:'CM2',c:'#6b7a1f',e:'🚀',pre:['Écrire un texte organisé de 10 lignes','Conjugaison des temps simples','Division posée, nombres décimaux','Fractions, proportionnalité']},
  {k:'Collège',c:'#d9822b',e:'🎓',pre:['Comprendre un texte long','Rédiger avec une introduction et une conclusion','Nombres décimaux et fractions maîtrisés','Méthode de travail et organisation']}];
 var LVI=function(k){return LV.findIndex(function(l){return l.k===k})};
-var HAS={CP:['g','m'],CE1:['g','c','m','j','s','k','l','f','r'],CE2:[],CM1:[],CM2:[],'Collège':[]};
+var HAS={CP:['g','m','j'],CE1:['g','c','m','j','s','k','l','f','r'],CE2:[],CM1:[],CM2:[],'Collège':[]};
 var PROG={
  CP:{'Lecture':['Sons et lettres','Syllabes et mots','Mots fréquents','Phrases et petit texte'],'Écriture':['Geste et lettres','Copier','Écrire une phrase'],'Compréhension':['Écouter une histoire','Comprendre ce qu’on lit','Les consignes'],'Langue':['Vocabulaire','Phrase, nom, verbe','Singulier et pluriel'],'Maths':['Nombres jusqu’à 100','Compléments et décompositions','Addition et soustraction','Problèmes','Mesures et durées','Formes et solides']},
  CE1:{'Lecture':['Décodage','Fluidité','Mots outils'],'Écriture':['Dictée','Accords','Rédiger quelques phrases'],'Compréhension':['Textes courts','Questions sur un texte'],'Langue':['Le verbe et le groupe nominal','Conjugaison au présent','Vocabulaire'],'Maths':['Nombres jusqu’à 1000','Calcul mental','Additions et soustractions posées','Multiplication','Problèmes','Mesures, heure et formes']},
