@@ -13,7 +13,7 @@
 <title>Mission réussite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
   --verb:#e0393f; --verb-bg:#ffe3e4;
@@ -3713,6 +3713,8 @@ const jeux=()=>{
    <button class="tile" data-g="bac"><span class="badge im"><img src="${ICO.bac}" alt=""></span><span><b>Baccalauréat</b><small>Tourne l'aiguille, trouve un mot par ligne</small></span></button>
    <button class="tile" data-g="loto"><span class="badge im"><img src="${ICO.loto}" alt=""></span><span><b>Loto des sons</b><small>Remplis ton carton</small></span></button>
    <button class="tile" data-g="ballons"><span class="badge im"><img src="${ICO.ballons}" alt=""></span><span><b>Ballons à éclater</b><small>Touche seulement les bons mots</small></span></button>
+   <button class="tile" data-g="homo"><span class="badge b-det">🕵️</span><span><b>Chasseur d’homophones</b><small>a/à, et/est, on/ont… trouve le bon mot</small></span></button>
+   <button class="tile" data-g="dictee"><span class="badge b-det">✍️</span><span><b>Dictée magique</b><small>Écoute, écris, je corrige mot par mot</small></span></button>
   </div>
   <p class="lead" style="margin-top:22px">img:crefl Jeux de réflexion</p><div class="menu" style="margin-top:10px">
    <button class="tile" data-g="morpion"><span class="badge im"><img src="${ICO.morpion}" alt=""></span><span><b>Le morpion</b><small>Réponds juste pour placer ta croix</small></span></button>
@@ -3740,6 +3742,8 @@ const jeux=()=>{
   (gq('[data-g=\"loto\"]')||{}).onclick=()=>lotoMenu();
   (gq('[data-g=\"tresor\"]')||{}).onclick=()=>tresorStart();
   (gq('[data-g=\"serpent\"]')||{}).onclick=()=>snakeMenu();
+  (gq('[data-g=\"homo\"]')||{}).onclick=()=>homoMenu();
+  (gq('[data-g=\"dictee\"]')||{}).onclick=()=>dictMenu();
 };
 
 /* ----- Pendu ----- */
