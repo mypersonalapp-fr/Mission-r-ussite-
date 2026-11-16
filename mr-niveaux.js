@@ -12,7 +12,7 @@ var LV=[
  {k:'CM2',c:'#6b7a1f',e:'🚀',pre:['Écrire un texte organisé de 10 lignes','Conjugaison des temps simples','Division posée, nombres décimaux','Fractions, proportionnalité']},
  {k:'Collège',c:'#d9822b',e:'🎓',pre:['Comprendre un texte long','Rédiger avec une introduction et une conclusion','Nombres décimaux et fractions maîtrisés','Méthode de travail et organisation']}];
 var LVI=function(k){return LV.findIndex(function(l){return l.k===k})};
-var HAS={CP:['g','m','j','v'],CE1:['g','v','c','m','j','s','k','l','f','r'],CE2:[],CM1:[],CM2:[],'Collège':[]};
+var HAS={CP:['g','m','j','v'],CE1:['g','v','c','m','j','s','k','l','f','r'],CE2:['g'],CM1:[],CM2:[],'Collège':[]};
 var PROG={
  CP:{'Lecture':['Sons et lettres','Syllabes et mots','Mots fréquents','Phrases et petit texte'],'Écriture':['Geste et lettres','Copier','Écrire une phrase'],'Compréhension':['Écouter une histoire','Comprendre ce qu’on lit','Les consignes'],'Langue':['Vocabulaire','Phrase, nom, verbe','Singulier et pluriel'],'Maths':['Nombres jusqu’à 100','Compléments et décompositions','Addition et soustraction','Problèmes','Mesures et durées','Formes et solides']},
  CE1:{'Lecture':['Décodage','Fluidité','Mots outils'],'Écriture':['Dictée','Accords','Rédiger quelques phrases'],'Compréhension':['Textes courts','Questions sur un texte'],'Langue':['Le verbe et le groupe nominal','Conjugaison au présent','Vocabulaire'],'Maths':['Nombres jusqu’à 1000','Calcul mental','Additions et soustractions posées','Multiplication','Problèmes','Mesures, heure et formes']},
@@ -33,9 +33,9 @@ var snap=function(){try{PS.data[PS.cur]={g:localStorage.getItem('mgram')||'{}',r
 var swap=function(id,scr){snap();var d=PS.data[id]||{g:'{}',r:'{}'};try{localStorage.setItem('mgram',d.g);localStorage.setItem('mr-rem',d.r)}catch(e){}PS.cur=id;sv();try{sessionStorage.setItem('mr-skip',scr||'galaxie')}catch(e){}location.reload()};
 
 /* ---------- progression ---------- */
-var inLv=function(m,k){return k==='CP'?!!m.cp:(k==='CE1'?!m.cp:false)};
+var inLv=function(m,k){return k==='CP'?!!m.cp:(k==='CE2'?!!m.ce2:(k==='CE1'?(!m.cp&&!m.ce2):false))};
 var core=function(m){return !m.train&&!m.remp&&!/^rem/.test(m.id)&&!m.voc&&!m.cj&&!m.lec&&!m.met};
-var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&!m.pass&&!(window.MRREV&&MRREV.all.has(m.id))&&(m.cp||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
+var prog=function(k){if(typeof M==='undefined')return 0;var L=M.filter(function(m){return inLv(m,k)&&!m.pass&&!(window.MRREV&&MRREV.all.has(m.id))&&(m.cp||m.ce2||core(m)||m.mth||m.cj||m.voc||m.lec)});if(!L.length)return 0;
  var d=L.filter(function(m){return save[m.id]}).length;return Math.round(100*d/L.length)};
 var passMods=function(k){return typeof M==='undefined'?[]:M.filter(function(m){return m.pass&&inLv(m,k)})};
 var passPct=function(k){var L=passMods(k);return L.length?Math.round(100*L.filter(function(m){return save[m.id]}).length/L.length):100};
@@ -342,13 +342,14 @@ var obs=null;var decor=function(){if(!obs){obs=new MutationObserver(refreshBar);
 var offBar=function(){var b=$('mrbar');if(b)b.style.display='none'};
 
 /* ---------- listes CP ---------- */
-var CPG={fr:[['👂 Écouter et parler',['cp-histoire','cp-oeuvres','cp-phrases','cp-syl','cp-sons','cp-poesie','cp-comptines2','cp-oral']],['📖 Lire',['cp-assemble','cp-s-nas','cp-s-voy','cp-s-cons','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin','cp-comprend']],['✏️ Écrire',['cp-main','cp-lettres','cp-copie','cp-dictee','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']],['🔤 Mots et langue',['cp-classe','cp-contraire','cp-consignes','cp-gram','cp-nombre','cp-accsv','cp-alpha','cp-maj','cp-ponct','cp-vocab']],['🏁 Bilan du CP',['cp-bilan']]],
+var CPG0={fr:[['👂 Écouter et parler',['cp-histoire','cp-oeuvres','cp-phrases','cp-syl','cp-sons','cp-poesie','cp-comptines2','cp-oral']],['📖 Lire',['cp-assemble','cp-s-nas','cp-s-voy','cp-s-cons','cp-dechiffre','cp-freq','cp-lirephr','cp-texte','cp-lecmin','cp-comprend']],['✏️ Écrire',['cp-main','cp-lettres','cp-copie','cp-dictee','cp-phr-ecr','cp-legende','cp-ecrit','cp-relire']],['🔤 Mots et langue',['cp-classe','cp-contraire','cp-consignes','cp-gram','cp-nombre','cp-accsv','cp-alpha','cp-maj','cp-ponct','cp-vocab']],['🏁 Bilan du CP',['cp-bilan']]],
  m:[['🔢 Les nombres',['cp-n20','cp-diz','cp-compter','cp-compar','cp-ord','cp-suite']],['🧮 Calculer',['cp-c10','cp-dec10','cp-dec20','cp-dbl','cp-cmental','cp-tabadd','cp-mag','cp-sens','cp-addp','cp-addr','cp-mult']],['🧩 Les problèmes',['cp-pb1','cp-pb2','cp-pb3','cp-eur','cp-tab']],['📏 Mesures et durées',['cp-long','cp-masse','cp-cal','cp-heure']],['🔷 Géométrie',['cp-fig','cp-sol','cp-rep','cp-quad','cp-algo','cp-logique']]]};
-var cpHome=function(kind){if(view!=='CP')return false;stopCr();cur=null;var key=kind==='fr'?'g':'m',T=function(l){return l.map(function(m){return tileH(m,M.indexOf(m))}).join('')};
+var CE2G={fr:[['🔁 Les mots de la phrase',['c2-var','c2-sv','c2-nom','c2-det','c2-adj','c2-gn']],['🧩 La phrase',['c2-neg','c2-types']],['🔗 Les petits mots',['c2-pron','c2-adv','c2-prep','c2-conj']],['🏁 Bilan',['c2-bilan-gram']]]};
+var cpHome=function(kind){if(view!=='CP'&&!(view==='CE2'&&kind==='fr'))return false;var CPG=view==='CE2'?CE2G:CPG0;stopCr();cur=null;var key=kind==='fr'?'g':'m',T=function(l){return l.map(function(m){return tileH(m,M.indexOf(m))}).join('')};
  var G=CPG[kind].map(function(g){var L=g[1].map(function(id){return M.find(function(m){return m.id===id})}).filter(Boolean);return [g[0],T(L),L.filter(function(m){return save[m.id]}).length+'/'+L.length]});
  window.MRORD=[].concat.apply([],G.map(function(g){return [].concat(Array.from(String(g[1]).matchAll(/data-m="(\d+)"/g)).map(function(x){return +x[1]}))}));
  var all=[].concat.apply([],CPG[kind].map(function(g){return g[1]})).map(function(id){return M.find(function(m){return m.id===id})}).filter(Boolean),done=all.filter(function(m){return save[m.id]}).length;
- app.innerHTML=(kind==='fr'?tabs('g'):tabs('x'))+'<h1>'+(kind==='fr'?'Français':'Maths')+' · CP</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">'+(kind==='fr'?'J’écoute, je lis, j’écris.':'Je compte, je calcule, je mesure.')+'</p>'+cgView(key,G)+'<p style="margin-top:18px;font-weight:800;color:var(--soft)">'+done+' mission'+(done>1?'s':'')+' sur '+all.length+' réussie'+(done>1?'s':'')+'</p>';
+ app.innerHTML=(kind==='fr'?tabs('g'):tabs('x'))+'<h1>'+(kind==='fr'?'Français':'Maths')+' · '+view+'</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">'+(kind==='fr'?'J’écoute, je lis, j’écris.':'Je compte, je calcule, je mesure.')+'</p>'+cgView(key,G)+'<p style="margin-top:18px;font-weight:800;color:var(--soft)">'+done+' mission'+(done>1?'s':'')+' sur '+all.length+' réussie'+(done>1?'s':'')+'</p>';
  app.querySelectorAll('[data-m]').forEach(function(b){b.onclick=function(){start(+b.dataset.m)}});cgBind(key,kind==='fr'?home:maths);bindTabs();return true};
 
 /* ---------- API ---------- */
