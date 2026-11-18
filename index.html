@@ -13,7 +13,7 @@
 <title>Mission réussite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-pres.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
   --verb:#e0393f; --verb-bg:#ffe3e4;
@@ -5666,6 +5666,7 @@ function rcDraw(){
     rcDraw();};
 }
 
+(window.MRPRES_DATA||[]).forEach(n=>{const i=M.findIndex(m=>m.id===n.id);if(i>=0)M[i]=Object.assign({},M[i],{name:n.name,sub:n.sub,steps:n.steps});else M.push(n)});
 (window.MRIMP_DATA||[]).forEach(n=>{const i=M.findIndex(m=>m.id===n.id);if(i>=0)M[i]=Object.assign({},M[i],{name:n.name,sub:n.sub,steps:n.steps});else M.push(n)});
 if(window.MRCP_BUILD&&!window.MRCP_DONE){window.MRCP_DONE=1;MRCP_BUILD(M);}
 if(window.MRXEXT&&!window.MRXEXT_DONE){window.MRXEXT_DONE=1;Object.keys(MRXEXT).forEach(id=>{const m=M.find(x=>x.id===id);if(!m)return;const nt=(m.steps.find(x=>x.nt)||{}).nt||m.name;const add=MRXEXT[id].map(s=>Object.assign({},s,{nt:s.nt||nt,_x:1}));let k=m.steps.length;const l=m.steps[k-1];if(l&&l.t==='teach'&&(l.js==='bilend'||!l.chk&&!l.html))k--;m.steps.splice(k,0,...add);});}
