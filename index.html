@@ -13,7 +13,7 @@
 <title>Mission réussite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
   --verb:#e0393f; --verb-bg:#ffe3e4;
@@ -217,6 +217,38 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .chunk.pick{background:color-mix(in srgb,var(--sun) 28%,var(--card));border-color:var(--sun)}
 .chunk.fine{background:var(--pro-bg);border-color:var(--ok)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.cl{display:block;width:100%;text-align:left;padding:13px 16px;border-radius:14px;border:2px solid var(--line);background:#fff;font-weight:800;font-size:1.1rem;margin:7px 0;line-height:1.35}
+.cl.on{background:linear-gradient(transparent 12%,#ffe066 12%);border-color:#e0b400}
+.cl.bad,.fo button.bad,.bl.bad,.cji.bad{border-color:#e0393f!important;background:#ffe5e5!important}
+.cl.good,.fo button.good,.bl.good,.cji.good{border-color:#0e9a63!important;background:#d9f5e8!important}
+.xfl{font-size:1.12rem;line-height:2.15;padding:1px 0}
+.fo button{margin:0 2px;padding:3px 10px;border-radius:12px;border:2px solid var(--line);background:#fff;font-weight:800;font-size:1.08rem}
+.fo button.on{background:#cfe0ff;border-color:#2459e6}
+.bk{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px;padding:10px;border-radius:14px;background:#eef2ff}
+.bk button{padding:8px 14px;border-radius:12px;border:2px solid #2459e6;background:#fff;font-weight:800;font-size:1.08rem}
+.bk button.on{background:#2459e6;color:#fff}.bk button.used{opacity:.35}
+.bl{display:inline-block;min-width:110px;padding:4px 12px;border:0;border-bottom:3px dashed var(--soft);background:transparent;font-weight:800;font-size:1.1rem;color:var(--ink);text-align:center}
+.bl.full{border-bottom:3px solid #2459e6;background:#e8efff;border-radius:10px 10px 0 0}
+.cji.cjs{width:78px}
+.cji{width:128px;max-width:40vw;padding:3px 8px;border-radius:10px;border:2px solid var(--line);font:inherit;font-size:1.15rem;font-weight:700;background:#fff}
+
+.mx{position:relative;margin-top:6px}
+.mx .mcols{display:grid;grid-template-columns:1fr 1fr;gap:12px 64px;position:relative;z-index:2}
+.mxl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.mxl .mxok{stroke:#2459e6;stroke-width:3.5;stroke-linecap:round}
+.mxl .mxko{stroke:#e0393f;stroke-width:3.5;stroke-dasharray:7 6;stroke-linecap:round}
+.mxl .mxdrag{stroke:#8aa3f0;stroke-width:3.5;stroke-linecap:round}
+.mxi{position:relative;display:flex;align-items:center;gap:8px;min-height:54px;line-height:1.2}
+.mxL{justify-content:flex-start;padding-right:22px}
+.mxR{justify-content:flex-start;padding-left:22px}
+.mxi .dot{position:absolute;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#fff;border:3.5px solid #2459e6;touch-action:none;z-index:3}
+.mxL .dot{right:-8px}.mxR .dot{left:-8px}
+.mxL.sel{border-color:#2459e6;background:#e8efff}.mxL.sel .dot{background:#2459e6;transform:scale(1.25)}
+.mxi.good .dot{background:#2459e6}
+.mxR.bad{animation:mxsh .35s}
+@keyframes mxsh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media(max-width:420px){.mx .mcols{grid-template-columns:1fr 1fr;gap:10px 44px}.col .mxi{font-size:.98rem;padding-inline:10px 16px}.mxR{padding-left:16px}}
+
 .col{display:flex;flex-direction:column;gap:10px;min-width:0}
 .col .tok{font-size:1.05rem;text-align:left}
 .tok.sel{border-color:var(--sun);background:color-mix(in srgb,var(--sun) 28%,var(--card))}
@@ -855,8 +887,8 @@ const home=()=>{
   </div>
   <button class="go" id="fsui" style="margin-top:12px">📊 Mon suivi</button>${window.mrRemCount&&mrRemCount('fr')?`<button class="go" id="frrem" style="margin-top:12px">🎯 Ma reprise de français (${mrRemCount('fr')})</button>`:''}${window.mrRemCount&&mrRemCount('ort')?`<button class="go" id="orrem" style="margin-top:12px">🎯 Ma reprise de copie (${mrRemCount('ort')})</button>`:''}
   ${(()=>{const T=l=>l.map(m=>tileH(m,M.indexOf(m))).join(''),Pr=(h,ids)=>{const L=ids.map(id=>miss.find(m=>m.id===id)).filter(Boolean);return [h,T(L),L.filter(m=>save[m.id]).length+'/'+L.length,L.length]},P=(h,ids)=>Pr(h,ids.filter(id=>!MRREV.all.has(id)));
-   const G=[Pr(REVT,MRREV.fr),P('🔊 1. Les sons',['oi','s-an','s-on','s-in','s-ch','s-gn','s-ill','s-j','s-k','s-sz','s-g','s-f','s-o','s-è','s-é','s-eu','s-r','s-l','s-x','s-ee','s-eu2','s-sz2','s-chj','s-kg','s-pb','s-td','s-fv','s-mn','s-lr','s-aan','s-oon','s-èin','s-uou','s-éè','s-ail','s-ui','s-emuet','s-un','s-oin','s-ien','s-ion','s-y','s-h','s-w','s-eille','s-èe','s-e2','s-muet']),P('📖 2. Lire les mots longs',['ml-2']),P('✏️ 3. Les dictées',['dic-1','dl-1','dl-2','dl-3','dl-4','dic-rev']),P('🗣️ 4. Lire à voix haute',['lia-1','lv-1']),P('✍️ 5. La phrase',['f-debut','sens','f-ordre','seg-1','ph-1','f-ponct','ph-2','ph-3','ph-4','ph-def']),P('🏷️ 6. Le nom',['nom','det','nm-1','nm-2','nm-3','nm-5','nm-6','accords','gn','adj-1','adj-2','nm-4','nm-def','nm-rev']),P('🏃 7. Le verbe',['verbe','vb-1','infinitif','conj','vb-2','vb-3']),P('🤝 8. Le sujet et le verbe',['pattes','f-sv','sv-1','sujet','sv-2','sv-3','sv-4']),P('👤 9. Les pronoms',['pronom','pr-1']),P('➕ 10. Allonger la phrase',['f-comp','al-1','tx-1']),P('🧩 11. L\'orthographe',['or-1','or-2','or-3','or-4','or-5','or-6','or-7','or-8','or-9','or-10','or-11','or-bil','or-rev','or-hom']),P('🔀 Les homophones (1)',['hm-cese-1','hm-cese-2','hm-cesses-1','hm-cesses-2','hm-cestsest-1','hm-cestsest-2','hm-sonsont-1','hm-sonsont-2','hm-bil1']),P('🔀 Les homophones (2)',['hm-ouou-1','hm-ouou-2','hm-lala-1','hm-lala-2','hm-casa-1','hm-casa-2','hm-maismes-1','hm-maismes-2','hm-bil2']),P('🔀 Les homophones (3)',['hm-mama-1','hm-mama-2','hm-tata-1','hm-tata-2','hm-leurs-1','hm-leurs-2','hm-peupeut-1','hm-peupeut-2','hm-bil3']),P('🔀 Les homophones (4)',['hm-toustous-1','hm-toustous-2','hm-sanssent-1','hm-sanssent-2','hm-presprets-1','hm-presprets-2','hm-laa-1','hm-laa-2','hm-bil4']),P('🟰 Les synonymes',['sy-1','sy-2','sy-3','sy-4','sy-bil']),P('🧭 Comprendre les consignes',['cs-1','cs-2','cs-3','cs-bil']),P('♾️ Il faut + infinitif',['inf-1','inf-2','inf-3','inf-4','inf-bil']),P('👨‍👩‍👧 Les familles de mots',['fam-1','fam-2','fam-3','fam-4','fam-5','fam-bil']),P('↔️ Jouer avec les mots',['ctr-1','ctr-2','ctr-bil','alp-1','alp-2','alp-bil']),P('🗣️ Les types de phrases',['tp-1', 'tp-2', 'tp-3', 'tp-4', 'tp-5', 'tp-bil']),P('🔧 Les verbes irréguliers',['iv-dire-1', 'iv-dire-2', 'iv-venir-1', 'iv-venir-2', 'iv-pouvoir-1', 'iv-pouvoir-2', 'iv-bil1', 'iv-voir-1', 'iv-voir-2', 'iv-vouloir-1', 'iv-vouloir-2', 'iv-prendre-1', 'iv-prendre-2', 'iv-bil2']),P('⏩ Le futur',['fu-1', 'fu-2', 'fu-3', 'fu-4', 'fu-5', 'fu-6', 'fu-bil']),P('🧱 Préfixes et suffixes',['ps-1', 'ps-2', 'ps-3', 'ps-4', 'ps-bil', 'ps-5', 'ps-6', 'ps-7', 'ps-8', 'ps-9', 'ps-10', 'ps-bil2']),P('💬 Familier ou courant',['nl-1', 'nl-2', 'nl-bil']),P('✨ Petits plus de français',['pol-1', 'pol-2', 'poe-1', 'poe-2', 'dia-1', 'dia-2', 'cd-1', 'cd-2', 'pl-bil']),P('🧐 Comprendre une consigne',['co-1', 'co-2', 'co-3', 'co-4', 'co-5', 'co-6', 'co-bil']),P('🏆 12. Je sais tout faire',['detective','f-final','bil-1','bil-2'])];
-   const used=['adj-1','adj-2','nm-5','nm-6','pol-1','pol-2','poe-1','poe-2','dia-1','dia-2','cd-1','cd-2','pl-bil','co-1','co-2','co-3','co-4','co-5','co-6','co-bil','ps-5','ps-6','ps-7','ps-8','ps-9','ps-10','ps-bil2','tp-1','tp-2','tp-3','tp-4','tp-5','tp-bil','iv-dire-1','iv-dire-2','iv-venir-1','iv-venir-2','iv-pouvoir-1','iv-pouvoir-2','iv-bil1','iv-voir-1','iv-voir-2','iv-vouloir-1','iv-vouloir-2','iv-prendre-1','iv-prendre-2','iv-bil2','fu-1','fu-2','fu-3','fu-4','fu-5','fu-6','fu-bil','ps-1','ps-2','ps-3','ps-4','ps-bil','nl-1','nl-2','nl-bil','ctr-1','ctr-2','ctr-bil','alp-1','alp-2','alp-bil','cs-1','cs-2','cs-3','cs-bil','inf-1','inf-2','inf-3','inf-4','inf-bil','fam-1','fam-2','fam-3','fam-4','fam-5','fam-bil','hm-cese-1','hm-cese-2','hm-cesses-1','hm-cesses-2','hm-cestsest-1','hm-cestsest-2','hm-sonsont-1','hm-sonsont-2','hm-bil1','hm-ouou-1','hm-ouou-2','hm-lala-1','hm-lala-2','hm-casa-1','hm-casa-2','hm-maismes-1','hm-maismes-2','hm-bil2','hm-mama-1','hm-mama-2','hm-tata-1','hm-tata-2','hm-leurs-1','hm-leurs-2','hm-peupeut-1','hm-peupeut-2','hm-bil3','hm-toustous-1','hm-toustous-2','hm-sanssent-1','hm-sanssent-2','hm-presprets-1','hm-presprets-2','hm-laa-1','hm-laa-2','hm-bil4','sy-1','sy-2','sy-3','sy-4','sy-bil','or-hom','or-rev','or-1','or-2','or-3','or-4','or-5','or-6','or-7','or-8','or-9','or-10','or-11','or-bil','vb-1','vb-2','vb-3','sv-1','sv-2','sv-3','sv-4','tx-1','lv-1','seg-1','pr-1','al-1','bil-1','bil-2','nm-1','nm-2','nm-3','nm-4','nm-def','nm-rev','ph-1','ph-2','ph-3','ph-4','ph-def','lia-1','ml-2','dic-1','dl-1','dl-2','dl-3','dl-4','dic-rev','nom','det','s-an','s-on','s-in','s-ch','s-gn','s-ill','s-j','s-k','s-sz','s-g','s-f','s-o','s-è','s-é','s-eu','s-r','s-l','s-x','s-ee','s-eu2','s-sz2','s-chj','s-kg','s-pb','s-td','s-fv','s-mn','s-lr','s-aan','s-oon','s-èin','s-uou','s-éè','s-ail','s-ui','s-emuet','s-un','s-oin','s-ien','s-ion','s-y','s-h','s-w','s-eille','s-èe','s-e2','s-muet','f-debut','f-ordre','f-sv','f-comp','f-ponct','f-final','verbe','conj','infinitif','sens','detective','gn','pattes','sujet','accords','pronom','oi'],O=miss.filter(m=>!used.includes(m.id));if(O.length)G.push(['📦 Autres',T(O),O.filter(m=>save[m.id]).length+'/'+O.length]);
+   const G=[Pr(REVT,MRREV.fr),P('🔊 1. Les sons',['oi','s-an','s-on','s-in','s-ch','s-gn','s-ill','s-j','s-k','s-sz','s-g','s-f','s-o','s-è','s-é','s-eu','s-r','s-l','s-x','s-ee','s-eu2','s-sz2','s-chj','s-kg','s-pb','s-td','s-fv','s-mn','s-lr','s-aan','s-oon','s-èin','s-uou','s-éè','s-ail','s-ui','s-emuet','s-un','s-oin','s-ien','s-ion','s-y','s-h','s-w','s-eille','s-èe','s-e2','s-muet']),P('📖 2. Lire les mots longs',['ml-2']),P('✏️ 3. Les dictées',['dic-1','dl-1','dl-2','dl-3','dl-4','dic-rev']),P('🗣️ 4. Lire à voix haute',['lia-1','lv-1']),P('✍️ 5. La phrase',['f-debut','sens','f-ordre','seg-1','ph-1','f-ponct','ph-2','ph-3','ph-4','ph-def']),P('🏷️ 6. Le nom',['nom','det','det-cah','nm-1','nm-2','nm-3','nm-5','nm-6','accords','gn','adj-1','adj-2','nm-4','nm-def','nm-rev']),P('🏃 7. Le verbe',['verbe','vb-1','infinitif','conj','vb-2','vb-3']),P('🤝 8. Le sujet et le verbe',['pattes','f-sv','sv-1','sujet','sv-2','sv-3','sv-4']),P('👤 9. Les pronoms',['pronom','pr-1']),P('➕ 10. Allonger la phrase',['f-comp','al-1','tx-1']),P('🧩 11. L\'orthographe',['or-1','or-2','or-3','or-4','or-5','or-6','or-7','or-8','or-9','or-10','or-11','or-bil','or-rev','or-hom']),P('🔀 Les homophones (1)',['hm-cese-1','hm-cese-2','hm-cesses-1','hm-cesses-2','hm-cestsest-1','hm-cestsest-2','hm-sonsont-1','hm-sonsont-2','hm-bil1']),P('🔀 Les homophones (2)',['hm-ouou-1','hm-ouou-2','hm-lala-1','hm-lala-2','hm-casa-1','hm-casa-2','hm-maismes-1','hm-maismes-2','hm-bil2']),P('🔀 Les homophones (3)',['hm-mama-1','hm-mama-2','hm-tata-1','hm-tata-2','hm-leurs-1','hm-leurs-2','hm-peupeut-1','hm-peupeut-2','hm-bil3']),P('🔀 Les homophones (4)',['hm-toustous-1','hm-toustous-2','hm-sanssent-1','hm-sanssent-2','hm-presprets-1','hm-presprets-2','hm-laa-1','hm-laa-2','hm-bil4']),P('🟰 Les synonymes',['sy-1','sy-2','sy-3','sy-4','sy-bil']),P('🧭 Comprendre les consignes',['cs-1','cs-2','cs-3','cs-bil']),P('♾️ Il faut + infinitif',['inf-1','inf-2','inf-3','inf-4','inf-bil']),P('👨‍👩‍👧 Les familles de mots',['fam-1','fam-2','fam-3','fam-4','fam-5','fam-bil']),P('↔️ Jouer avec les mots',['ctr-1','ctr-2','ctr-bil','alp-1','alp-2','alp-bil']),P('🗣️ Les types de phrases',['tp-1', 'tp-2', 'tp-3', 'tp-4', 'tp-5', 'tp-bil']),P('🔧 Les verbes irréguliers',['iv-dire-1', 'iv-dire-2', 'iv-venir-1', 'iv-venir-2', 'iv-pouvoir-1', 'iv-pouvoir-2', 'iv-bil1', 'iv-voir-1', 'iv-voir-2', 'iv-vouloir-1', 'iv-vouloir-2', 'iv-prendre-1', 'iv-prendre-2', 'iv-bil2']),P('⏩ Le futur',['fu-1', 'fu-2', 'fu-3', 'fu-4', 'fu-5', 'fu-6', 'fu-bil']),P('🧱 Préfixes et suffixes',['ps-1', 'ps-2', 'ps-3', 'ps-4', 'ps-bil', 'ps-5', 'ps-6', 'ps-7', 'ps-8', 'ps-9', 'ps-10', 'ps-bil2']),P('💬 Familier ou courant',['nl-1', 'nl-2', 'nl-bil']),P('✨ Petits plus de français',['pol-1', 'pol-2', 'poe-1', 'poe-2', 'dia-1', 'dia-2', 'cd-1', 'cd-2', 'pl-bil']),P('🧐 Comprendre une consigne',['co-1', 'co-2', 'co-3', 'co-4', 'co-5', 'co-6', 'co-bil']),P('🏆 12. Je sais tout faire',['detective','f-final','bil-1','bil-2'])];
+   const used=['adj-1','adj-2','nm-5','nm-6','pol-1','pol-2','poe-1','poe-2','dia-1','dia-2','cd-1','cd-2','pl-bil','co-1','co-2','co-3','co-4','co-5','co-6','co-bil','ps-5','ps-6','ps-7','ps-8','ps-9','ps-10','ps-bil2','tp-1','tp-2','tp-3','tp-4','tp-5','tp-bil','iv-dire-1','iv-dire-2','iv-venir-1','iv-venir-2','iv-pouvoir-1','iv-pouvoir-2','iv-bil1','iv-voir-1','iv-voir-2','iv-vouloir-1','iv-vouloir-2','iv-prendre-1','iv-prendre-2','iv-bil2','fu-1','fu-2','fu-3','fu-4','fu-5','fu-6','fu-bil','ps-1','ps-2','ps-3','ps-4','ps-bil','nl-1','nl-2','nl-bil','ctr-1','ctr-2','ctr-bil','alp-1','alp-2','alp-bil','cs-1','cs-2','cs-3','cs-bil','inf-1','inf-2','inf-3','inf-4','inf-bil','fam-1','fam-2','fam-3','fam-4','fam-5','fam-bil','hm-cese-1','hm-cese-2','hm-cesses-1','hm-cesses-2','hm-cestsest-1','hm-cestsest-2','hm-sonsont-1','hm-sonsont-2','hm-bil1','hm-ouou-1','hm-ouou-2','hm-lala-1','hm-lala-2','hm-casa-1','hm-casa-2','hm-maismes-1','hm-maismes-2','hm-bil2','hm-mama-1','hm-mama-2','hm-tata-1','hm-tata-2','hm-leurs-1','hm-leurs-2','hm-peupeut-1','hm-peupeut-2','hm-bil3','hm-toustous-1','hm-toustous-2','hm-sanssent-1','hm-sanssent-2','hm-presprets-1','hm-presprets-2','hm-laa-1','hm-laa-2','hm-bil4','sy-1','sy-2','sy-3','sy-4','sy-bil','or-hom','or-rev','or-1','or-2','or-3','or-4','or-5','or-6','or-7','or-8','or-9','or-10','or-11','or-bil','vb-1','vb-2','vb-3','sv-1','sv-2','sv-3','sv-4','tx-1','lv-1','seg-1','pr-1','al-1','bil-1','bil-2','nm-1','nm-2','nm-3','nm-4','nm-def','nm-rev','ph-1','ph-2','ph-3','ph-4','ph-def','lia-1','ml-2','dic-1','dl-1','dl-2','dl-3','dl-4','dic-rev','nom','det','det-cah','s-an','s-on','s-in','s-ch','s-gn','s-ill','s-j','s-k','s-sz','s-g','s-f','s-o','s-è','s-é','s-eu','s-r','s-l','s-x','s-ee','s-eu2','s-sz2','s-chj','s-kg','s-pb','s-td','s-fv','s-mn','s-lr','s-aan','s-oon','s-èin','s-uou','s-éè','s-ail','s-ui','s-emuet','s-un','s-oin','s-ien','s-ion','s-y','s-h','s-w','s-eille','s-èe','s-e2','s-muet','f-debut','f-ordre','f-sv','f-comp','f-ponct','f-final','verbe','conj','infinitif','sens','detective','gn','pattes','sujet','accords','pronom','oi'],O=miss.filter(m=>!used.includes(m.id));if(O.length)G.push(['📦 Autres',T(O),O.filter(m=>save[m.id]).length+'/'+O.length]);
    G.push(['⏱️ S\'entraîner',T(M.filter(m=>m.train))+`<button class="tile" id="chr"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>Le plus de bonnes réponses avant la fin du temps</small></span></button>`,'']);
    window.MRORD=[].concat(...G.map(g=>[...String(g[1]).matchAll(/data-m="(\d+)"/g)].map(x=>+x[1])));
    return cgView('g',G);})()}
@@ -905,7 +937,7 @@ function step(){
   const m=M[cur.m];
   if(cur.i>=m.steps.length) return finish();
   const s=m.steps[cur.i];
-  ({teach,demo,tap,choice,metier,build,detective,swap,sort,tapmany,match,num:numStep,col:colStep,bpick,ck:s=>FHJ.ck(s),fr:s=>FHJ.fr(s)})[s.t](s,m);
+  ({teach,demo,tap,choice,metier,build,detective,swap,sort,tapmany,match,colorie,forme,banque,conj,num:numStep,col:colStep,bpick,ck:s=>FHJ.ck(s),fr:s=>FHJ.fr(s)})[s.t](s,m);
   const b=document.getElementById('back'); if(b) b.onclick=homeOf(m);
   const n=document.getElementById('next'); if(n) n.onclick=next;
   window.scrollTo({top:0});
@@ -1118,18 +1150,137 @@ function tapmany(s){
 }
 
 function match(s){
-  if(!st.r){st.r=s.pairs.map((_,i)=>i).sort(()=>Math.random()-.5);st.done=new Set();st.selL=null;st.bad=null;}
-  const all=st.done.size===s.pairs.length;
+  const n=s.pairs.length;
+  if(!st.r){
+    let r;let t=0;
+    do{r=s.pairs.map((_,i)=>i).sort(()=>Math.random()-.5);t++}while(n>1&&t<20&&r.every((v,i)=>v===i));
+    st.r=r;st.link={};st.done=new Set();st.used=new Set();st.selL=null;st.bad=null;
+  }
+  const me=st,all=st.done.size===n;
   app.innerHTML=head()+`<div class="card"><span class="lead">Relie</span><h2>${s.q}</h2>
-  <div class="cols"><div class="col">${s.pairs.map((p,i)=>`<button class="tok ${st.done.has(i)?'good':''} ${st.selL===i?'sel':''}" data-l="${i}" ${st.done.has(i)?'disabled':''}>${esc(p.l)}</button>`).join('')}</div>
-  <div class="col">${st.r.map(i=>`<button class="tok ${st.done.has(i)?'good':''} ${st.bad===i?'bad':''}" data-r="${i}" ${st.done.has(i)?'disabled':''}>${esc(s.pairs[i].r)}</button>`).join('')}</div></div>
-  <p class="note">Touche à gauche, puis à droite.</p>
+  <div class="mx" id="mx"><svg class="mxl" id="mxl" aria-hidden="true"></svg>
+  <div class="mcols"><div class="col">${s.pairs.map((p,i)=>`<button class="tok mxi mxL ${st.done.has(i)?'good':''} ${st.selL===i?'sel':''}" data-l="${i}" ${st.done.has(i)?'disabled':''}><span>${esc(p.l)}</span><i class="dot" data-dl="${i}"></i></button>`).join('')}</div>
+  <div class="col">${st.r.map(i=>`<button class="tok mxi mxR ${st.used.has(i)?'good':''} ${st.bad===i?'bad':''}" data-r="${i}" ${st.used.has(i)?'disabled':''}><i class="dot"></i><span>${esc(s.pairs[i].r)}</span></button>`).join('')}</div></div></div>
+  <p class="note">Touche un mot à gauche, puis son partenaire à droite. Ou glisse ton doigt d’un point à l’autre.</p>
   ${all?fbBox('ok','Tout est relié !')+nextBtn():''}</div>`;
-  document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{st.selL=+b.dataset.l;st.bad=null;step();});
-  document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
-    if(st.selL===null)return; const r=+b.dataset.r;
-    if(r===st.selL){st.done.add(r);st.selL=null;st.bad=null;} else st.bad=r;
-    step();});
+  const mx=document.getElementById('mx'),svg=document.getElementById('mxl');
+  const ctr=el=>{const a=el.getBoundingClientRect(),m=mx.getBoundingClientRect();return [a.left+a.width/2-m.left,a.top+a.height/2-m.top]};
+  const line=(x1,y1,x2,y2,cls)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);l.setAttribute('class',cls);svg.appendChild(l);return l};
+  const dotL=i=>mx.querySelector('[data-l="'+i+'"] .dot'),dotR=i=>mx.querySelector('[data-r="'+i+'"] .dot');
+  const draw=()=>{
+    svg.innerHTML='';
+    me.done.forEach(i=>{const p=ctr(dotL(i)),q=ctr(dotR(me.link[i]));line(p[0],p[1],q[0],q[1],'mxok')});
+    if(me.selL!==null&&me.bad!==null&&me.bad!==undefined){const p=ctr(dotL(me.selL)),q=ctr(dotR(me.bad));line(p[0],p[1],q[0],q[1],'mxko')}
+  };
+  const answer=r=>{
+    if(me!==st||me.selL===null||me.used.has(r))return;
+    if(s.pairs[r].r===s.pairs[me.selL].r){me.done.add(me.selL);me.used.add(r);me.link[me.selL]=r;me.selL=null;me.bad=null;step();}
+    else{me.bad=r;step();setTimeout(()=>{if(me===st){me.bad=null;step();}},800);}
+  };
+  mx.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(me.dragEl===b){me.dragEl=null;return}me.selL=+b.dataset.l;me.bad=null;step();});
+  mx.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{answer(+b.dataset.r);});
+  mx.querySelectorAll('.mxL:not(.good) .dot').forEach(d=>{
+    d.onpointerdown=e=>{
+      const i=+d.dataset.dl;let moved=false;const p0=ctr(d);let tmp=null;
+      try{d.setPointerCapture(e.pointerId)}catch(_){}
+      d.onpointermove=ev=>{
+        const m=mx.getBoundingClientRect(),x=ev.clientX-m.left,y=ev.clientY-m.top;
+        if(Math.hypot(x-p0[0],y-p0[1])>8)moved=true;
+        if(!moved)return;
+        if(!tmp)tmp=line(p0[0],p0[1],x,y,'mxdrag');
+        tmp.setAttribute('x2',x);tmp.setAttribute('y2',y);
+      };
+      d.onpointerup=ev=>{
+        d.onpointermove=null;d.onpointerup=null;
+        if(!moved){return}
+        me.dragEl=d.closest('.mxi');setTimeout(()=>{me.dragEl=null},400);
+        if(tmp)tmp.remove();
+        const t=document.elementFromPoint(ev.clientX,ev.clientY),rb=t&&t.closest?t.closest('[data-r]'):null;
+        me.selL=i;
+        if(rb&&!rb.disabled)answer(+rb.dataset.r);else step();
+      };
+    };
+  });
+  draw();
+  if(!me._rs){me._rs=1;window.addEventListener('resize',()=>{if(me===st&&document.getElementById('mxl'))draw()});}
+}
+
+/* ---------- Exercices « cahier » : colorier, forme, banque, conjuguer ---------- */
+function cahierDone(msgOk){
+  const fb=document.getElementById('fb'),nx=document.getElementById('nx');
+  fb.innerHTML=fbBox('ok',msgOk||'Bravo !');nx.innerHTML=nextBtn();document.getElementById('next').onclick=next;
+}
+function colorie(s){
+  st.sel=st.sel||new Set();
+  app.innerHTML=head()+`<div class="card"><span class="lead">Colorie</span><h2>${s.q}</h2>
+  <div id="cl">${s.items.map((it,k)=>`<button class="cl ${st.sel.has(k)?'on':''}" data-k="${k}">${esc(it.w)}</button>`).join('')}</div>
+  <p class="note">🖍️ Touche une phrase pour la colorier. Touche encore pour effacer.</p>
+  <div class="row" style="justify-content:center"><button class="go" id="chk">Vérifier ✔</button></div><div id="fb"></div><div id="nx"></div></div>`;
+  const btns=[...document.querySelectorAll('#cl .cl')];
+  btns.forEach(b=>b.onclick=()=>{if(st.solved)return;const k=+b.dataset.k;if(st.sel.has(k))st.sel.delete(k);else st.sel.add(k);b.classList.toggle('on');b.classList.remove('bad');document.getElementById('fb').innerHTML='';});
+  document.getElementById('chk').onclick=()=>{
+    if(st.solved)return;
+    const want=s.items.map((it,k)=>it.ok?k:-1).filter(k=>k>=0),n=want.length;
+    const wrong=[...st.sel].filter(k=>!s.items[k].ok),miss=want.filter(k=>!st.sel.has(k));
+    btns.forEach(b=>b.classList.remove('bad'));
+    if(!wrong.length&&!miss.length){st.solved=true;btns.forEach((b,k)=>{if(s.items[k].ok)b.classList.add('good')});document.getElementById('chk').style.display='none';cahierDone(s.ok);return}
+    wrong.forEach(k=>btns[k].classList.add('bad'));
+    document.getElementById('fb').innerHTML=fbBox('ko',wrong.length?'Attention : une phrase en rouge n’est pas bonne. '+s.ko:'Il en reste à colorier. Il y en a '+n+' en tout. '+s.ko);
+  };
+}
+function forme(s){
+  st.pick=st.pick||{};
+  app.innerHTML=head()+`<div class="card"><span class="lead">Choisis</span><h2>${s.q}</h2>
+  <div id="fm">${s.items.map((it,k)=>`<div class="xfl" data-k="${k}">${esc(it.pre||'')} <span class="fo">${it.opts.map((o,j)=>`<button data-j="${j}" class="${st.pick[k]===j?'on':''}">${esc(o)}</button>`).join('')}</span> ${esc(it.post||'')}</div>`).join('')}</div>
+  <p class="note">🖍️ Touche le bon mot dans chaque ligne.</p>
+  <div class="row" style="justify-content:center"><button class="go" id="chk">Vérifier ✔</button></div><div id="fb"></div><div id="nx"></div></div>`;
+  document.querySelectorAll('#fm .xfl').forEach(l=>{const k=+l.dataset.k;l.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(st.solved)return;st.pick[k]=+b.dataset.j;l.querySelectorAll('button').forEach(x=>x.classList.remove('on','bad'));b.classList.add('on');document.getElementById('fb').innerHTML='';});});
+  document.getElementById('chk').onclick=()=>{
+    if(st.solved)return;
+    const lines=[...document.querySelectorAll('#fm .xfl')];let bad=0,empty=0;
+    lines.forEach((l,k)=>{l.querySelectorAll('button').forEach(x=>x.classList.remove('bad'));const p=st.pick[k];if(p===undefined){empty++;return}if(p!==s.items[k].ans){bad++;l.querySelectorAll('button')[p].classList.add('bad')}});
+    if(empty){document.getElementById('fb').innerHTML=fbBox('ko','Il reste des lignes sans réponse.');return}
+    if(bad){document.getElementById('fb').innerHTML=fbBox('ko','Une ou plusieurs réponses en rouge ne vont pas. '+(s.ko||'Relis la ligne.'));return}
+    st.solved=true;lines.forEach((l,k)=>l.querySelectorAll('button')[s.items[k].ans].classList.add('good'));document.getElementById('chk').style.display='none';cahierDone(s.ok);
+  };
+}
+function banque(s){
+  st.pl=st.pl||{};st.selB=st.selB===undefined?null:st.selB;
+  const draw=()=>{
+    const used=new Set(Object.values(st.pl));
+    app.innerHTML=head()+`<div class="card"><span class="lead">Complète</span><h2>${s.q}</h2>
+    <div class="bk">${s.bank.map((w,j)=>`<button class="${used.has(j)?'used':''} ${st.selB===j?'on':''}" data-j="${j}">${esc(w)}</button>`).join('')}</div>
+    <div id="bl">${s.items.map((it,k)=>`<div class="xfl">${esc(it.pre||'')} <button class="bl ${st.pl[k]!==undefined?'full':''}" data-k="${k}">${st.pl[k]!==undefined?esc(s.bank[st.pl[k]]):'&nbsp;'}</button> ${esc(it.post||'')}</div>`).join('')}</div>
+    <p class="note">Touche un mot de la liste, puis touche la place vide où le mettre. Touche un mot placé pour le retirer.</p>
+    <div class="row" style="justify-content:center"><button class="go" id="chk">Vérifier ✔</button></div><div id="fb"></div><div id="nx"></div></div>`;
+    document.querySelectorAll('.bk button').forEach(b=>b.onclick=()=>{if(st.solved||b.classList.contains('used'))return;st.selB=+b.dataset.j;draw();});
+    document.querySelectorAll('#bl .bl').forEach(b=>b.onclick=()=>{if(st.solved)return;const k=+b.dataset.k;if(st.pl[k]!==undefined){delete st.pl[k];draw();return}if(st.selB!==null){st.pl[k]=st.selB;st.selB=null;draw();}});
+    document.getElementById('chk').onclick=()=>{
+      if(st.solved)return;
+      const bl=[...document.querySelectorAll('#bl .bl')];let bad=0,empty=0;
+      bl.forEach((b,k)=>{b.classList.remove('bad');if(st.pl[k]===undefined){empty++;return}if(s.bank[st.pl[k]]!==s.items[k].ans){bad++;b.classList.add('bad')}});
+      if(empty){document.getElementById('fb').innerHTML=fbBox('ko','Il reste des places vides.');return}
+      if(bad){document.getElementById('fb').innerHTML=fbBox('ko','Un mot en rouge ne va pas. Touche-le pour le retirer et essaie un autre. '+(s.ko||''));return}
+      st.solved=true;document.getElementById('chk').style.display='none';bl.forEach(b=>b.classList.add('good'));cahierDone(s.ok);
+    };
+  };
+  draw();
+}
+const normV=x=>(x||'').toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim();
+function conj(s){
+  app.innerHTML=head()+`<div class="card"><span class="lead">Conjugue</span><h2>${s.q}</h2>
+  <div id="cj">${s.items.map((it,k)=>it.stem!==undefined?`<div class="xfl">${esc(it.pre||'')} <b class="cjv">${esc(it.stem)}</b><input class="cji cjs" data-k="${k}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text"> ${esc(it.post||'')}</div>`:`<div class="xfl">${esc(it.pre||'')} <b class="cjv">(${esc(it.verb)})</b> <input class="cji" data-k="${k}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text"> ${esc(it.post||'')}</div>`).join('')}</div>
+  <p class="note">${s.items[0]&&s.items[0].stem!==undefined?'✍️ Écris seulement la fin du verbe. Les fins : <b>-ais · -ais · -ait · -ions · -iez · -aient</b>':'✍️ Écris le verbe à l’imparfait (n’oublie pas les accents).'}</p>
+  <div class="row" style="justify-content:center"><button class="go" id="chk">Vérifier ✔</button></div><div id="fb"></div><div id="nx"></div></div>`;
+  const ins=[...document.querySelectorAll('.cji')];
+  ins.forEach(i=>i.oninput=()=>{i.classList.remove('bad');});
+  document.getElementById('chk').onclick=()=>{
+    if(st.solved)return;let bad=0,empty=0;
+    ins.forEach((i,k)=>{i.classList.remove('bad');if(!normV(i.value)){empty++;return}if(normV(i.value)!==normV(s.items[k].ans)){bad++;i.classList.add('bad')}});
+    if(empty){document.getElementById('fb').innerHTML=fbBox('ko','Il manque des réponses.');return}
+    if(bad){document.getElementById('fb').innerHTML=fbBox('ko','Une réponse en rouge n’est pas bonne. Regarde le pronom, puis la fin du verbe. '+(s.ko||''));return}
+    st.solved=true;ins.forEach(i=>{i.classList.add('good');i.disabled=true});document.getElementById('chk').style.display='none';cahierDone(s.ok);
+  };
 }
 
 /* ---------- Défi chrono ---------- */
@@ -5515,6 +5666,7 @@ function rcDraw(){
     rcDraw();};
 }
 
+(window.MRIMP_DATA||[]).forEach(n=>{const i=M.findIndex(m=>m.id===n.id);if(i>=0)M[i]=Object.assign({},M[i],{name:n.name,sub:n.sub,steps:n.steps});else M.push(n)});
 if(window.MRCP_BUILD&&!window.MRCP_DONE){window.MRCP_DONE=1;MRCP_BUILD(M);}
 if(window.MRXEXT&&!window.MRXEXT_DONE){window.MRXEXT_DONE=1;Object.keys(MRXEXT).forEach(id=>{const m=M.find(x=>x.id===id);if(!m)return;const nt=(m.steps.find(x=>x.nt)||{}).nt||m.name;const add=MRXEXT[id].map(s=>Object.assign({},s,{nt:s.nt||nt,_x:1}));let k=m.steps.length;const l=m.steps[k-1];if(l&&l.t==='teach'&&(l.js==='bilend'||!l.chk&&!l.html))k--;m.steps.splice(k,0,...add);});}
 window.MRNIV?MRNIV.boot():accueil();
