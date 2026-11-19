@@ -102,3 +102,5 @@
 body:has(.hmap){background:linear-gradient(#cfe8fb,#b9ddf8)!important}
 .hmap{border-radius:0!important;box-shadow:none!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(180deg,transparent,#000 5%,#000 86%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(180deg,transparent,#000 5%,#000 86%,transparent);mask-composite:intersect}
 #mr-sky{background:linear-gradient(#b9ddf8,#8fd0ff 50%,#52b2ee)!important}
+/* v118 : île agrandie pour remplir la hauteur sur téléphone */
+@media (max-aspect-ratio:563/1000){body:has(.hmap){overflow-x:hidden}body .hmap{--mw:min(calc((100dvh - 14px)*.5628),106vw);width:var(--mw);max-width:none;margin-left:calc(50% - var(--mw)/2)}}
