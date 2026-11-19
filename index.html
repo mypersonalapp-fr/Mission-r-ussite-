@@ -4161,6 +4161,7 @@ let ma=null;
 const mstop=()=>{if(ma&&ma.timer){clearInterval(ma.timer);ma.timer=null;}};
 let mtab='nb',mmode='m';
 const maths=()=>{
+  if(mtab==='mes')mtab='geo';if(mtab==='mon')mtab='sg';
   if(mmode==='m'&&(mtab==='calc'||mtab==='ent'))mtab='nb'; if(mmode==='f'&&mtab!=='calc'&&mtab!=='ent')mtab='calc';
   stopCr(); mstop(); cur=null; ma=null;
   if(mmode==='m'&&window.MRNIV&&MRNIV.cpHome('m'))return;
@@ -4177,8 +4178,19 @@ const maths=()=>{
   { const cv=GR.nb.find(g=>g[0].startsWith('⏱️')); GR.nb=GR.nb.filter(g=>g!==cv); GR.calc=[cv,...GR.calc]; }
   ['nb','sg','geo','heu'].forEach(k=>{const R=MRREV[k];GR[k]=GR[k].map(([h,ids])=>[h,ids.filter(id=>!R.includes(id))]).filter(g=>g[1].length);GR[k].unshift([REVT,R]);});
   Object.keys(GR).forEach(k=>GR[k].forEach(g=>g[1].forEach(id=>{const q=M.find(x=>x.id===id);if(q&&!q.mth&&!q.voc&&!q.cj&&!q.lec&&!q.met)q.mth=true})));
+  let NXT=null;
+  if(mmode==='m'){
+   const rev={};['nb','sg','geo','heu'].forEach(k=>{const g=GR[k].find(x=>x[0]===REVT);rev[k]=g?g[1]:[]});
+   const flat=k=>GR[k].filter(g=>g[0]!==REVT).flatMap(g=>g[1]);
+   const lists={nb:flat('nb'),sg:[...flat('sg'),...flat('mon')],geo:[...flat('geo'),...flat('mes')],fra:flat('fra'),heu:flat('heu')};
+   const cls=id=>{const q=M.find(x=>x.id===id)||{},n=q.name||'';if(/(-bil|-fin)$/.test(id)||/bilan|mission finale|défi/i.test(n))return 2;if(/fiche/.test(id)||/entra|fiche|exercice|série|problème|vite|pique-nique|calcul|trace|programm|labyrinthe|pavage|je mesure|convertir/i.test(n)||/^(p-|pb-|pt-|gr-|mo-pr|me-5|me-6|me-7|n-s\d|sui-|tab-|n-dou|n-moi|n-pi|n-let|ce-l2|bl-cmb|bl-fab)/.test(id))return 1;return 0};
+   const out={};
+   Object.keys(lists).forEach(k=>{const bl=[[],[],[]];lists[k].forEach(id=>bl[cls(id)].push(id));const T=[['🔎 Je découvre',bl[0]],['✏️ Je m\'entraîne',bl[1]],['🏁 Mon bilan',bl[2]]].filter(g=>g[1].length);if(rev[k]&&rev[k].length)T.push(['🔁 Réviser le CP',rev[k]]);out[k]=T});
+   Object.assign(GR,out);
+   for(const k of ['fra','nb','heu','geo','sg']){for(const g of GR[k]){if(g[0]===REVT||g[0]==='🔁 Réviser le CP')continue;const id=g[1].find(i=>!save[i]&&M.find(m=>m.id===i));if(id){NXT=M.find(m=>m.id===id);break}}if(NXT)break}
+  }
   const cnt=k=>{const L=GR[k].flatMap(g=>g[1]);return L.filter(id=>save[id]).length+'/'+L.length;};
-  const TB=mmode==='f'?[['calc','🧮 Calcul'],['ent','⏱️ Entraînement']]:[['nb','🧊 Les nombres'],['sg','📊 Problèmes'],['geo','📐 Géométrie'],['mes','📏 Mesures'],['fra','🍕 Fractions'],['heu','🕒 L\'heure'],['mon',`<img src="${ICO.cmon}" alt="" style="height:30px;vertical-align:-9px"> Monnaie`]];
+  const TB=mmode==='f'?[['calc','🧮 Calcul'],['ent','⏱️ Entraînement']]:[['nb','🧊 Les nombres'],['sg','📊 Problèmes et monnaie'],['geo','📐 Géométrie et mesures'],['fra','🍕 Fractions'],['heu','🕒 L\'heure']];
   const sec=([h,ids])=>`<p class="lead" style="margin-top:20px">${h}</p><div class="menu" style="margin-top:10px">${ids.map(id=>M.find(m=>m.id===id)).filter(Boolean).map(m=>tileH(m,M.indexOf(m))).join('')}</div>`;
   const ent=`<div class="card" style="margin-top:20px">
     <p class="lead">L'astuce : dizaines</p>
@@ -4191,10 +4203,11 @@ const maths=()=>{
   <p class="lead" style="margin-top:20px">Autres calculs</p>
   <div class="menu" style="margin-top:10px">${[1,2,3].map(l=>`<button class="tile" data-mr="${l}"><span class="badge b-det">${l}★</span><span><b>Nouvelle série ${STAR(l)}</b><small>10 calculs différents à chaque fois</small></span></button>`).join('')}
   <button class="tile" id="mchr"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>60 secondes : le plus de bonnes réponses</small></span></button></div>`;
-  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1><button class="go" id="msui" style="margin-top:10px">📊 Mon suivi</button>
+  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1>${NXT?`<button class="go" id="mnx" style="margin-top:10px;width:100%;text-align:left;padding:14px 16px"><small style="display:block;opacity:.85;font-weight:700">🎯 Ma prochaine mission</small><span style="font-size:1.15rem">${NXT.badge||'▶'} ${NXT.name} ›</span></button>`:''}<button class="ghost" id="msui" style="margin-top:10px">📊 Mon suivi</button>
   <div class="tabs" style="margin-top:14px;flex-wrap:wrap">${TB.map(([k,l])=>`<button class="tab ${mtab===k?'on':''}" data-mt="${k}" style="flex:1 1 45%;padding-inline:4px">${l}${GR[k]?` <small>${cnt(k)}</small>`:''}</button>`).join('')}</div>
   ${mtab==='ent'?ent:cgView('m'+mtab,GR[mtab].map(([h,ids])=>{const L=ids.map(id=>M.find(m=>m.id===id)).filter(Boolean);return [h,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length];}))}`;
   app.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>{mtab=b.dataset.mt;maths();});
+  const mnx=document.getElementById('mnx');if(mnx&&NXT)mnx.onclick=()=>start(M.indexOf(NXT));
   const msui=document.getElementById('msui');if(msui)msui.onclick=()=>window.mrSuivi&&mrSuivi(()=>maths());
   if(mtab!=='ent')cgBind('m'+mtab,maths);
   bindTabs();
