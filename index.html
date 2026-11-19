@@ -4203,11 +4203,25 @@ const maths=()=>{
   <p class="lead" style="margin-top:20px">Autres calculs</p>
   <div class="menu" style="margin-top:10px">${[1,2,3].map(l=>`<button class="tile" data-mr="${l}"><span class="badge b-det">${l}★</span><span><b>Nouvelle série ${STAR(l)}</b><small>10 calculs différents à chaque fois</small></span></button>`).join('')}
   <button class="tile" id="mchr"><span class="badge b-det">⏱</span><span><b>Défi chrono</b><small>60 secondes : le plus de bonnes réponses</small></span></button></div>`;
-  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1>${NXT?`<button class="go" id="mnx" style="margin-top:10px;width:100%;text-align:left;padding:14px 16px"><small style="display:block;opacity:.85;font-weight:700">🎯 Ma prochaine mission</small><span style="font-size:1.15rem">${NXT.badge||'▶'} ${NXT.name} ›</span></button>`:''}<button class="ghost" id="msui" style="margin-top:10px">📊 Mon suivi</button>
+  let PJH='',PJ=null;
+  if(mmode==='m'){
+   const td=new Date().toISOString().slice(0,10);
+   PJ=(save.pj&&save.pj.d===td)?save.pj:(save.pj={d:td,rev:0,cal:0,lec:null});
+   const lm=PJ.lec?M.find(x=>x.id===PJ.lec):NXT,rem=window.mrRemCount&&mrRemCount('math')>0;
+   const it=[];
+   if(rem)it.push(['pjr','🎯','Je révise ce que j\'ai raté',PJ.rev]);
+   if(lm)it.push(['pjl',lm.badge||'▶',lm.name,!!(PJ.lec&&save[PJ.lec])]);
+   it.push(['pjc','🧮','Calcul mental : 5 minutes',PJ.cal]);
+   const nd=it.filter(x=>x[3]).length;
+   PJH=`<div class="card" style="margin-top:10px;padding:14px"><p class="lead">📅 Programme du jour · ${nd}/${it.length}</p>${it.map(x=>`<button class="tile" id="${x[0]}" style="width:100%;margin-top:8px;text-align:left;${x[3]?'opacity:.6':''}"><span class="badge b-det">${x[3]?'✓':x[1]}</span><span><b>${x[2]}</b></span></button>`).join('')}${nd===it.length?'<p style="margin-top:10px;font-weight:800;color:var(--ok,#12864f)">🎉 Programme du jour terminé : bravo !</p>':''}</div>`;
+   window.__pjLm=lm;
+  }
+  app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1>${PJH}<button class="ghost" id="msui" style="margin-top:10px">📊 Mon suivi</button>
   <div class="tabs" style="margin-top:14px;flex-wrap:wrap">${TB.map(([k,l])=>`<button class="tab ${mtab===k?'on':''}" data-mt="${k}" style="flex:1 1 45%;padding-inline:4px">${l}${GR[k]?` <small>${cnt(k)}</small>`:''}</button>`).join('')}</div>
   ${mtab==='ent'?ent:cgView('m'+mtab,GR[mtab].map(([h,ids])=>{const L=ids.map(id=>M.find(m=>m.id===id)).filter(Boolean);return [h,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length];}))}`;
   app.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>{mtab=b.dataset.mt;maths();});
-  const mnx=document.getElementById('mnx');if(mnx&&NXT)mnx.onclick=()=>start(M.indexOf(NXT));
+  const pj=(i,f)=>{const e=document.getElementById(i);if(e)e.onclick=f};
+  if(PJ){pj('pjr',()=>{PJ.rev=1;persist();mrRemGo(null,'math')});pj('pjl',()=>{const m=window.__pjLm;if(!m)return;PJ.lec=m.id;persist();start(M.indexOf(m))});pj('pjc',()=>{PJ.cal=1;persist();mmode='f';mtab='calc';maths()})}
   const msui=document.getElementById('msui');if(msui)msui.onclick=()=>window.mrSuivi&&mrSuivi(()=>maths());
   if(mtab!=='ent')cgBind('m'+mtab,maths);
   bindTabs();
