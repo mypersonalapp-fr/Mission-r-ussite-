@@ -13,7 +13,8 @@
 <title>Mission réussite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-tn.js"></script><script src="mr-pres.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-en.js?v=1"></script>
+<script src="mr-quiz.js"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-tn.js"></script><script src="mr-pres.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
   --verb:#e0393f; --verb-bg:#ffe3e4;
@@ -5403,7 +5404,7 @@ const cmap=(c,zoom)=>{
 };
 const cStop=()=>{if(qz&&qz.timer){clearInterval(qz.timer);qz.timer=null;}};
 let qz=null,cLet='Tous';
-const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble'],['ang','🇬🇧 Anglais']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);if(c==='ang'&&L.length){const AS=[['🏰','Bienvenue en Angleterre',['ang-1','ang-2','ang-3','ang-4','ang-5','ang-6']],['🔤','L’alphabet : phonétique et épeler',['ang-10','ang-11','ang-12','ang-13']],['💬','Quelques mots en anglais',['ang-9','ang-14','ang-15','ang-16','ang-17','ang-18']],['🎮','Jeux',['ang-8','ang-7']]].map(([ic,nm,ids])=>[ic,nm,ids.map(id=>L.find(m=>m.id===id)).filter(Boolean)]),k=CG.ka,sb=k!=null?AS[k]:null,h=sb?`<button class="back" id="cgbackA" style="margin:4px 0 10px;grid-column:1/-1;justify-self:start">‹ Retour</button><p class="lead" style="margin:0 0 8px;grid-column:1/-1">${sb[0]} ${sb[1]}</p>`+sb[2].map(m=>tileH(m,M.indexOf(m))).join(''):cgWrap(AS.map((a,i)=>cgCase(`data-cga="${i}"`,a[0],a[1],a[2].filter(m=>save[m.id]).length+'/'+a[2].length)).join(''));return [t,h,L.filter(m=>save[m.id]).length+'/'+L.length]}return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
+const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble'],['ang','🇬🇧 Anglais']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);if(c==='ang'&&L.length){const AS=[['🏰','Bienvenue en Angleterre',['ang-1','ang-2','ang-3','ang-4','ang-5','ang-6']],['🔤','L’alphabet : phonétique et épeler',['ang-10','ang-11','ang-12','ang-13']],['💬','Quelques mots en anglais',['ang-9','ang-14','ang-15','ang-16','ang-17','ang-18']],['🎮','Jeux',['ang-8','ang-7']]].map(([ic,nm,ids])=>[ic,nm,ids.map(id=>L.find(m=>m.id===id)).filter(Boolean)]),k=CG.ka,sb=k!=null?AS[k]:null,h=sb?`<button class="back" id="cgbackA" style="margin:4px 0 10px;grid-column:1/-1;justify-self:start">‹ Retour</button><p class="lead" style="margin:0 0 8px;grid-column:1/-1">${sb[0]} ${sb[1]}</p>`+sb[2].map(m=>tileH(m,M.indexOf(m))).join('')+(k===2&&window.enTiles?enTiles():''):cgWrap(AS.map((a,i)=>cgCase(`data-cga="${i}"`,a[0],a[1],a[2].filter(m=>save[m.id]).length+'/'+a[2].length)).join(''));return [t,h,L.filter(m=>save[m.id]).length+'/'+L.length]}return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
 const culture=()=>{
   stopCr(); if(typeof mstop==='function')mstop(); cStop(); cur=null; qz=null;
   const best=k=>save['k_'+k]!=null?`<small>Meilleur score : ${save['k_'+k]}</small>`:`<small>10 questions</small>`;
@@ -5416,6 +5417,7 @@ const culture=()=>{
    <button class="tile" data-qz="chr"><span class="badge im"><img src="${ICO.chr}" alt=""></span><span><b>Défi chrono</b><small>60 secondes${save.k_chr!=null?' · Record : '+save.k_chr:''}</small></span></button>`,'4 jeux']])}`;
   bindTabs(); cgBind('k',culture); app.querySelectorAll('[data-cga]').forEach(b=>b.onclick=()=>{CG.ka=+b.dataset.cga;culture();scrollTo(0,0)}); const ba=document.getElementById('cgbackA'); if(ba)ba.onclick=()=>{CG.ka=null;culture()}; const ob=document.getElementById('cgback'); if(ob){const f0=ob.onclick;ob.onclick=()=>{CG.ka=null;f0()};if(CG.ka!=null)ob.style.display='none'} const kl=document.getElementById('k-list'); if(kl)kl.onclick=()=>cList(); const kf=document.getElementById('k-fg'); if(kf)kf.onclick=()=>fgMenu();
   app.querySelectorAll('[data-qz]').forEach(b=>b.onclick=()=>qzStart(b.dataset.qz));
+  app.querySelectorAll('[data-ens]').forEach(b=>b.onclick=()=>enOpen(b.dataset.ens));
   app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(+b.dataset.m));
 };
 const cTop=(t,back)=>`${tabs('k')}<div class="top"><button class="back" id="back">‹ ${back||'Culture'}</button><b style="font-family:var(--display);font-size:1.2rem">${t}</b></div>`;
@@ -5496,12 +5498,13 @@ function qzEnd(){
 }
 
 /* ---------- Le jeu des drapeaux (Les pays) : calque, flash mémoire, passeport ---------- */
-let fg=null,fgReg='Tous',fgTm=null;
+let fg=null,fgReg='Tous',fgTm=null,FGX=null;
+const fgGet=c=>FGX?FGX.get(c):CT.find(x=>x.c===c),fgBackF=()=>FGX?FGX.menu():fgMenu(),fgMini=c=>FGX?FGX.mini(FGX.get(c),1):cflag(c);
 const fgN=ch=>ch.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
 const fgIsL=ch=>/[a-z]/.test(fgN(ch));
 const FGM=[['✈️','Le calque','Je recopie le nom en suivant les lettres grises'],['🧠','Flash mémoire','Je regarde le nom 3 secondes, puis je l\'écris de mémoire'],['🛂','Mon passeport','Je choisis le bon nom, puis je l\'écris pour gagner un tampon']];
 function fgMenu(){
-  cStop(); clearTimeout(fgTm); fg=null;
+  cStop(); clearTimeout(fgTm); fg=null; FGX=null;
   const R=['Tous','Europe','Afrique','Amérique','Asie','Océanie'];
   app.innerHTML=cTop('Le jeu des drapeaux','Les pays')+`<div class="card"><p class="lead">Je choisis où je voyage :</p>
    <div class="fgc">${R.map(r=>`<button data-r="${r}" class="${r===fgReg?'on':''}">${r==='Tous'?'🌍 Tous':r}</button>`).join('')}</div>
@@ -5511,15 +5514,16 @@ function fgMenu(){
   app.querySelectorAll('[data-fm]').forEach(b=>b.onclick=()=>fgStart(+b.dataset.fm));
 }
 function fgStart(mode){
-  const pool=CT.filter(x=>fgReg==='Tous'||x.r===fgReg);
+  const pool=FGX?FGX.pool():CT.filter(x=>fgReg==='Tous'||x.r===fgReg);
   fg={mode,deck:shuf(pool.map(x=>x.c)).slice(0,10),n:0,ok:0,stamps:[]};
   fgNext();
 }
 function fgNext(){
   if(fg.n>=fg.deck.length)return fgEnd();
-  const c=fg.deck[fg.n],o=CT.find(x=>x.c===c);
-  fg.c=c;fg.o=o;fg.letters=[...o.n].filter(fgIsL).map(fgN);fg.typed=[];fg.locked=false;fg.hidden=false;fg.rev=false;fg.step=fg.mode===2?0:1;
-  if(fg.mode===2){const same=shuf(CT.filter(x=>x.c!==c&&x.r===o.r));const pl=same.length>=2?same:shuf(CT.filter(x=>x.c!==c));fg.opts=shuf([o.n,pl[0].n,pl[1].n]);fg.pick=null;}
+  const c=fg.deck[fg.n],o=fgGet(c);
+  fg.c=c;fg.o=o;fg.letters=[...o.n].filter(fgIsL).map(fgN);fg.typed=[];fg.locked=false;fg.hidden=false;fg.rev=false;fg.said=false;fg.step=fg.mode>=2?0:1;
+  if(fg.mode>=2&&FGX){const pl=shuf(FGX.all().filter(x=>x.c!==c)).slice(0,2);fg.optsO=shuf([o,...pl]);fg.opts=fg.optsO.map(x=>x.n);fg.pick=null;}
+  else if(fg.mode===2){const same=shuf(CT.filter(x=>x.c!==c&&x.r===o.r));const pl=same.length>=2?same:shuf(CT.filter(x=>x.c!==c));fg.opts=shuf([o.n,pl[0].n,pl[1].n]);fg.pick=null;}
   fgDraw();
   if(fg.mode===1)fgHideLater();
 }
@@ -5544,52 +5548,58 @@ function fgKbH(){
 }
 function fgDraw(){
   const o=fg.o,typing=fg.step===1&&!(fg.mode===1&&!fg.hidden);
-  const stamps=fg.mode===2?`<div style="margin:4px 0">${fg.deck.map((c,i)=>`<span class="fgst ${fg.stamps[i]?'on':''}">${fg.stamps[i]?cflag(c):i+1}</span>`).join(' ')}</div>`:'';
+  const stamps=fg.mode>=2?`<div style="margin:4px 0">${fg.deck.map((c,i)=>`<span class="fgst ${fg.stamps[i]?'on':''}">${fg.stamps[i]?fgMini(c):i+1}</span>`).join(' ')}</div>`:'';
   let mid='';
   if(fg.mode===0)mid=`<p class="lead">Je recopie le nom du pays</p>${fgSlots()}`;
   if(fg.mode===1){
     if(!fg.hidden)mid=`<div class="fgtm"><i></i></div><div style="font-family:var(--display);font-size:2rem;font-weight:900;color:#2459e6">${esc(o.n)}</div><p class="lead">Retiens bien le nom… 👀</p>`;
     else mid=`<p class="lead">À toi ! J'écris le pays de mémoire</p>${fgSlots()}${!fg.rev&&!fg.locked?'<button class="ghost" id="fgrev">👀 Revoir le nom (1 fois)</button>':''}`;
   }
-  if(fg.mode===2){
+  if(FGX&&fg.mode>=2&&fg.step===0){
+    const lis=fg.mode===3;
+    mid=lis?`<p class="lead">1. J'écoute : qu'est-ce que c'est ?</p><button class="speak" id="fgsp">🔊 Écouter</button><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0">${fg.optsO.map(x=>`<button class="opt ${fg.pick!=null?(x.n===o.n?'good':x.n===fg.pick?'bad':''):''}" data-o="${esc(x.n)}" style="padding:8px;min-width:84px">${FGX.mini(x)}</button>`).join('')}</div>`
+     :`<p class="lead">1. Je lis : quel est le bon mot ?</p><div style="display:flex;flex-direction:column;gap:10px">${fg.opts.map(n=>`<button class="opt ${fg.pick!=null?(n===o.n?'good':n===fg.pick?'bad':''):''}" data-o="${esc(n)}">${esc(n)}</button>`).join('')}</div>`;
+  }
+  else if(fg.mode===2){
     if(fg.step===0)mid=`<p class="lead">1. Quel est ce pays ?</p><div style="display:flex;flex-direction:column;gap:10px">${fg.opts.map(n=>`<button class="opt ${fg.pick!=null?(n===o.n?'good':n===fg.pick?'bad':''):''}" data-o="${esc(n)}">${esc(n)}</button>`).join('')}</div>`;
     else mid=`<p class="lead">2. Bravo ! Maintenant j'écris le nom, sans modèle ✍️</p>${fgSlots()}`;
   }
   const done=fg.locked, good=done&&fg.typed.join('')===fg.letters.join('');
   const fb=done?(good?fbBox('ok','🎉 Bravo ! C\'est <b>'+esc(o.n)+'</b>.'):fbBox('ko','Presque ! Le pays s\'écrit : <b>'+esc(o.n)+'</b>')):'';
-  app.innerHTML=cTop(FGM[fg.mode][1],'Le jeu')+`<div class="card" style="text-align:center">
-   <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--soft)"><span>Pays ${fg.n+1} / ${fg.deck.length}</span><span>${fg.ok} ✓</span></div>${stamps}
-   ${cflag(fg.c,'big').replace('<img ','<img style="max-height:100px;width:auto;max-width:70%;margin:6px auto;display:block" ')}<div class="row" style="justify-content:center"><span class="chip" style="font-size:.9rem;min-height:0;padding:3px 12px">📍 ${o.r}</span></div>
-   ${mid}${fb}${done?'<button class="go" id="fgnx" style="margin-top:10px">'+(fg.n+1>=fg.deck.length?'Voir mon résultat ›':'Pays suivant ›')+'</button>':''}</div>
+  app.innerHTML=cTop((FGX?FGX.modes:FGM)[fg.mode][1],'Le jeu')+`<div class="card" style="text-align:center">
+   <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--soft)"><span>${FGX?'Mot':'Pays'} ${fg.n+1} / ${fg.deck.length}</span><span>${fg.ok} ✓</span></div>${stamps}
+   ${FGX?FGX.pic(o,fg.mode===3&&fg.step===0):cflag(fg.c,'big').replace('<img ','<img style="max-height:100px;width:auto;max-width:70%;margin:6px auto;display:block" ')+`<div class="row" style="justify-content:center"><span class="chip" style="font-size:.9rem;min-height:0;padding:3px 12px">📍 ${o.r}</span></div>`}
+   ${mid}${fb}${done?'<button class="go" id="fgnx" style="margin-top:10px">'+(fg.n+1>=fg.deck.length?'Voir mon résultat ›':(FGX?'Mot suivant ›':'Pays suivant ›'))+'</button>':''}</div>
    <div style="height:${typing&&!done?310:20}px"></div>
    ${typing&&!done?`<div id="tnkb" class="on"><div id="tnkeys">${fgKbH()}</div></div>`:''}`;
-  bindTabs(); document.getElementById('back').onclick=()=>{clearTimeout(fgTm);fgMenu();};
+  bindTabs(); document.getElementById('back').onclick=()=>{clearTimeout(fgTm);fgBackF();};
+  const fsp=document.getElementById('fgsp'); if(fsp)fsp.onclick=()=>enSay(o.n); if(FGX&&fg.mode===3&&fg.step===0&&!fg.said){fg.said=true;setTimeout(()=>enSay(o.n),250);}
   const nx=document.getElementById('fgnx'); if(nx)nx.onclick=()=>{fg.n++;fgNext();};
   const rv=document.getElementById('fgrev'); if(rv)rv.onclick=()=>{fg.rev=true;fg.hidden=false;fgDraw();fgHideLater();};
   app.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{
     if(fg.pick!=null)return; fg.pick=b.dataset.o;
-    if(fg.pick===o.n){fg.step=1;fgDraw();}else{fgDraw();setTimeout(()=>{if(fg&&fg.pick!=null&&fg.step===0){fg.pick=null;fgDraw();}},900);}
+    if(fg.pick===o.n){fg.step=1;fgDraw();if(FGX)enSay(o.n);}else{fgDraw();setTimeout(()=>{if(fg&&fg.pick!=null&&fg.step===0){fg.pick=null;fgDraw();}},900);}
   });
   const kk=document.getElementById('tnkeys');
   if(kk)kk.onclick=e=>{const b=e.target.closest('button');if(!b||fg.locked)return;const k=b.dataset.k;
     if(k==='del')fg.typed.pop(); else if(fg.typed.length<fg.letters.length)fg.typed.push(k);
     if(fg.typed.length===fg.letters.length){
-      fg.locked=true; const ok=fg.typed.join('')===fg.letters.join(''); if(ok){fg.ok++;fg.stamps[fg.n]=1;try{say(o.n)}catch(_){}}
+      fg.locked=true; const ok=fg.typed.join('')===fg.letters.join(''); if(ok){fg.ok++;fg.stamps[fg.n]=1;try{FGX?enSay(o.n):say(o.n)}catch(_){}}
     }
     fgDraw();};
 }
 function fgEnd(){
-  const s=fg.ok,m=fg.mode,old=save['fg_'+m],rec=old==null||s>old; if(rec){save['fg_'+m]=s;persist();}
+  const s=fg.ok,m=fg.mode,K=(FGX?FGX.key:'fg_')+m,old=save[K],rec=old==null||s>old; if(rec){save[K]=s;persist();}
   const stars=s>=9?3:s>=7?2:s>=5?1:0;
   app.innerHTML=cTop('Résultat','Le jeu')+`<div class="card" style="text-align:center"><div class="pic">${'⭐'.repeat(stars)||'💪'}</div><h2>${s} / ${fg.deck.length}</h2>
-   <p>${stars>=2?'Bravo, tu connais bien les drapeaux !':'Continue : tu progresses à chaque partie.'}</p>
-   ${m===2?`<div style="margin:6px 0">${fg.deck.map((c,i)=>`<span class="fgst ${fg.stamps[i]?'on':''}">${fg.stamps[i]?cflag(c):'·'}</span>`).join(' ')}</div>`:''}
+   <p>${stars>=2?(FGX?'Bravo, tu connais bien ces mots !':'Bravo, tu connais bien les drapeaux !'):'Continue : tu progresses à chaque partie.'}</p>
+   ${m>=2?`<div style="margin:6px 0">${fg.deck.map((c,i)=>`<span class="fgst ${fg.stamps[i]?'on':''}">${fg.stamps[i]?fgMini(c):'·'}</span>`).join(' ')}</div>`:''}
    ${rec?fbBox('ok','Nouveau record !'):''}
-   <div class="menu" style="margin-top:14px"><button class="go" id="again">Rejouer</button><button class="ghost" id="mn">Autres niveaux</button><button class="ghost" id="lst">Découvrir les pays</button></div></div>`;
-  bindTabs(); document.getElementById('back').onclick=culture;
+   <div class="menu" style="margin-top:14px"><button class="go" id="again">Rejouer</button><button class="ghost" id="mn">Autres niveaux</button><button class="ghost" id="lst">${FGX?'Revoir les mots':'Découvrir les pays'}</button></div></div>`;
+  bindTabs(); document.getElementById('back').onclick=FGX?FGX.menu:culture;
   document.getElementById('again').onclick=()=>fgStart(m);
-  document.getElementById('mn').onclick=fgMenu;
-  document.getElementById('lst').onclick=()=>cList();
+  document.getElementById('mn').onclick=FGX?FGX.menu:fgMenu;
+  document.getElementById('lst').onclick=()=>FGX?FGX.learn():cList();
 }
 
 /* ---------- Logique : le passage de la rivière ---------- */
