@@ -4213,7 +4213,8 @@ const maths=()=>{
    if(lm)it.push(['pjl',lm.badge||'▶',lm.name,!!(PJ.lec&&save[PJ.lec])]);
    it.push(['pjc','🧮','Calcul mental : 5 minutes',PJ.cal]);
    const nd=it.filter(x=>x[3]).length;
-   PJH=`<div class="card" style="margin-top:10px;padding:14px"><p class="lead">📅 Programme du jour · ${nd}/${it.length}</p>${it.map(x=>`<button class="tile" id="${x[0]}" style="width:100%;margin-top:8px;text-align:left;${x[3]?'opacity:.6':''}"><span class="badge b-det">${x[3]?'✓':x[1]}</span><span><b>${x[2]}</b></span></button>`).join('')}${nd===it.length?'<p style="margin-top:10px;font-weight:800;color:var(--ok,#12864f)">🎉 Programme du jour terminé : bravo !</p>':''}</div>`;
+   const lb={pjr:'Réviser',pjl:'Leçon',pjc:'Calcul'};
+   PJH=`<div style="margin-top:10px;display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #d9dff5;border-radius:16px;padding:8px 12px"><div style="width:74px;font:800 .7rem var(--body);color:var(--soft);text-transform:uppercase;line-height:1.2">Aujourd'hui<br><span style="font-size:.9rem;color:var(--ink,#1b2347)">${nd}/${it.length}</span></div><div style="display:flex;flex:1;justify-content:space-around">${it.map(x=>`<button id="${x[0]}" aria-label="${x[2]}" style="border:0;background:none;text-align:center;padding:0;cursor:pointer"><span style="display:grid;place-items:center;width:44px;height:44px;border-radius:50%;margin:0 auto;font-size:1.3rem;background:${x[3]?'#12b76a':'#ffc83d'};color:${x[3]?'#fff':'inherit'};font-weight:800">${x[3]?'✓':x[1]}</span><small style="display:block;font:800 .65rem var(--body);color:var(--soft);margin-top:2px">${lb[x[0]]}</small></button>`).join('')}</div></div>`;
    window.__pjLm=lm;
   }
   app.innerHTML=tabs(mmode)+`<h1>${mmode==='f'?'⏱️ Calcul mental':'Maths'}</h1>${PJH}<button class="ghost" id="msui" style="margin-top:10px">📊 Mon suivi</button>
