@@ -380,7 +380,7 @@ var cpHome=function(kind){if(view!=='CP'&&!(view==='CE2'&&kind==='fr'))return fa
 var boot=function(){ld();view=lvl();sv();mount();var skip=null;try{skip=sessionStorage.getItem('mr-skip');sessionStorage.removeItem('mr-skip')}catch(e){}
  if(window.MRCP_BUILD&&!window.MRCP_DONE){}
  if(skip==='galaxie'){SC='galaxie';HI=[]}else if(skip==='app'){hide();accueil();return}else{SC='splash'}draw()};
-window.MRNIV={boot:boot,quiz:quiz,lv:function(){return view},view:function(){return view},cpHome:cpHome,presView:presView,decor:decor,offBar:offBar,
+window.MRNIV={prof:function(){var p=P();return p?{name:p.name,av:img(p.av||'rico')}:null},boot:boot,quiz:quiz,lv:function(){return view},view:function(){return view},cpHome:cpHome,presView:presView,decor:decor,offBar:offBar,
  pres:function(){return P().pres||'e'},lockMsg:function(){return 'Ce contenu de '+view+' sera rempli bientôt 📚'},
  openSet:function(){return new Set(HAS[view]||[])},autoUp:autoUp,prog:prog,
  ensure:function(){if(!PS)ld()},show:function(s){HI=[];SC=s||'galaxie';draw()}};
