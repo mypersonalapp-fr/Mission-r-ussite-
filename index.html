@@ -4176,6 +4176,7 @@ const maths=()=>{
    geo:[['📐 La géométrie',['g-fig','g-cot','g-sol','g-sym','g-qua']],['✏️ Je trace, je vérifie, je reproduis',['ge-1','ge-2','ge-3','ge-fin']],['🔍 Je mesure, je repère, je me déplace',["g-seg", "g-mil", "g-cer", "g-reg", "g-cpt", "g-per", "g-air", "g-spt", "g-fsa", "g-dep", "g-ang", "g-dev"]],['🌀 Labyrinthes et pavages',['lab-1', 'lab-2', 'lab-3', 'lab-bil', 'pav-1', 'pav-2', 'pav-3', 'pav-bil']],['🧭 Programmer un déplacement',['prg-1','prg-2']]]};
   { const cv=GR.nb.find(g=>g[0].startsWith('⏱️')); GR.nb=GR.nb.filter(g=>g!==cv); GR.calc=[cv,...GR.calc]; }
   ['nb','sg','geo','heu'].forEach(k=>{const R=MRREV[k];GR[k]=GR[k].map(([h,ids])=>[h,ids.filter(id=>!R.includes(id))]).filter(g=>g[1].length);GR[k].unshift([REVT,R]);});
+  Object.keys(GR).forEach(k=>GR[k].forEach(g=>g[1].forEach(id=>{const q=M.find(x=>x.id===id);if(q&&!q.mth&&!q.voc&&!q.cj&&!q.lec&&!q.met)q.mth=true})));
   const cnt=k=>{const L=GR[k].flatMap(g=>g[1]);return L.filter(id=>save[id]).length+'/'+L.length;};
   const TB=mmode==='f'?[['calc','🧮 Calcul'],['ent','⏱️ Entraînement']]:[['nb','🧊 Les nombres'],['sg','📊 Problèmes'],['geo','📐 Géométrie'],['mes','📏 Mesures'],['fra','🍕 Fractions'],['heu','🕒 L\'heure'],['mon',`<img src="${ICO.cmon}" alt="" style="height:30px;vertical-align:-9px"> Monnaie`]];
   const sec=([h,ids])=>`<p class="lead" style="margin-top:20px">${h}</p><div class="menu" style="margin-top:10px">${ids.map(id=>M.find(m=>m.id===id)).filter(Boolean).map(m=>tileH(m,M.indexOf(m))).join('')}</div>`;
