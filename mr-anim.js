@@ -83,6 +83,18 @@
     box.appendChild(z);z.addEventListener('animationend',function(){z.remove();});
   };
 
+
+  /* ---------- Île : ciel, nuages et eau flottante sous la carte ---------- */
+  var sky=function(){var m=document.querySelector('.hmap'),s=document.getElementById('mr-sky');
+    if(!m||!m.getClientRects().length){if(s)s.remove();return}
+    var r=m.getBoundingClientRect();if(!s){s=document.createElement('div');s.id='mr-sky';
+      var h='',cl=[[8,6,70,28,0],[55,26,100,36,-9],[25,48,60,24,-4],[70,60,80,30,-14]];
+      cl.forEach(function(c){h+='<span class="mr-cld" style="top:'+c[1]+'%;font-size:'+c[2]+'px;--d:'+c[3]+'s;animation-delay:'+c[4]+'s">☁️</span>'});
+      for(var i=0;i<9;i++)h+='<i class="mr-drop" style="left:'+(6+i*11)+'%;--d:'+(5+i%4*1.5)+'s;animation-delay:-'+(i*1.3)+'s">'+(i%3?'💧':'🫧')+'</i>';
+      var wv='<svg viewBox="0 0 800 60" preserveAspectRatio="none"><path d="M0 30 Q100 0 200 30 T400 30 T600 30 T800 30 V60 H0Z"/></svg>';
+      h+='<div class="mr-wv w1">'+wv+'</div><div class="mr-wv w2">'+wv+'</div><div class="mr-wv w3">'+wv+'</div>';
+      s.innerHTML=h;document.body.appendChild(s)}
+    s.style.top=Math.max(0,r.bottom-60)+'px'};
   /* ---------- Confettis (bonne réponse) ---------- */
   var cv=null,cx=null,parts=[],raf=0,lastXY=null,lastConf=0;
   document.addEventListener('pointerdown',function(e){lastXY=[e.clientX,e.clientY];},true);
@@ -132,7 +144,7 @@
   };
   var tickDom=function(muts){
     try{
-      var ms=document.querySelectorAll('.hmap:not([data-mr]),.hmapL:not([data-mr]),.hmapW:not([data-mr])');for(var z=0;z<ms.length;z++)decorate(ms[z]);twinkle();gameAnim();var rb=document.getElementById('rst');if(rb&&!document.querySelector('.mr-ver')&&document.querySelector('.hmap')){var vv=document.createElement('p');vv.className='mr-ver';vv.textContent='Version 111';rb.parentNode.insertBefore(vv,rb.nextSibling);}
+      var ms=document.querySelectorAll('.hmap:not([data-mr]),.hmapL:not([data-mr]),.hmapW:not([data-mr])');for(var z=0;z<ms.length;z++)decorate(ms[z]);twinkle();sky();gameAnim();var rb=document.getElementById('rst');if(rb&&!document.querySelector('.mr-ver')&&document.querySelector('.hmap')){var vv=document.createElement('p');vv.className='mr-ver';vv.textContent='Version 112';rb.parentNode.insertBefore(vv,rb.nextSibling);}
       for(var i=0;i<muts.length;i++){var a=muts[i].addedNodes;for(var k=0;k<a.length;k++)scan(a[k]);}
     }catch(e){}
   };
