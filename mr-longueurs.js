@@ -15,7 +15,7 @@ function hdr(c,t){return '<div class="top"><button class="back" id="bk">‹ Math
 function board(fr,to){var h='<div class="bd"><table><tr>';NM.forEach(function(u,i){h+='<th data-i="'+i+'" class="'+(i===fr?'fr':i===to?'to':'')+'"><i>'+COLS[i][1]+'</i>'+u+'</th>'});h+='</tr><tr>';NM.forEach(function(u,i){h+='<td data-i="'+i+'" id="c'+i+'"></td>'});return h+'</tr></table></div>'}
 var RCOL={r:{w:'#2f63e0'},l:{w:'#f08a24'}};
 function rpts(w,t){var N=260,A=[],cx=w==='r'?90:250,len=w==='r'?300:225,sy=w==='r'?48:104;
- for(var i=0;i<=N;i++){var u=i/N,th=u*3.4*2*Math.PI,r=33+9*Math.sin(1.3*th+.6),x0=cx+1.1*r*Math.cos(th+.4),y0=62+.72*r*Math.sin(th+.4)+5*Math.sin(1.7*th),x1=20+len*u,y1=sy;
+ for(var i=0;i<=N;i++){var u=i/N,th=u*3.4*2*Math.PI,r=(33+9*Math.sin(1.3*th+.6))*(w==='r'?1.12:.78),x0=cx+1.1*r*Math.cos(th+.4),y0=62+.72*r*Math.sin(th+.4)+5*Math.sin(1.7*th),x1=20+len*u,y1=sy;
   var p=Math.max(0,Math.min(1,t*1.7-u*.7));p=p*p*(3-2*p);A.push([x0+(x1-x0)*p,y0+(y1-y0)*p])}return A}
 function rdraw(A,c){var N=A.length-1,d='M'+A.map(function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' L'),m='',acc=0,N2=N;
  function nrm(i){var p0=A[Math.max(0,i-2)],p1=A[Math.min(N,i+2)],tx=p1[0]-p0[0],ty=p1[1]-p0[1],l=Math.hypot(tx,ty)||1;return[tx/l,ty/l]}
