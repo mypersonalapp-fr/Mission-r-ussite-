@@ -31,14 +31,10 @@ function rdraw(A,c){var N=A.length-1,d='M'+A.map(function(p){return p[0].toFixed
 function endw(A,c,i,sg){var N=A.length-1,j=Math.min(N,Math.max(0,i+sg*7)),p0=A[Math.max(0,j-2)],p1=A[Math.min(N,j+2)],tx=p1[0]-p0[0],ty=p1[1]-p0[1],l=Math.hypot(tx,ty)||1,nx=-ty/l,ny=tx/l,p=A[j];
  return '<path d="M'+(p[0]+nx*7.4).toFixed(1)+' '+(p[1]+ny*7.4).toFixed(1)+' L'+(p[0]-nx*7.4).toFixed(1)+' '+(p[1]-ny*7.4).toFixed(1)+'" stroke="'+c.w+'" stroke-width="5.5" stroke-linecap="butt"/>'}
 function ropes(stretch){var tk='';[0,50,100,150,200].forEach(function(cm){var x=20+cm*1.5;tk+='<line x1="'+x+'" y1="132" x2="'+x+'" y2="144" stroke="#1b2347" stroke-width="2"/><text x="'+x+'" y="158" text-anchor="middle" font-size="11" font-weight="800" fill="#1b2347">'+cm+'</text>'});
- return '<svg id="rsv" viewBox="0 0 340 '+(stretch?168:136)+'" style="width:100%;display:block;background:#fff;border:2px solid #d9dff5;border-radius:16px"><g id="g1">'+rdraw(rpts('r',0),RCOL.r)+'</g><g id="g2">'+rdraw(rpts('l',0),RCOL.l)+'</g>'
-  +'<g id="lc"><text x="90" y="125" text-anchor="middle" font-size="13" font-weight="800" fill="#1a3fa8">Corde de Rico : 2 m</text><text x="250" y="125" text-anchor="middle" font-size="13" font-weight="800" fill="#c46a10">Corde de Léo : 150 cm</text></g>'
-  +(stretch?'<g id="ls" opacity="0"><text x="20" y="30" font-size="13" font-weight="800" fill="#1a3fa8">Corde de Rico : 2 m</text><text x="20" y="86" font-size="13" font-weight="800" fill="#c46a10">Corde de Léo : 150 cm</text></g><g id="rul" opacity="0"><line x1="20" y1="132" x2="320" y2="132" stroke="#1b2347" stroke-width="2"/>'+tk+'<text x="338" y="146" text-anchor="end" font-size="11" font-weight="800" fill="#1b2347">cm</text></g>':'')+'</svg>'}
-function stretchRopes(){var g1=document.getElementById('g1'),g2=document.getElementById('g2'),lc=document.getElementById('lc'),ls=document.getElementById('ls'),ru=document.getElementById('rul');if(!g1||!ls)return;
- lc.style.transition='opacity .4s';lc.setAttribute('opacity','0');var t0=null;
- function f(n){if(t0===null)t0=n;var t=Math.min(1,(n-t0)/1500);g1.innerHTML=rdraw(rpts('r',t),RCOL.r);g2.innerHTML=rdraw(rpts('l',t),RCOL.l);
-  if(t<1)requestAnimationFrame(f);else{ls.style.transition=ru.style.transition='opacity .6s';ls.setAttribute('opacity','1');ru.setAttribute('opacity','1')}}
- requestAnimationFrame(f)}
+ return '<svg id="rsv" viewBox="0 0 340 '+(stretch?168:124)+'" style="width:100%;display:block;background:#fff;border:2px solid #d9dff5;border-radius:16px"><g id="g1">'+rdraw(rpts('r',1),RCOL.r)+'</g><g id="g2">'+rdraw(rpts('l',1),RCOL.l)+'</g>'
+  +'<g id="ls"><text x="20" y="30" font-size="13" font-weight="800" fill="#1a3fa8">Corde de Rico : 2 m</text><text x="20" y="86" font-size="13" font-weight="800" fill="#c46a10">Corde de Léo : 150 cm</text></g>'
+  +(stretch?'<g id="rul" opacity="0"><line x1="20" y1="132" x2="320" y2="132" stroke="#1b2347" stroke-width="2"/>'+tk+'<text x="338" y="146" text-anchor="end" font-size="11" font-weight="800" fill="#1b2347">cm</text></g>':'')+'</svg>'}
+function stretchRopes(){var ru=document.getElementById('rul');if(ru){ru.style.transition='opacity .6s';ru.setAttribute('opacity','1')}}
 /* Cours 1 : pourquoi ? */
 function c0(){A.innerHTML=hdr(0,4)+'<div class="card"><span class="lead">Le cours · 1 sur 4</span><h2>À quoi ça sert ?</h2>'+say('Rico a une corde de <b>2 m</b>. Son ami Léo a une corde de <b>150 cm</b>. Laquelle est la <b>plus longue</b> ?')
  +ropes(false)+'<div class="ch" style="grid-template-columns:1fr;gap:8px"><button class="opt" data-a="r">La corde de Rico</button><button class="opt" data-a="l">La corde de Léo</button><button class="opt" data-a="x">Je ne sais pas</button></div><div id="why"></div></div>';
