@@ -42,7 +42,7 @@ var CA=[
 ['🌊',`Qu'est-ce qui cause souvent un tsunami ?`,`Un séisme sous la mer.`],
 ['🌪️',`À quoi ressemble une tornade ?`,`À une colonne d'air qui tourne, comme un entonnoir.`],
 ['🔄',`Quelles sont les grandes étapes du cycle de l'eau ?`,`Évaporation, condensation, précipitations, ruissellement.`]];
-var HS=[],CURF=null,CURK='',BK=0,QQ=0;function goBack(){var p=HS.pop();if(p){BK=1;p()}else if(window.pquit)pquit()}
+var HS=[],CURF=null,CURK='',BK=0,QQ=0;function goBack(){var p=HS.pop();if(p){BK=1;p()}else if(typeof pquit==='function')pquit()}
 function nav(key,f){PB=goBack;if(key===CURK){CURF=f;return}if(!BK&&CURF)HS.push(CURF);BK=0;CURK=key;CURF=f}
 function cartes(){var k=0,got=0;function show(){var kk=k;nav('ca'+k,function(){k=kk;show()});A.innerHTML=hdr(0)+'<div class="card"><span class="lead">Étape 1 · Les cartes</span><h2>Carte '+(k+1)+' / '+CA.length+'</h2>'+say('Réfléchis, puis <b>touche la carte</b> pour la retourner !')+'<div class="fl" id="fl"><div class="in"><div class="f"><div class="e">'+CA[k][0]+'</div><div class="q">'+CA[k][1]+'</div><small>👆 Touche pour voir</small></div><div class="b"><div class="e">✅</div><div class="q">'+CA[k][2]+'</div></div></div></div><div class="btns" id="bb" style="display:none"><button class="go" id="ok" style="background:#0e9a63">😀 Je savais</button><button class="go" id="ko" style="background:#f08a24">🤔 À revoir</button></div></div>';
   document.getElementById('fl').onclick=function(){this.classList.add('on');document.getElementById('bb').style.display='flex'};
