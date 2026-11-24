@@ -13,7 +13,7 @@
 <title>Mission réussite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=Playwrite+FR+Moderne&display=swap">
 <style>
-/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-en.js?v=1"></script><script src="mr-ech.js?v=1"></script><script src="mr-hist.js?v=1"></script><script src="mr-orient.js?v=1"></script><script src="mr-tables.js?v=1"></script><script src="mr-longueurs.js?v=1"></script><script src="mr-phen.js?v=1"></script><script src="mr-fracpb.js?v=1"></script>
+/* animations : mr-anim.css + mr-anim.js */</style><link rel="stylesheet" href="mr-anim.css"><script src="mr-anim.js"></script><script src="mr-en.js?v=1"></script><script src="mr-ech.js?v=1"></script><script src="mr-hist.js?v=1"></script><script src="mr-orient.js?v=1"></script><script src="mr-tables.js?v=1"></script><script src="mr-longueurs.js?v=1"></script><script src="mr-phen.js?v=2"></script><script src="mr-fracpb.js?v=1"></script>
 <script src="mr-quiz.js"></script><script src="mr-rico.js?v=1"></script><script src="mr-cp.js"></script><script src="mr-ce2.js"></script><script src="mr-defis.js"></script><script src="mr-log.js"></script><script src="mr-imp.js"></script><script src="mr-tn.js"></script><script src="mr-pres.js"></script><script src="mr-niveaux.js"></script><script src="mr-surpasse.js"></script><style>/* Layout : une mission = un écran court, une seule action à la fois, grosses zones tactiles. Code couleur constant : rouge = verbe, bleu = groupe nominal, vert = pronom. */
 :root{
   --bg:#f2f5ff; --card:#ffffff; --ink:#1b2347; --soft:#5b6491; --line:#d9dff5;
@@ -957,6 +957,7 @@ const next=()=>{cur.i++;st={};step();};
 const head=()=>{
   const m=M[cur.m];
   return `<div class="top"><button class="back" id="back">${m.voc?'‹ Vocabulaire':m.cj?'‹ Conjugaison':m.mth?(mmode==='f'?'‹ Calcul mental':'‹ Maths'):m.met?'‹ Culture':'‹ Missions'}</button>
+  ${cur.i>0?'<button class="back" id="prevst" aria-label="Question précédente" style="flex:none;padding:8px 12px">⬅️</button>':''}
   <div class="dots" aria-hidden="true">${m.steps.map((_,k)=>`<i class="${k<cur.i?'on':k===cur.i?'cur':''}"></i>`).join('')}</div></div>`;
 };
 const fbBox=(cls,txt)=>`<div class="fb ${cls} mr-${cls}">${txt}</div>`;
@@ -968,6 +969,7 @@ function step(){
   const s=m.steps[cur.i];
   ({teach,demo,tap,choice,metier,build,detective,swap,sort,tapmany,match,colorie,forme,banque,conj,tabnb,num:numStep,col:colStep,bpick,ck:s=>FHJ.ck(s),fr:s=>FHJ.fr(s),fic:s=>MRFIC(s),fic2:s=>MRFIC2(s)})[s.t](s,m);
   const b=document.getElementById('back'); if(b) b.onclick=homeOf(m);
+  const pv=document.getElementById('prevst'); if(pv) pv.onclick=()=>{cur.i=Math.max(0,cur.i-1);st={};step();};
   const n=document.getElementById('next'); if(n) n.onclick=next;
   window.scrollTo({top:0});
 }
