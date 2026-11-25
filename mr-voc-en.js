@@ -112,7 +112,7 @@ function fiche(k,i){var c=D[k],f=c.fiches[i];nav('f'+k+i,function(){fiche(k,i)})
  '<div class="blk tip"><b class="t">💡 Astuce</b>'+f.tip+'</div>'+
  '<div class="btns">'+(i>0?'<button class="ghost" id="pv">‹</button>':'')+'<button class="ghost" id="ls">Toutes les fiches</button>'+(i<c.fiches.length-1?'<button class="go" id="nx">›</button>':'<button class="go" id="nx" style="background:#0e9a63">🎯 Quiz</button>')+'</div></div>';
  if(c.en){var sp=function(t){try{if(window.enSay)enSay(t);else{var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}}catch(e){}};document.getElementById('ea').onclick=function(){sp(f.sp||f.w)};document.getElementById('es').onclick=function(){sp(f.ex.split('<br>')[0])};setTimeout(function(){sp(f.sp||f.w)},250)}
- var pl=document.getElementById('pl');if(pl)pl.onclick=function(){var d=document.getElementById('dv');d.innerHTML=f.svg?RELIE1:b;pl.textContent='↺ Encore';pl.onclick=function(){fiche(k,i)}};
+ var pl=document.getElementById('pl');if(pl)pl.onclick=function(){var d=document.getElementById('dv');d.innerHTML=f.svg?RELIE1:b;if(c.en)sp(f.sp||f.w);pl.textContent='↺ Encore';pl.onclick=function(){fiche(k,i)}};
  document.getElementById('ls').onclick=function(){list(k)};if(i>0)document.getElementById('pv').onclick=function(){fiche(k,i-1)};
  document.getElementById('nx').onclick=function(){if(i<c.fiches.length-1)fiche(k,i+1);else quiz(k,0)};scrollTop0()}
 function quiz(k,n){var c=D[k],q=c.quiz[n];nav('q'+k+n,function(){quiz(k,n)});
