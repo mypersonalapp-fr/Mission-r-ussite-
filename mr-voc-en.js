@@ -65,7 +65,7 @@ function scope(css){return css.replace(/([^{}]+)\{([^{}]*)\}/g,function(m,sel,bo
 var CSS=VARS+scope(RULES)+'\n'+KEYS;
 
 var D=window.MRVE,CATS=Object.keys(D);
-var GR=[['🐶','Animals',['anA']],['🍎','Food',['foD']],['🚌','Transport & travel',['trA','tvL']],['🏫','School & hello',['scH','heL']],['🏠','Family & home',['faM','hoU','paR','toY']],['🌦️','Nature, body & colours',['weA','boD','clO','coL']]];
+var GR=[['🐶','Animals',['anA']],['🍎','Food',['foD']],['🚌','Transport & travel',['trA','tvL']],['🏫','School & hello',['scH','heL']],['🏠','Family & home',['faM','hoU','paR','toY']],['🌦️','Nature, body & colours',['weA','neA','boD','clO','coL']]];
 var A,HS=[],CURF=null,CURK='',BK=0;
 function faceSrc(){try{if(window.MRNIV&&MRNIV.prof){var p=MRNIV.prof();if(p&&p.av)return p.av}}catch(e){}return 'img/nv/rico.jpg'}
 function say(t){return '<div class="row"><img class="face" src="'+faceSrc()+'" alt=""><div class="bub">'+t+'</div></div>'}
@@ -106,7 +106,7 @@ function fiche(k,i){var c=D[k],f=c.fiches[i];nav('f'+k+i,function(){fiche(k,i)})
  if(f.svg)demo='<div class="demo"><div class="dv" id="dv">'+RELIE0+'</div><button class="play" id="pl">▶ Regarde</button></div>';
  else if(a)demo='<div class="demo"><div class="dv" id="dv">'+a+'</div><button class="play" id="pl">▶ Regarde</button></div>';
  A.innerHTML=topb(c.fiches.length,i)+'<div class="card"><span class="lead">'+c.t+' · '+(i+1)+' / '+c.fiches.length+'</span><div class="w"><em>'+f.e+'</em>'+f.w+'</div>'+
- ''+(c.en?'<div class="btns"><button class="play" id="ea">🔊 Listen</button><button class="play" id="es">🔊 The sentence</button></div>':'')+'<div class="blk mean"><b class="t">'+(c.sayl||'Ça veut dire')+'</b>'+f.say+'</div>'+(f.img?'<img class="pic" src="img/en/'+f.img+'" alt="" onerror="this.remove()">':'')+
+ ''+(c.en?'<div class="btns"><button class="play" id="ea">🔊 Listen</button><button class="play" id="es">🔊 The sentence</button></div>':'')+'<div class="blk mean"><b class="t">'+(c.sayl||'Ça veut dire')+'</b>'+f.say+'</div>'+(f.img?[f.img,f.img.replace('.jpg','_2.jpg'),f.img.replace('.jpg','_3.jpg')].map(function(m){return '<img class="pic" src="img/en/'+m+'" alt="" onerror="this.remove()">'}).join(''):'')+
  (f.steps?'<div class="blk stp"><b class="t">Comment faire</b><ol>'+f.steps.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div>':'')+
  '<div class="blk cah"><b class="t" style="font-family:var(--display);color:#8a7a2a">'+(c.exl||'Dans un exercice')+'</b>'+f.ex+'</div>'+demo+
  '<div class="blk tip"><b class="t">💡 Astuce</b>'+f.tip+'</div>'+
