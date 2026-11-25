@@ -4430,7 +4430,7 @@ const intro=p=>{
   document.getElementById('back').onclick=accueil;
   document.getElementById('cn').onclick=()=>{if(p<2)intro(p+1);else{save.rintro=1;persist();adventure();}};
 };
-const GO={g:()=>home(),c:()=>conjug(),m:()=>{mmode='m';mtab='nb';maths();},j:()=>jeux(),s:()=>stories(),k:()=>culture(),l:()=>logique(),f:()=>{mmode='f';mtab='calc';maths();},r:()=>lecture(),v:()=>vocab(),H:()=>histoire(),h:()=>accueil()};
+const GO={g:()=>home(),c:()=>conjug(),m:()=>{mmode='m';mtab='nb';maths();},j:()=>jeux(),s:()=>stories(),k:()=>culture(),l:()=>logique(),f:()=>{mmode='f';mtab='calc';maths();},r:()=>lecture(),v:()=>vocab(),h:()=>accueil()};
 function adventure(){
   stopCr(); if(typeof mstop==='function')mstop(); cur=null; clearInterval(pzIv);
   if(!save.rintro){intro(0);return;}
@@ -5438,14 +5438,7 @@ const cmap=(c,zoom)=>{
 };
 const cStop=()=>{if(qz&&qz.timer){clearInterval(qz.timer);qz.timer=null;}};
 let qz=null,cLet='Tous';
-const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble'],['ang','🇬🇧 Anglais']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);if(c==='ang'&&L.length){const AS=[['🏰','Bienvenue en Angleterre',['ang-1','ang-2','ang-3','ang-4','ang-5','ang-6']],['🔤','L’alphabet : phonétique et épeler',['ang-10','ang-11','ang-12','ang-13']],['💬','Quelques mots en anglais',['ang-9','ang-14','ang-15','ang-16','ang-17','ang-18']],['📖','Vocabulaire en images',['ang-ev']],['🎮','Jeux',['ang-8','ang-7','ang-sy']]].map(([ic,nm,ids])=>[ic,nm,ids.map(id=>L.find(m=>m.id===id)).filter(Boolean)]),k=CG.ka,sb=k!=null?AS[k]:null,h=sb?`<button class="back" id="cgbackA" style="margin:4px 0 10px;grid-column:1/-1;justify-self:start">‹ Retour</button><p class="lead" style="margin:0 0 8px;grid-column:1/-1">${sb[0]} ${sb[1]}</p>`+sb[2].map(m=>tileH(m,M.indexOf(m))).join('')+(k===2&&window.enTiles?enTiles():''):cgWrap(AS.map((a,i)=>cgCase(`data-cga="${i}"`,a[0],a[1],a[2].filter(m=>save[m.id]).length+'/'+a[2].length)).join(''));return [t,h,L.filter(m=>save[m.id]).length+'/'+L.length]}return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
-const histoire=()=>{
-  stopCr(); if(typeof mstop==='function')mstop(); cur=null;
-  const L=M.filter(m=>m.qt==='his');
-  app.innerHTML=`<button class="back" id="hib" style="margin-top:16px">‹ Retour</button><h1 style="margin-top:14px">⏳ Histoire</h1><p style="margin-top:8px;color:var(--soft);font-weight:700">Le temps qui passe.</p>${cgWrap(L.map(m=>cgCase(`data-m="${M.indexOf(m)}"`,m.badge,m.name,save[m.id]?'★ Réussi':'')).join(''))}`;
-  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(+b.dataset.m));
-  document.getElementById('hib').onclick=()=>accueil();
-};
+const QGR=()=>[['viv','🌱 Le vivant'],['cor','🧍 Le corps et la santé'],['mat','💧 La matière'],['tmp','🌦️ Météo et calendrier'],['his','⏳ Le temps qui passe'],['esp','🗺️ Lieux et paysages'],['env','🌍 La Terre et la nature'],['emc','🤝 Vivre ensemble'],['ang','🇬🇧 Anglais']].map(([c,t])=>{const L=M.filter(m=>m.qt===c);if(c==='ang'&&L.length){const AS=[['🏰','Bienvenue en Angleterre',['ang-1','ang-2','ang-3','ang-4','ang-5','ang-6']],['🔤','L’alphabet : phonétique et épeler',['ang-10','ang-11','ang-12','ang-13']],['💬','Quelques mots en anglais',['ang-9','ang-14','ang-15','ang-16','ang-17','ang-18']],['📖','Vocabulaire en images',['ang-ev']],['🎮','Jeux',['ang-8','ang-7','ang-sy']]].map(([ic,nm,ids])=>[ic,nm,ids.map(id=>L.find(m=>m.id===id)).filter(Boolean)]),k=CG.ka,sb=k!=null?AS[k]:null,h=sb?`<button class="back" id="cgbackA" style="margin:4px 0 10px;grid-column:1/-1;justify-self:start">‹ Retour</button><p class="lead" style="margin:0 0 8px;grid-column:1/-1">${sb[0]} ${sb[1]}</p>`+sb[2].map(m=>tileH(m,M.indexOf(m))).join('')+(k===2&&window.enTiles?enTiles():''):cgWrap(AS.map((a,i)=>cgCase(`data-cga="${i}"`,a[0],a[1],a[2].filter(m=>save[m.id]).length+'/'+a[2].length)).join(''));return [t,h,L.filter(m=>save[m.id]).length+'/'+L.length]}return L.length?[t,L.map(m=>tileH(m,M.indexOf(m))).join(''),L.filter(m=>save[m.id]).length+'/'+L.length]:null}).filter(Boolean);
 const culture=()=>{
   stopCr(); if(typeof mstop==='function')mstop(); cStop(); cur=null; qz=null;
   const best=k=>save['k_'+k]!=null?`<small>Meilleur score : ${save['k_'+k]}</small>`:`<small>10 questions</small>`;

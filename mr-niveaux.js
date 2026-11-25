@@ -12,7 +12,7 @@ var LV=[
  {k:'CM2',c:'#6b7a1f',e:'🚀',pre:['Écrire un texte organisé de 10 lignes','Conjugaison des temps simples','Division posée, nombres décimaux','Fractions, proportionnalité']},
  {k:'Collège',c:'#d9822b',e:'🎓',pre:['Comprendre un texte long','Rédiger avec une introduction et une conclusion','Nombres décimaux et fractions maîtrisés','Méthode de travail et organisation']}];
 var LVI=function(k){return LV.findIndex(function(l){return l.k===k})};
-var HAS={CP:['g','m','j','v'],CE1:['g','v','c','m','j','s','k','l','f','r','H'],CE2:['g'],CM1:[],CM2:[],'Collège':[]};
+var HAS={CP:['g','m','j','v'],CE1:['g','v','c','m','j','s','k','l','f','r'],CE2:['g'],CM1:[],CM2:[],'Collège':[]};
 var PROG={
  CP:{'Lecture':['Sons et lettres','Syllabes et mots','Mots fréquents','Phrases et petit texte'],'Écriture':['Geste et lettres','Copier','Écrire une phrase'],'Compréhension':['Écouter une histoire','Comprendre ce qu’on lit','Les consignes'],'Langue':['Vocabulaire','Phrase, nom, verbe','Singulier et pluriel'],'Maths':['Nombres jusqu’à 100','Compléments et décompositions','Addition et soustraction','Problèmes','Mesures et durées','Formes et solides']},
  CE1:{'Lecture':['Décodage','Fluidité','Mots outils'],'Écriture':['Dictée','Accords','Rédiger quelques phrases'],'Compréhension':['Textes courts','Questions sur un texte'],'Langue':['Le verbe et le groupe nominal','Conjugaison au présent','Vocabulaire'],'Maths':['Nombres jusqu’à 1000','Calcul mental','Additions et soustractions posées','Multiplication','Problèmes','Mesures, heure et formes']},
@@ -329,7 +329,7 @@ var mrDecor=function(y0,h){var r=7,rnd=function(){return(r=(r*9301+49297)%233280
  for(i=0;i<3;i++)o+='<text class="mrfl" x="'+(10+rnd()*30).toFixed(1)+'" y="'+(y0+60+rnd()*(h-120)).toFixed(1)+'" font-size="18" style="animation-delay:'+(i*.8)+'s">🦋</text>';
  o+='<text class="mrcl" x="20" y="'+(y0+40)+'" font-size="46">☁️</text><text class="mrcl" x="150" y="'+(y0+70)+'" font-size="34" style="animation-delay:-6s">☁️</text>';return o};
 var IMGD='img/nv/home/';
-var SUB6=[['s','Histoires','histoires'],['g','Français','francais',['g','c','r']],['m','Maths','maths',['m','f','l']],['k','Culture générale','culture'],['j','Jeux','jeux'],['H','Histoire','histoire']];
+var SUB6=[['s','Histoires à lire','histoires'],['g','Français','francais',['g','c','r']],['m','Maths','maths',['m','f','l']],['k','Culture générale','culture'],['j','Jeux','jeux']];
 var SUBN={g:['Français','francais'],c:['Conjugaison','conj'],r:['Lecture','lire'],m:['Maths','maths'],f:['Calcul mental','calc'],l:['Logique','logique']};
 var subOn=function(s){var ks=s[3]||[s[0]];return ks.some(function(k){return HAS[view].indexOf(k)>=0})};
 var chooser=function(s){var m=D.createElement('div');m.id='mrch';m.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(27,35,71,.45);display:flex;align-items:center;justify-content:center;padding:20px';
@@ -351,7 +351,7 @@ var presView=function(){var pr=P().pres==='g'?'g':'m',c=LV[LVI(view)];if(typeof 
   +'<button id="mrmis" style="width:100%;margin-top:12px;border-radius:22px;background:var(--gn);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;text-align:left;min-height:84px"><span><span style="display:block;font:800 1.5rem/1.1 var(--display)">Ma mission du jour</span><span style="display:block;font-weight:700;font-size:.9rem;opacity:.92">Un petit défi pour toi</span></span><span style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="#2459e6" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>'
   +'<div style="font:800 1.25rem var(--display);margin:16px 0 8px;text-align:left">Mes matières</div><div style="display:flex;flex-direction:column;gap:8px">'
   +SUB6.map(function(s){return '<button data-sub="'+s[0]+'" style="display:flex;align-items:center;gap:12px;width:100%;min-height:58px;box-sizing:border-box;padding:5px 14px 5px 6px;border:2px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);text-align:left;'+(subOn(s)?'':'opacity:.55;filter:grayscale(.8)')+'"><img src="'+IMGD+s[2]+'.jpg" alt="" style="width:46px;height:46px;border-radius:12px;object-fit:cover;flex:none"><span style="flex:1;font-weight:800;font-size:1.05rem">'+esc(s[1])+'</span>'+chev+'</button>'}).join('')+'</div>'}
- app.innerHTML='<div style="padding:4px 0 10px">'+hd+body+PB()+'<p class="mr-ver" style="text-align:center;color:var(--soft);font-weight:700;font-size:.8rem;margin-top:14px">Version 150</p></div>';
+ app.innerHTML='<div style="padding:4px 0 10px">'+hd+body+PB()+'<p class="mr-ver" style="text-align:center;color:var(--soft);font-weight:700;font-size:.8rem;margin-top:14px">Version 151</p></div>';
  app.querySelectorAll('[data-sub]').forEach(function(e){e.onclick=function(){var k=e.dataset.sub,s=SUB6.filter(function(x){return x[0]===k})[0];if(s&&s[3])return chooser(s);openSubj(k)}});
  var mb=app.querySelector('#mrmis');if(mb)mb.onclick=function(){if(typeof adventure==='function')adventure()};
  app.querySelectorAll('[data-op]').forEach(function(e){e.onclick=function(){onPass(view)}})};
