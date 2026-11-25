@@ -106,7 +106,7 @@ function fiche(k,i){var c=D[k],f=c.fiches[i];nav('f'+k+i,function(){fiche(k,i)})
  if(f.svg)demo='<div class="demo"><div class="dv" id="dv">'+RELIE0+'</div><button class="play" id="pl">▶ Regarde</button></div>';
  else if(a)demo='<div class="demo"><div class="dv" id="dv">'+a+'</div><button class="play" id="pl">▶ Regarde</button></div>';
  A.innerHTML=topb(c.fiches.length,i)+'<div class="card"><span class="lead">'+c.t+' · '+(i+1)+' / '+c.fiches.length+'</span><div class="w"><em>'+f.e+'</em>'+f.w+'</div>'+
- ''+(c.en?'<div class="btns"><button class="play" id="ea">🔊 Listen</button><button class="play" id="es">🔊 The sentence</button></div>':'')+'<div class="blk mean"><b class="t">'+(c.sayl||'Ça veut dire')+'</b>'+f.say+'</div>'+(f.img?'<img class="pic" src="img/phen/'+f.img+'" alt="">':'')+
+ ''+(c.en?'<div class="btns"><button class="play" id="ea">🔊 Listen</button><button class="play" id="es">🔊 The sentence</button></div>':'')+'<div class="blk mean"><b class="t">'+(c.sayl||'Ça veut dire')+'</b>'+f.say+'</div>'+(f.img?'<img class="pic" src="img/en/'+f.img+'" alt="" onerror="this.remove()">':'')+
  (f.steps?'<div class="blk stp"><b class="t">Comment faire</b><ol>'+f.steps.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div>':'')+
  '<div class="blk cah"><b class="t" style="font-family:var(--display);color:#8a7a2a">'+(c.exl||'Dans un exercice')+'</b>'+f.ex+'</div>'+demo+
  '<div class="blk tip"><b class="t">💡 Astuce</b>'+f.tip+'</div>'+
