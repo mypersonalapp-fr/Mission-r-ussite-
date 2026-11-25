@@ -179,24 +179,51 @@ var quiz=function(box,qs,o){o=o||{};var i=0,ans=[];var say_=function(t){try{wind
  draw_();};
 
 /* ---------- banques de test ---------- */
+var RAC={'Lecture':'Français › Lire et écrire les sons','Compréhension':'Lecture › compréhension et Histoires à lire','Orthographe':'Français › L’orthographe et les homophones','Grammaire':'Français › La phrase et La grammaire','Conjugaison':'Français › Conjugaison','Vocabulaire':'Français › Les mots','Nombres':'Maths › Je découvre (nombres)','Calcul':'Maths › Je m’entraîne et Calcul mental','Problèmes':'Maths › Problèmes et Logique','Mesures et heure':'Maths › L’heure et les mesures','Géométrie':'Maths › Géométrie'};
 var TQ={
- CE1:{note:'Lecture, écriture, compréhension, langue et maths du programme de CE1.',q:[
- {d:'Lecture',k:'Lire une phrase',q:'« Les enfants jouent dans le jardin. » Qui joue ?',o:['Les enfants','Le jardin','Le chat'],a:0},
+ CE1:{note:'Lecture, compréhension, orthographe, grammaire, conjugaison, vocabulaire et maths du programme de CE1. Compte environ 15 minutes.',q:[
  {d:'Lecture',k:'Mots longs',q:'Quel mot est écrit ? « tra – ver – ser »',o:['traverser','trouver','travailler'],a:0},
- {d:'Lecture',k:'Lire un texte court',q:'« Tom prend son vélo. Il roule vers l’école. » Où va Tom ?',o:['À l’école','À la mer','Au marché'],a:0},
- {d:'Écriture',k:'Majuscule et point',q:'Quelle phrase est bien écrite ?',o:['Le chat dort.','le chat dort.','Le chat dort'],a:0},
- {d:'Écriture',k:'Accord pluriel',q:'Quelle phrase est bien écrite ?',o:['Les petits chats dorment.','Les petit chat dorment.','Les petits chats dort.'],a:0},
- {d:'Écriture',k:'Orthographe',q:'Comment écrit-on ce mot ? « un oiseau »',o:['oiseau','oiseaux','oizo'],a:0},
+ {d:'Lecture',k:'Mots longs',q:'Quel mot est écrit ? « mon – ta – gne »',o:['montagne','mouton','magnifique'],a:0},
+ {d:'Lecture',k:'Lire une phrase',q:'« Le chat boit du lait. » Que boit le chat ?',o:['Du lait','De l’eau','Du jus'],a:0},
+ {d:'Lecture',k:'Les sons',q:'Quel mot se termine par le son « on » ?',o:['ballon','bateau','balai'],a:0},
+ {d:'Compréhension',k:'Questions sur un texte',q:'« Nina met son manteau et prend son parapluie. Dehors, il pleut. » Pourquoi prend-elle son parapluie ?',o:['Parce qu’il pleut','Parce qu’elle a froid','Parce qu’elle va dormir'],a:0},
  {d:'Compréhension',k:'Questions sur un texte',q:'« Léa a perdu son chapeau. Elle le cherche partout. » Que fait Léa ?',o:['Elle cherche son chapeau','Elle chante','Elle dort'],a:0},
- {d:'Compréhension',k:'Vocabulaire',q:'Quel mot veut dire presque pareil que « joli » ?',o:['Beau','Lent','Froid'],a:0},
- {d:'Langue',k:'Reconnaître le verbe',q:'« Le chien mange. » Quel mot est le verbe ?',o:['mange','chien','Le'],a:0},
- {d:'Langue',k:'Conjugaison',q:'Il (jouer) au ballon. Le bon verbe :',o:['joue','jouer','jouons'],a:0},
- {d:'Langue',k:'Le groupe nominal',q:'Quel est le groupe nominal ?',o:['la petite fille','court vite','très loin'],a:0},
- {d:'Maths',k:'Addition posée',q:'48 + 25 = ?',n:73},
- {d:'Maths',k:'Soustraction',q:'62 − 18 = ?',n:44},
- {d:'Maths',k:'Multiplication',q:'3 × 4 = ?',n:12},
- {d:'Maths',k:'Problème',q:'Léo a 15 billes. Il en gagne 9. Combien en a-t-il ?',n:24},
- {d:'Maths',k:'Nombres',q:'Quel nombre vient juste après 599 ?',n:600}]},
+ {d:'Compréhension',k:'Ordre des actions',q:'« Papa prépare un gâteau. Il casse deux œufs, puis il ajoute la farine. » Que fait Papa en premier ?',o:['Il casse deux œufs','Il ajoute la farine','Il mange le gâteau'],a:0},
+ {d:'Compréhension',k:'Comprendre sans que ce soit écrit',q:'« Tom frissonne et remonte son col. » Quel temps fait-il ?',o:['Il fait froid','Il fait chaud','Il fait nuit'],a:0},
+ {d:'Orthographe',k:'Majuscule et point',q:'Quelle phrase est bien écrite ?',o:['Le chat dort.','le chat dort.','Le chat dort'],a:0},
+ {d:'Orthographe',k:'Accord pluriel',q:'Quelle phrase est bien écrite ?',o:['Les petits chats dorment.','Les petit chat dorment.','Les petits chats dort.'],a:0},
+ {d:'Orthographe',k:'Homophones a / à',q:'Complète : Marie ___ un chat.',o:['a','à'],a:0},
+ {d:'Orthographe',k:'Homophones et / est',q:'Complète : Le ciel ___ bleu.',o:['est','et'],a:0},
+ {d:'Grammaire',k:'Reconnaître le verbe',q:'« Le chien mange. » Quel mot est le verbe ?',o:['mange','chien','Le'],a:0},
+ {d:'Grammaire',k:'Le groupe nominal',q:'Quel est le groupe nominal ?',o:['la petite fille','court vite','très loin'],a:0},
+ {d:'Grammaire',k:'L’adjectif',q:'« Un petit chien. » Quel mot dit comment est le chien ?',o:['petit','chien','Un'],a:0},
+ {d:'Grammaire',k:'Types de phrases',q:'Quelle phrase pose une question ?',o:['Où vas-tu ?','Je vais au parc.','Viens vite !'],a:0},
+ {d:'Grammaire',k:'Le sujet',q:'« Le chat boit du lait. » Qui boit du lait ?',o:['Le chat','Du lait','Boit'],a:0},
+ {d:'Conjugaison',k:'Le présent',q:'Il (jouer) au ballon. Le bon verbe :',o:['joue','jouer','jouons'],a:0},
+ {d:'Conjugaison',k:'Le présent',q:'Nous (finir) nos devoirs. Le bon verbe :',o:['finissons','finis','finissez'],a:0},
+ {d:'Conjugaison',k:'Le futur',q:'Demain, nous (manger) une glace. Le bon verbe :',o:['mangerons','mangeons','mangions'],a:0},
+ {d:'Conjugaison',k:'L’infinitif',q:'Quel est l’infinitif de « il chante » ?',o:['chanter','chantait','chanté'],a:0},
+ {d:'Vocabulaire',k:'Synonymes',q:'Quel mot veut dire presque pareil que « joli » ?',o:['Beau','Lent','Froid'],a:0},
+ {d:'Vocabulaire',k:'Contraires',q:'Quel est le contraire de « grand » ?',o:['petit','gros','long'],a:0},
+ {d:'Vocabulaire',k:'Ordre alphabétique',q:'Quel mot vient en premier dans le dictionnaire ?',o:['banane','citron','pomme'],a:0},
+ {d:'Vocabulaire',k:'Familles de mots',q:'Quel mot est de la même famille que « dent » ?',o:['dentiste','danse','dessin'],a:0},
+ {d:'Nombres',k:'Nombres jusqu’à 1000',q:'Quel nombre vient juste après 599 ?',n:600},
+ {d:'Nombres',k:'Dizaines et unités',q:'Quel nombre a 4 dizaines et 7 unités ?',n:47},
+ {d:'Nombres',k:'Centaines',q:'Dans le nombre 365, combien y a-t-il de centaines ?',n:3},
+ {d:'Nombres',k:'Comparer',q:'Quel est le plus grand nombre ?',o:['706','670','607'],a:0},
+ {d:'Calcul',k:'Addition posée',q:'48 + 25 = ?',n:73},
+ {d:'Calcul',k:'Soustraction',q:'62 − 18 = ?',n:44},
+ {d:'Calcul',k:'Multiplication',q:'3 × 4 = ?',n:12},
+ {d:'Calcul',k:'Tables de multiplication',q:'5 × 6 = ?',n:30},
+ {d:'Calcul',k:'Compléments à 100',q:'70 + ? = 100',n:30},
+ {d:'Problèmes',k:'Problème à une étape',q:'Léo a 15 billes. Il en gagne 9. Combien en a-t-il ?',n:24},
+ {d:'Problèmes',k:'Problème à une étape',q:'Maman a acheté 24 pommes. Elle en utilise 9. Combien en reste-t-il ?',n:15},
+ {d:'Problèmes',k:'Multiplication',q:'Il y a 4 paquets de 5 biscuits. Combien de biscuits y a-t-il en tout ?',n:20},
+ {d:'Mesures et heure',k:'Longueurs',q:'Combien de centimètres y a-t-il dans 1 mètre ?',n:100},
+ {d:'Mesures et heure',k:'Lire l’heure',q:'La petite aiguille est sur le 3 et la grande aiguille sur le 12. Quelle heure est-il ?',o:['3 heures','12 heures','3 heures et demie'],a:0},
+ {d:'Mesures et heure',k:'Monnaie',q:'Tu as 2 pièces de 2 € et 1 pièce de 1 €. Combien d’euros as-tu ?',n:5},
+ {d:'Géométrie',k:'Les figures',q:'Quelle figure a 3 côtés ?',o:['le triangle','le carré','le rond'],a:0},
+ {d:'Géométrie',k:'Les figures',q:'Combien de côtés a un carré ?',o:['4','3','5'],a:0}]},
  CE2:{note:'Lecture, écriture, compréhension, langue et maths du programme de CE2.',q:[
  {d:'Lecture',k:'Lire un texte',q:'« Malgré la pluie, Tom sortit. » Tom sort…',o:['même s’il pleut','parce qu’il pleut','quand il neige'],a:0},
  {d:'Lecture',k:'Texte documentaire',q:'« Le renard est un mammifère. » Un mammifère, c’est…',o:['un animal','une plante','un objet'],a:0},
@@ -226,7 +253,7 @@ scr.tr=function(){var r=ST.res,k=ST.tl,li=LVI(k),nx=LV[li+1],p=r.ok/(r.n||1),tie
  return col('<div style="display:flex;justify-content:center">'+av(P().av,60)+'</div><div class="D" style="font-size:1.4rem;margin-top:4px">Résultat du test de '+k+'</div><div class="D" style="font-size:2rem;color:'+(tier==='hi'?'#0e9a63':tier==='mid'?'#c98a00':'#d4572a')+'">'+r.ok+' / '+r.n+'</div>'+
  '<div class="pc" style="border-color:'+(tier==='hi'?'#7fd3a8':tier==='mid'?'#ffd98a':'#ffb79d')+'"><div style="font-weight:800;font-size:.9rem">'+(tier==='hi'?'🌟':tier==='mid'?'🙂':'🎯')+' '+msg+'</div><div class="note" style="margin-top:6px">✅ Niveau conservé : '+cur+'</div>'+(tier==='hi'&&k!=='CP'&&nx&&LVI(cur)===li?'<div class="btn s" style="margin-top:8px" id="early">Ouvrir le '+nx.k+' en avance</div>':'')+'</div>'+
  '<div class="pc"><div class="D">Compétences</div>'+doms.map(function(d){var v=Math.round(100*r.dom[d].ok/r.dom[d].n),s=stat(v);return '<div class="sk"><span class="nm">'+d+'</span><span class="tr"><i style="width:'+v+'%;background:'+s[2]+'"></i></span><span class="chipst '+s[1]+'">'+s[0]+'</span></div>'}).join('')+'</div>'+
- (weak.length?'<div class="pc"><div class="D">Rattrapage proposé</div>'+weak.map(function(d){return '<div class="sk" style="font-size:.82rem">📘 '+(k==='CP'?(RAT[d]||d):'Cours, exercices et méthodes en plus : '+d)+(r.dom[d].ko.length?' <span class="note">('+r.dom[d].ko.slice(0,3).join(', ')+')</span>':'')+'</div>'}).join('')+'<div class="btn s" style="margin-top:6px" id="addrat">Ajouter à son parcours</div></div>':'')+
+ (weak.length?'<div class="pc"><div class="D">Rattrapage proposé</div>'+weak.map(function(d){return '<div class="sk" style="font-size:.82rem">📘 '+(k==='CP'?(RAT[d]||d):(RAC[d]||'Cours, exercices et méthodes en plus : '+d))+(r.dom[d].ko.length?' <span class="note">('+r.dom[d].ko.slice(0,3).join(', ')+')</span>':'')+'</div>'}).join('')+'<div class="btn s" style="margin-top:6px" id="addrat">Ajouter à son parcours</div></div>':'')+
  '<button class="btn w" id="redo">Refaire un test</button><div style="height:8px"></div><button class="btn" id="togal">Voir ma galaxie ▶</button>'+(ST.toast?'<div class="toast">'+ST.toast+'</div>':''),'soft')};
 
 /* ---------- espace parent ---------- */
@@ -351,7 +378,7 @@ var presView=function(){var pr=P().pres==='g'?'g':'m',c=LV[LVI(view)];if(typeof 
   +'<button id="mrmis" style="width:100%;margin-top:12px;border-radius:22px;background:var(--gn);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;text-align:left;min-height:84px"><span><span style="display:block;font:800 1.5rem/1.1 var(--display)">Ma mission du jour</span><span style="display:block;font-weight:700;font-size:.9rem;opacity:.92">Un petit défi pour toi</span></span><span style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="#2459e6" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>'
   +'<div style="font:800 1.25rem var(--display);margin:16px 0 8px;text-align:left">Mes matières</div><div style="display:flex;flex-direction:column;gap:8px">'
   +SUB6.map(function(s){return '<button data-sub="'+s[0]+'" style="display:flex;align-items:center;gap:12px;width:100%;min-height:58px;box-sizing:border-box;padding:5px 14px 5px 6px;border:2px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);text-align:left;'+(subOn(s)?'':'opacity:.55;filter:grayscale(.8)')+'"><img src="'+IMGD+s[2]+'.jpg" alt="" style="width:46px;height:46px;border-radius:12px;object-fit:cover;flex:none"><span style="flex:1;font-weight:800;font-size:1.05rem">'+esc(s[1])+'</span>'+chev+'</button>'}).join('')+'</div>'}
- app.innerHTML='<div style="padding:4px 0 10px">'+hd+body+PB()+'<p class="mr-ver" style="text-align:center;color:var(--soft);font-weight:700;font-size:.8rem;margin-top:14px">Version 155</p></div>';
+ app.innerHTML='<div style="padding:4px 0 10px">'+hd+body+PB()+'<p class="mr-ver" style="text-align:center;color:var(--soft);font-weight:700;font-size:.8rem;margin-top:14px">Version 156</p></div>';
  app.querySelectorAll('[data-sub]').forEach(function(e){e.onclick=function(){var k=e.dataset.sub,s=SUB6.filter(function(x){return x[0]===k})[0];if(s&&s[3])return chooser(s);openSubj(k)}});
  var mb=app.querySelector('#mrmis');if(mb)mb.onclick=function(){if(typeof adventure==='function')adventure()};
  app.querySelectorAll('[data-op]').forEach(function(e){e.onclick=function(){onPass(view)}})};
